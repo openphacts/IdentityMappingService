@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>uk.ac.manchester.cs.openphacts</groupId>
+        <artifactId>ims-bundle</artifactId>
+        <version>2.1.0</version>
+    </parent>
+    <groupId>uk.ac.manchester.cs.openphacts</groupId>
+    <artifactId>loader</artifactId>
+    <name>loader</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.bridgedb</groupId>
+			<artifactId>org.bridgedb.uri.loader</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.manchester.cs.openphacts</groupId>
+			<artifactId>MetaData</artifactId>
+			<version>${validator.version}</version>
+			<scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>
