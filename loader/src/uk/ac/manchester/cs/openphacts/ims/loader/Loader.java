@@ -48,7 +48,7 @@ public class Loader
     public Loader(StoreType storeType) throws BridgeDBException {
         validator = new ValidatorImpl();
         UriListener uriListener = SQLUriMapper.factory(false, storeType);
-        linksetListener = new LinksetListener(uriListener);
+        linksetListener = new LinksetListenerPlus(uriListener);
         try {
             if (storeType == StoreType.TEST){
                 reader = RdfFactory.getTestFilebase();

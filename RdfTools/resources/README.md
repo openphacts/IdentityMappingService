@@ -1,0 +1,1 @@
+This folder should hold an exact copy of the files in https://github.com/openphacts/Validator/tree/master/RdfTools/resources
