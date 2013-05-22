@@ -17,7 +17,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package uk.ac.manchester.cs.openphacts.ims.loader;
+package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
 import java.util.HashMap;
 import org.openrdf.model.Statement;
@@ -29,7 +29,7 @@ import org.openrdf.rio.helpers.RDFHandlerBase;
  *
  * @author Christian
  */
-public class PredicateFinder extends RDFHandlerBase{
+public class PredicateFinderHandler extends RDFHandlerBase{
     
     private final HashMap<URI, Statement> singlePredicate = new HashMap<URI, Statement>();
     private final HashMap<URI, Integer> predicateCount = new HashMap<URI, Integer>();

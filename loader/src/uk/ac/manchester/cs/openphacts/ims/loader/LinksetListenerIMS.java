@@ -1,58 +1,42 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+// OpenPHACTS RDF Validator,
+// A tool for validating and storing RDF.
+//
+// Copyright 2012-2013  Christian Y. A. Brenninkmeijer
+// Copyright 2012-2013  University of Manchester
+// Copyright 2012-2013  OpenPhacts
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
-import java.io.File;
-import java.io.InputStream;
 import org.apache.log4j.Logger;
-import org.bridgedb.loader.LinksetHandler;
 import org.bridgedb.loader.LinksetListener;
-import org.bridgedb.loader.LinksetListenerSimple;
 import org.bridgedb.loader.RdfParser;
 import org.bridgedb.uri.UriListener;
-import org.bridgedb.utils.BridgeDBException;
-import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandler;
 
 /**
- *
+ * Dead code
  * @author Christian
  */
-public class LinksetListenerIMS implements LinksetListener{
+public class LinksetListenerIMS extends LinksetListener{
 
-    private final UriListener uriListener;
-    private boolean SYMETRIC = true; 
+    static final Logger logger = Logger.getLogger(LinksetListenerIMS.class);
     
     public LinksetListenerIMS(UriListener uriListener){
-        this.uriListener = uriListener;
+        super(uriListener);
     }
     
-    static final Logger logger = Logger.getLogger(LinksetListenerSimple.class);
-    
-    @Override
-    public int parse(File file, String mappingSource, URI linkPredicate, String justification) throws BridgeDBException{
-        LinksetHandler handler = new LinksetHandler(uriListener, linkPredicate, justification, mappingSource, true);
-        RdfParser parser = getParser(handler);
-        parser.parse(file);
-        return handler.getMappingsetId();
-    }
-    
-    public int parse(String uri, String mappingSource, URI linkPredicate, String justification) throws BridgeDBException{
-        LinksetHandler handler = new LinksetHandler(uriListener, linkPredicate, justification, mappingSource, true);
-        RdfParser parser = getParser(handler);
-        parser.parse(uri);
-        return handler.getMappingsetId();
-    }
-
-     public int parse(InputStream stream, String mappingSource, URI linkPredicate, String justification) throws BridgeDBException{
-        LinksetHandler handler = new LinksetHandler(uriListener, linkPredicate, justification, mappingSource, true);
-        RdfParser parser = getParser(handler);
-        parser.parse(stream, mappingSource);
-        return handler.getMappingsetId();
-    }
-
     protected RdfParser getParser(RDFHandler handler){
        return new RdfParserPlus(handler);
     }

@@ -32,7 +32,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.impl.URIImpl;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.Reporter;
@@ -78,15 +80,15 @@ public class LoaderTest {
     public void testLoadFile() throws Exception {
         Reporter.println("loadFile");
         File file  = new File("test-data/cw-cs.ttl");
+        Resource context = new URIImpl(file.toURI().toString());
         String formatName = null;
-        LoaderResult result = instance.load(file, formatName);
-        MappingSetInfo mapping = uriListener.getMappingSetInfo(result.getMappingSetID());
+        int result = instance.load(file, formatName);
+        MappingSetInfo mapping = uriListener.getMappingSetInfo(result);
         int numberOfLinks = mapping.getNumberOfLinks();
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));
-        assertEquals(mapping.getMappingSource(), result.getLinksetId().stringValue());
-        List<Statement> statements = reader.getStatementList(null, null,  null, result.getLinksetContext());
+        List<Statement> statements = reader.getStatementList(null, null,  null, context);
         assertThat(statements.size(), greaterThanOrEqualTo(3));
-        statements = reader.getStatementList(result.getLinksetId());
+        statements = reader.getStatementList(new URIImpl(mapping.getMappingSource()));
         assertThat(statements.size(), greaterThanOrEqualTo(3));
     }
 

@@ -20,8 +20,7 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
-import java.util.List;
-import org.bridgedb.loader.LinksetListener;
+import org.bridgedb.loader.LinksetHandler;
 import org.bridgedb.loader.LinksetListener;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
 import org.bridgedb.rdf.constants.VoidConstants;
@@ -33,6 +32,10 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.URIImpl;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
@@ -42,13 +45,12 @@ import uk.ac.manchester.cs.openphacts.validator.ValidatorImpl;
 public class Loader 
 {
     private final Validator validator;
-    private final LinksetListener linksetListener;
     private final RdfReader reader;
+    private final UriListener uriListener;
             
     public Loader(StoreType storeType) throws BridgeDBException {
         validator = new ValidatorImpl();
-        UriListener uriListener = SQLUriMapper.factory(false, storeType);
-        linksetListener = new LinksetListenerIMS(uriListener);
+        uriListener = SQLUriMapper.factory(false, storeType);
         try {
             if (storeType == StoreType.TEST){
                 reader = RdfFactory.getTestFilebase();
@@ -61,21 +63,21 @@ public class Loader
         BridgeDBRdfHandler.init();
     }
     
-    private PredicateFinder getPredicateFinder(String uri) throws BridgeDBException{
-        PredicateFinder finder = new PredicateFinder();
+    private PredicateFinderHandler getPredicateFinderHandler(String uri) throws BridgeDBException{
+        PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(uri);
         return finder;
     }
     
-    private PredicateFinder getPredicateFinder(File file) throws BridgeDBException{
-        PredicateFinder finder = new PredicateFinder();
+    private PredicateFinderHandler getPredicateFinderHandler(File file) throws BridgeDBException{
+        PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(file);
         return finder;
     }
 
-    private URI getObject(PredicateFinder finder, URI predicate) throws BridgeDBException{
+    private URI getObject(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(predicate);
         if (statement != null){
             Value object = statement.getObject();
@@ -91,7 +93,7 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
     }
     
-    private Resource getLinksetId(PredicateFinder finder) throws BridgeDBException{
+    private Resource getLinksetId(PredicateFinderHandler finder) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
             return statement.getSubject();
@@ -103,30 +105,30 @@ public class Loader
         throw new BridgeDBException("Unable to get LinksetrId");
     }
     
-    public LoaderResult load(String uri, String formatName) throws VoidValidatorException, BridgeDBException{
-        PredicateFinder finder = getPredicateFinder(uri);
-        URI linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
-        String justification = getObject(finder, DulConstants.EXPRESSES).stringValue();
-        Resource linksetId = getLinksetId(finder);
-        Resource context = reader.loadURI(uri);
-        int mappingSetId =  linksetListener.parse(uri, linksetId.stringValue(), linkPredicate, justification);
-        return new LoaderResult(mappingSetId, linksetId, context);
+    public int load(String uri, String formatName) throws VoidValidatorException, BridgeDBException{
+        Resource context = new URIImpl(uri);
+        PredicateFinderHandler finder = getPredicateFinderHandler(uri);
+        RdfParserIMS parser = getParser(context , finder);
+        parser.parse(uri);
+        return parser.getMappingsetId();       
     }
 
-    public LoaderResult load(File file, String formatName) throws VoidValidatorException, BridgeDBException{
-        PredicateFinder finder = getPredicateFinder(file);
+    public int load(File file, String formatName) throws VoidValidatorException, BridgeDBException{
+        Resource context = new URIImpl(file.toURI().toString());
+        PredicateFinderHandler finder = getPredicateFinderHandler(file);
+        RdfParserIMS parser = getParser(context , finder);
+        parser.parse(file);
+        return parser.getMappingsetId();       
+     }
+
+   public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder) throws VoidValidatorException, BridgeDBException{
         URI linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
         String justification = getObject(finder, DulConstants.EXPRESSES).stringValue();
         Resource linksetId = getLinksetId(finder);
-        System.out.println("linksetId " + linksetId);
-        Resource context = reader.loadFile(file);
-        List<Statement> 
-                //c
-        statements = reader.getStatementList(linksetId);
-        for (Statement statement:statements){
-            System.out.println(statement);
-        }
-        int mappingSetId = linksetListener.parse(file, linksetId.stringValue(), linkPredicate, justification);
-        return new LoaderResult(mappingSetId, linksetId, context);
+        LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, linksetId.stringValue(), true);
+        RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
+        ImsRdfHandler combinedHandler = 
+                new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
+        return new RdfParserIMS(linksetHandler, readerHandler, linkPredicate);
     }
 }

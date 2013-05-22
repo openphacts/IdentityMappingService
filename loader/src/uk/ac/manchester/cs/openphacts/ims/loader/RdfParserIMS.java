@@ -34,19 +34,16 @@ import uk.ac.manchester.cs.openphacts.valdator.utils.UrlReader;
  *
  * @author Christian
  */
-public class RdfParserPlus extends RdfParser{
+public class RdfParserIMS extends RdfParserPlus{
     
-     public RdfParserPlus(RDFHandler rdfHandler){
-        super(rdfHandler);
+    private final LinksetHandler linksetHandler;
+    
+    public RdfParserIMS(LinksetHandler linksetHandler, RdfInterfacteHandler rdfInterfacteHandler, URI predicate){
+        super(new ImsRdfHandler(linksetHandler, rdfInterfacteHandler, predicate));
+        this.linksetHandler = linksetHandler;
     }
     
-    @Override
-    public InputStream getInputStream(String uri) throws BridgeDBException {
-        try {
-            UrlReader reader = new UrlReader(uri);
-            return reader.getInputStream();
-        } catch (VoidValidatorException ex) {
-            throw new BridgeDBException("Inable to get inputstream form URI " + uri, ex);
-        }
+    public int getMappingsetId(){
+        return linksetHandler.getMappingsetId();   
     }
 }
