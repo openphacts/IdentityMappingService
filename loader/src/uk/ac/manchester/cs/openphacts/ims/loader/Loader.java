@@ -21,7 +21,6 @@ package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
 import org.bridgedb.loader.LinksetHandler;
-import org.bridgedb.loader.LinksetListener;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
 import org.bridgedb.rdf.constants.VoidConstants;
 import org.bridgedb.sql.SQLUriMapper;
@@ -63,17 +62,17 @@ public class Loader
         BridgeDBRdfHandler.init();
     }
     
-    private PredicateFinderHandler getPredicateFinderHandler(String uri) throws BridgeDBException{
+    private PredicateFinderHandler getPredicateFinderHandler(String uri, String rdfFormatName) throws BridgeDBException{
         PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
-        parser.parse(uri);
+        parser.parse(uri, rdfFormatName);
         return finder;
     }
     
-    private PredicateFinderHandler getPredicateFinderHandler(File file) throws BridgeDBException{
+    private PredicateFinderHandler getPredicateFinderHandler(File file, String rdfFormatName) throws BridgeDBException{
         PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
-        parser.parse(file);
+        parser.parse(file, rdfFormatName);
         return finder;
     }
 
@@ -105,19 +104,19 @@ public class Loader
         throw new BridgeDBException("Unable to get LinksetrId");
     }
     
-    public int load(String uri, String formatName) throws VoidValidatorException, BridgeDBException{
+    public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(uri);
-        PredicateFinderHandler finder = getPredicateFinderHandler(uri);
-        RdfParserIMS parser = getParser(context , finder);
-        parser.parse(uri);
+        PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
+        RdfParserIMS parser = getParser(context, finder);
+        parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
-    public int load(File file, String formatName) throws VoidValidatorException, BridgeDBException{
+    public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(file.toURI().toString());
-        PredicateFinderHandler finder = getPredicateFinderHandler(file);
+        PredicateFinderHandler finder = getPredicateFinderHandler(file, rdfFormatName);
         RdfParserIMS parser = getParser(context , finder);
-        parser.parse(file);
+        parser.parse(file, rdfFormatName);
         return parser.getMappingsetId();       
      }
 
