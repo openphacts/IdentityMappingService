@@ -1,3 +1,6 @@
 /loader/target/
 /target/
 /logs
+/org.bridgedb.uri.ws.server/target/
+/ws.server/target/
+/org.bridgedb.ws.server/target/

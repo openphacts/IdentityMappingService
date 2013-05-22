@@ -18,6 +18,7 @@
 
   <modules>
     <module>loader</module>
+    <module>ws.server</module>
   </modules>
   
   	<build>
