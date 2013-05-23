@@ -46,8 +46,8 @@
  		</dependency>
  		<dependency>
     		<groupId>uk.ac.manchester.cs.openphacts</groupId>
-    		<artifactId>loader</artifactId>
-			<version>${project.version}</version>
+    		<artifactId>WebService-service</artifactId>
+			<version>${validator.version}</version>
  		</dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
