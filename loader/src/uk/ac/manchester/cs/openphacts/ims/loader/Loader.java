@@ -32,10 +32,10 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
+import uk.ac.manchester.cs.openphacts.ims.constants.DulConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.validator.Validator;
@@ -50,15 +50,7 @@ public class Loader
     public Loader(StoreType storeType) throws BridgeDBException {
         validator = new ValidatorImpl();
         uriListener = SQLUriMapper.factory(false, storeType);
-        try {
-            if (storeType == StoreType.TEST){
-                reader = RdfFactory.getTestFilebase();
-            } else {
-                reader = RdfFactory.getImsFilebase();
-            }
-        } catch (VoidValidatorException ex) {
-            throw new BridgeDBException("Unable to get RDFReader.", ex);
-        }
+        reader = RdfFactoryIMS.getReader(storeType);
         BridgeDBRdfHandler.init();
     }
     

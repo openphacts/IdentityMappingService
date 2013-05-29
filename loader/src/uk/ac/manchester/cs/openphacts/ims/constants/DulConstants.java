@@ -17,7 +17,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package uk.ac.manchester.cs.openphacts.ims.loader;
+package uk.ac.manchester.cs.openphacts.ims.constants;
 
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
