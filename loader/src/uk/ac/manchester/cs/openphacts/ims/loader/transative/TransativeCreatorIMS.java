@@ -19,6 +19,7 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.loader.transative;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.bridgedb.loader.transative.TransativeCreator;
 import org.bridgedb.rdf.constants.VoidConstants;
+import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.StoreType;
@@ -41,6 +43,7 @@ import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
 import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
+import uk.ac.manchester.cs.openphacts.ims.constants.DulConstants;
 import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.valdator.constants.RdfConstants;
@@ -57,6 +60,19 @@ class TransativeCreatorIMS extends TransativeCreator{
     private static final Value ANY_OBJECT = null;
     private static final String VERSION = "1.2";
 
+   public static File doTransativeIfPossible(MappingSetInfo left, MappingSetInfo right, StoreType storeType) throws BridgeDBException, IOException {
+        TransativeCreator creator = new TransativeCreatorIMS(left, right, storeType);
+        return creator.generateOutputFileIfPossible();
+    }
+
+    public static File doTransativeIfPossible(int leftId, int rightId, StoreType storeType) 
+            throws BridgeDBException, IOException {
+        SQLUriMapper mapper = SQLUriMapper.factory(false, storeType);
+        MappingSetInfo left = mapper.getMappingSetInfo(leftId);
+        MappingSetInfo right = mapper.getMappingSetInfo(rightId);
+        return doTransativeIfPossible(left, right, storeType);
+    }
+    
     protected TransativeCreatorIMS(MappingSetInfo left, MappingSetInfo right, StoreType storeType) 
             throws BridgeDBException, IOException{
         super(left, right, storeType);
@@ -95,6 +111,8 @@ class TransativeCreatorIMS extends TransativeCreator{
             
         writer.handleStatement(new StatementImpl(newId, VoidConstants.LINK_PREDICATE, this.predicate));
 
+        writer.handleStatement(new StatementImpl(newId, DulConstants.EXPRESSES, new URIImpl(this.justification)));
+        
         writer.handleStatement(new StatementImpl(newId, PavConstants.VERSION, new LiteralImpl(VERSION)));
 
         writer.handleStatement(new StatementImpl(newId, PavConstants.CREATED_WITH, 
