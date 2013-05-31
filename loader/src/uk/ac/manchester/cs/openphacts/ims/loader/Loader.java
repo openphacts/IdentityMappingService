@@ -20,6 +20,7 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.util.Set;
 import org.bridgedb.loader.LinksetHandler;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
 import org.bridgedb.rdf.constants.VoidConstants;
@@ -99,24 +100,40 @@ public class Loader
     public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(uri);
         PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
-        RdfParserIMS parser = getParser(context, finder);
+        RdfParserIMS parser = getParser(context, finder, null, null);
         parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
+    public int load(File file) throws VoidValidatorException, BridgeDBException{
+        return load (file, null);
+    }
+    
     public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
+        return load (file, rdfFormatName, null, null);
+    }
+    
+    public int load(File file, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
+            throws VoidValidatorException, BridgeDBException{
+        return load (file, null,  viaLabels, chainedLinkSets);
+    }
+    
+    public int load(File file, String rdfFormatName, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
+            throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(file.toURI().toString());
         PredicateFinderHandler finder = getPredicateFinderHandler(file, rdfFormatName);
-        RdfParserIMS parser = getParser(context , finder);
+        RdfParserIMS parser = getParser(context , finder, viaLabels, chainedLinkSets);
         parser.parse(file, rdfFormatName);
         return parser.getMappingsetId();       
-     }
+    }
 
-   public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder) throws VoidValidatorException, BridgeDBException{
+    public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, Set<String> viaLabels, 
+           Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
         URI linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
         String justification = getObject(finder, DulConstants.EXPRESSES).stringValue();
         Resource linksetId = getLinksetId(finder);
-        LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, linksetId.stringValue(), true);
+        LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
+                linksetId.stringValue(), true, viaLabels, chainedLinkSets);
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         ImsRdfHandler combinedHandler = 
                 new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
