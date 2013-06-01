@@ -32,6 +32,7 @@ import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.StoreType;
+import org.bridgedb.utils.TransitiveConfig;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -58,7 +59,6 @@ class TransativeCreatorIMS extends TransativeCreator{
  
     private final RdfReader reader;
     private static final Value ANY_OBJECT = null;
-    private static final String VERSION = "1.2";
 
    public static File doTransativeIfPossible(MappingSetInfo left, MappingSetInfo right, StoreType storeType) throws BridgeDBException, IOException {
         TransativeCreator creator = new TransativeCreatorIMS(left, right, storeType);
@@ -83,9 +83,9 @@ class TransativeCreatorIMS extends TransativeCreator{
     protected void writeHeader(RDFWriter writer) throws BridgeDBException, RDFHandlerException {
         URI leftId = new URIImpl(leftInfo.getMappingSource());
         URI rightId = new URIImpl(rightInfo.getMappingSource());
-        String baseUri = RdfFactoryIMS.getBaseURI();
+        String baseUri = TransitiveConfig.getTransitiveBaseUri();
 
-        URI newId = new URIImpl(baseUri + VERSION + "_" + leftInfo.getStringId() + "_" + rightInfo.getStringId());
+        URI newId = new URIImpl(baseUri + getid());
         writer.handleStatement(new StatementImpl(newId, RdfConstants.TYPE_URI, VoidConstants.LINKSET));
             
         String title = "Transative linkset from " + leftInfo.getStringId() + " to " + rightInfo.getStringId();
@@ -152,10 +152,5 @@ class TransativeCreatorIMS extends TransativeCreator{
             throw new BridgeDBException ("Error getting object for " + subject + " and " + predicate, ex);
         }
     }
-
-    private void writeStatement(Resource subject, URI predicate, Value object) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
- 
+   
 }

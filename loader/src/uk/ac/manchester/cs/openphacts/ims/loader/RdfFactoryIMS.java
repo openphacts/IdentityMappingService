@@ -28,8 +28,4 @@ public class RdfFactoryIMS {
         }
     }
 
-    public static String getBaseURI() {
-        return "http://temp/BaseURI/Set/";
-    }
-    
 }
