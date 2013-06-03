@@ -20,6 +20,7 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 import org.bridgedb.loader.LinksetHandler;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
@@ -85,6 +86,19 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
     }
     
+    private URI getObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
+        List<Statement> statements = reader.getStatementList(subject, predicate, null);
+        if (statements == null || statements.isEmpty()){
+            throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicate);
+        }
+        if (statements.size() == 1){
+            return getObject(statements.get(0));
+        } else {
+            throw new BridgeDBException ("Found " + statements.size() + " statements for subject " + subject 
+                    + " and predicate " + predicate);
+        }
+    }
+
     private Resource getLinksetId(PredicateFinderHandler finder) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
@@ -133,9 +147,20 @@ public class Loader
 
     public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, Set<String> viaLabels, 
            Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
-        URI linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
-        String justification = getObject(finder, DulConstants.EXPRESSES).stringValue();
-        Resource linksetId = getLinksetId(finder);
+        Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
+        Resource linksetId;
+        URI linkPredicate;
+        String justification;    
+        if (statement != null){
+            linksetId  = statement.getSubject();
+            Resource inDataSetLinkset = getObject(statement);
+            linkPredicate = getObject(inDataSetLinkset, VoidConstants.LINK_PREDICATE);
+            justification = getObject(inDataSetLinkset, DulConstants.EXPRESSES).stringValue();                
+        } else {
+            linksetId = getLinksetId(finder);
+            linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
+            justification = getObject(finder, DulConstants.EXPRESSES).stringValue();    
+        }
         LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
                 linksetId.stringValue(), true, viaLabels, chainedLinkSets);
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
@@ -143,4 +168,13 @@ public class Loader
                 new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
         return new RdfParserIMS(linksetHandler, readerHandler, linkPredicate);
     }
+
+    private URI getObject(Statement statement) throws BridgeDBException{
+        if (statement.getObject() instanceof URI){
+            return (URI)statement.getObject();
+        } else {
+            throw new BridgeDBException("Found statement " + statement + " but object is not a URI.");
+        }
+    }
+    
 }

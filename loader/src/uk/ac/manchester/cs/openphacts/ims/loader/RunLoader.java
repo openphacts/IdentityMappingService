@@ -26,12 +26,14 @@ import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
 import org.bridgedb.utils.StoreType;
+import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
+import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
+import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
 
 /**
- *  This is a hack as it depends on the files being in the actact locations
  * @author Christian
  */
 public class RunLoader {
@@ -41,51 +43,57 @@ public class RunLoader {
     private static URI NO_DERIVED_BY = null;
     private static final boolean LOAD = true;
     
-    Loader loader;
-    
-    public RunLoader() throws BridgeDBException {
+    private final Loader loader;
+    private final RdfReader reader;
+
+    public RunLoader() throws BridgeDBException, VoidValidatorException {
         SQLUriMapper.factory(true, StoreType.LOAD);
+        reader = RdfFactoryIMS.getReader(StoreType.LOAD);
+        reader.clear();
         loader = new Loader(StoreType.LOAD);
     }
     
-    private int load(String uri) throws BridgeDBException, VoidValidatorException{
+    private int loadLinkset(String uri) throws BridgeDBException, VoidValidatorException{
         Reporter.println("Loading " + uri);
         return loader.load(uri, null);
     }
        
+    private Resource loadVoid(String uri) throws BridgeDBException, VoidValidatorException{
+        Reporter.println("Loading " + uri);
+        return reader.loadURI(uri);
+    }
+    
     public static void main(String[] args) throws IDMapperException, RDFHandlerException, IOException, BridgeDBException, VoidValidatorException  {
         ConfigReader.logToConsole();
 
         RunLoader runLoader = new RunLoader();
 
-        //runLoader.load("https://www.dropbox.com/sh/6dov4e3drd2nvs7/0BCh1lgh5Y/ChemblOldMolecule-ChemblOldId.ttl");
-        //runLoader.load("https://www.dropbox.com/sh/6dov4e3drd2nvs7/o0uW19eXTP/ChemblOldTargets-Enzyme.ttl");
-        //runLoader.load("https://www.dropbox.com/sh/6dov4e3drd2nvs7/XUg5S95NCN/ChemblOldTargets-Swissprot.ttl"); 
-        //runLoader.load("https://www.dropbox.com/sh/6dov4e3drd2nvs7/rIGy-VEUZz/ChembOldTargets-ChemblOldId.ttl"); 
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-ChemSpider.ttl"); 
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Id-ChemSpider.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-DrugbankTargets.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-GO.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-MSH.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-NCIM.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-Pdb.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-Swissprot.ttl");
-        runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ChemSpider-DrugBankDrugs.ttl"); 
-//        transativeFinder.UpdateTransative();
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Molecule-Chembl13Id_nov12.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Targets-Enzyme.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Targets-Swissprot.ttl"); 
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-ChemSpider.ttl"); 
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Id-ChemSpider.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-DrugbankTargets.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-GO.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-MSH.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-NCIM.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-Pdb.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-Swissprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ChemSpider-DrugBankDrugs.ttl"); 
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
 
         //CS -> Chebi
- //       runLoader.load("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/LINKSET_EXACTMATCH_CHEBI20121023.ttl");
-//        transativeFinder.UpdateTransative();
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/ChEBI102VoID.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_functional_parentChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_parent_hydrideChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_partChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_roleChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_conjugate_acid_ofChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_conjugate_base_ofChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_enantiomer_ofChEBI102Linkset.ttl");
-//        runLoader.load("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_tautomer_ofChEBI102Linkset.ttl");
-//        transativeFinder.UpdateTransative();
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/LINKSET_EXACTMATCH_CHEBI20121023.ttl");
+        runLoader.loadVoid("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/ChEBI102VoID.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_functional_parentChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_parent_hydrideChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_partChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_roleChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_conjugate_acid_ofChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_conjugate_base_ofChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_enantiomer_ofChEBI102Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_tautomer_ofChEBI102Linkset.ttl");
+        transativeFinder.UpdateTransative();
 
     }
 
