@@ -97,6 +97,10 @@ public class Loader
         throw new BridgeDBException("Unable to get LinksetrId");
     }
     
+    public int load(String uri) throws VoidValidatorException, BridgeDBException{
+        return load(uri, null);
+    }
+    
     public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(uri);
         PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
