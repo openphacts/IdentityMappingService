@@ -20,7 +20,7 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.InputStream;
-import org.bridgedb.loader.RdfParser;
+import org.bridgedb.uri.loader.RdfParser;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.rio.RDFHandler;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
