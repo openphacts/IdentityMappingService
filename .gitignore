@@ -1,7 +1,13 @@
+#ignore targets
 /loader/target/
 /target/
-/logs
-/TestDirectory
-/org.bridgedb.uri.ws.server/target/
 /ws.server/target/
+
+#Ignore logs
+/logs
+/loader/logs
+
+#Ignore stuff written during tests
+/TestDirectory
 /org.bridgedb.ws.server/target/
+/rdf
