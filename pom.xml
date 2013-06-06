@@ -4,7 +4,7 @@
   <groupId>uk.ac.manchester.cs.openphacts</groupId>
   <artifactId>ims-bundle</artifactId>
   <packaging>pom</packaging>
-  <name>IMS bundle</name>
+  <name>OpenPhacts IMS bundle</name>
   
    <parent>
   	<artifactId>bridgedb-bundle</artifactId>
@@ -73,5 +73,12 @@
   			<scope>test</scope>
   		</dependency>
   	</dependencies>
+    <pluginRepositories>
+        <pluginRepository> 
+            <id>onejar-maven-plugin.googlecode.com</id>
+            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+        </pluginRepository>
+    </pluginRepositories>
+   
   	
 </project>

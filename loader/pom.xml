@@ -9,7 +9,28 @@
     </parent>
     <groupId>uk.ac.manchester.cs.openphacts</groupId>
     <artifactId>loader</artifactId>
-    <name>loader</name>
+    <name>OpenPhacts IMS loader</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.dstovall</groupId>
+                <artifactId>onejar-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <configuration>
+                    <mainClass>uk.ac.manchester.cs.openphacts.ims.loader.RunLoader</mainClass>
+                </configuration>
+               <executions>
+                    <execution>
+                        <goals>
+                            <goal>one-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+	</build>
+
     <dependencies>
         <dependency>
             <groupId>org.bridgedb</groupId>
