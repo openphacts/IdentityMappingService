@@ -1,0 +1,16 @@
+<http://localhost:8080/OPS-IMS/Version 1.2Transitive7and25.ttl> a <http://rdfs.org/ns/void#Linkset> ;
+	<http://purl.org/dc/terms/title> "Transative linkset from 7 to 25" ;
+	<http://purl.org/dc/terms/description> "Transative linkset from 7 to 25" ;
+	<http://rdfs.org/ns/void#subjectsTarget> <http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-ChemSpider.ttl#ConceptWiki> ;
+	<http://rdfs.org/ns/void#objectsTarget> <http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/LINKSET_EXACTMATCH_CHEBI20121023.ttl#chebi> ;
+	<http://purl.org/dc/terms/license> <http://creativecommons.org/licenses/by/2.0/> ;
+	<http://rdfs.org/ns/void#linkPredicate> <http://www.w3.org/2004/02/skos/core#exactMatch> ;
+	<http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#expresses> <http://semanticscience.org/resource/CHEMINF_000059> ;
+	<http://purl.org/pav/version> "1.2" ;
+	<http://purl.org/pav/createdWith> <https://github.com/openphacts/IdentityMappingService> ;
+	<http://purl.org/pav/createdBy> <https://github.com/openphacts/IdentityMappingService> ;
+	<http://purl.org/pav/createdOn> "2013-06-05T19:21:06.460+01:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+
+<http://www.conceptwiki.org/concept/00013d6c-b5af-4667-a27d-ff9bf727b78a> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://bio2rdf.org/chebi:15356> , <http://bio2rdf.org/chebi:35237> .
+
+<http://www.conceptwiki.org/concept/00065bb3-e34a-47e2-9c90-73b9ef6301fd> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://bio2rdf.org/chebi:7809> .
