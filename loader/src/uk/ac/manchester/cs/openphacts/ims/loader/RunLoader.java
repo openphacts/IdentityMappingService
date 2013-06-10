@@ -68,6 +68,7 @@ public class RunLoader {
 
         RunLoader runLoader = new RunLoader();
 
+        //Version 1.1
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Molecule-Chembl13Id_nov12.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Targets-Enzyme.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Targets-Swissprot.ttl"); 
@@ -82,7 +83,7 @@ public class RunLoader {
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ChemSpider-DrugBankDrugs.ttl"); 
         TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
 
-        //CS -> Chebi
+        //version 1.2 additional CS -> Chebi
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/LINKSET_EXACTMATCH_CHEBI20121023.ttl");
         runLoader.loadVoid("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/ChEBI102VoID.ttl");
         runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/has_functional_parentChEBI102Linkset.ttl");
