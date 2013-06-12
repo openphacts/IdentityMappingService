@@ -37,6 +37,7 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.BNodeImpl;
 import org.openrdf.model.impl.CalendarLiteralImpl;
 import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.StatementImpl;
@@ -94,10 +95,14 @@ class TransativeCreatorIMS extends TransativeCreator{
            
         writer.handleStatement(new StatementImpl(newId, DctermsConstants.DESCRIPTION, titleValue));
 
-        Value subject = getObject(leftId, VoidConstants.SUBJECTSTARGET);
-        writer.handleStatement(new StatementImpl(newId, VoidConstants.SUBJECTSTARGET, subject));
-        Value object = getObject(rightId, VoidConstants.OBJECTSTARGET);
-        writer.handleStatement(new StatementImpl(newId, VoidConstants.OBJECTSTARGET, object));
+        Value subject = getPossibleObject(leftId, VoidConstants.SUBJECTSTARGET);
+        if (subject != null){
+            writer.handleStatement(new StatementImpl(newId, VoidConstants.SUBJECTSTARGET, subject));
+        }
+        Value object = getPossibleObject(rightId, VoidConstants.OBJECTSTARGET);
+        if (object != null){
+            writer.handleStatement(new StatementImpl(newId, VoidConstants.OBJECTSTARGET, object));
+        }
 
         try {
             List<Statement> liscenceStatements = reader.getStatementList(leftId, DctermsConstants.LICENSE, ANY_OBJECT);
@@ -113,8 +118,6 @@ class TransativeCreatorIMS extends TransativeCreator{
 
         writer.handleStatement(new StatementImpl(newId, DulConstants.EXPRESSES, new URIImpl(this.justification)));
         
-        writer.handleStatement(new StatementImpl(newId, PavConstants.VERSION, new LiteralImpl(VERSION)));
-
         writer.handleStatement(new StatementImpl(newId, PavConstants.CREATED_WITH, 
                 new URIImpl("https://github.com/openphacts/IdentityMappingService")));
                 
@@ -134,11 +137,11 @@ class TransativeCreatorIMS extends TransativeCreator{
 		}
     }
 
-    private Value getObject(Resource subject, URI predicate) throws BridgeDBException{
+    private Value getPossibleObject(Resource subject, URI predicate) throws BridgeDBException{
         try {
             List<Statement> statements = reader.getStatementList(subject, predicate, ANY_OBJECT);
             if (statements.isEmpty()){
-                throw new BridgeDBException ("No Statement found for " + subject + " and " + predicate);            
+                return null;            
             }
             if (statements.size() > 1){
                 String error = "Multiple Statement found for " + subject + " and " + predicate;
