@@ -67,8 +67,9 @@ public class RunLoader {
         ConfigReader.logToConsole();
 
         RunLoader runLoader = new RunLoader();
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
 
-        //Version 1.1
+/*        //Version 1.1
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Molecule-Chembl13Id_nov12.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Targets-Enzyme.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Targets-Swissprot.ttl"); 
@@ -81,7 +82,6 @@ public class RunLoader {
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-Pdb.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ConceptWiki-Swissprot.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/ChemSpider-DrugBankDrugs.ttl"); 
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
 
         //version 1.2 additional CS -> Chebi
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/LINKSET_EXACTMATCH_CHEBI20121023.ttl");
@@ -94,6 +94,41 @@ public class RunLoader {
         runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_conjugate_base_ofChEBI102Linkset.ttl");
         runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_enantiomer_ofChEBI102Linkset.ttl");
         runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi102/is_tautomer_ofChEBI102Linkset.ttl");
+        transativeFinder.UpdateTransative();
+*/
+        //Version 1.3.alpha1 There be dragons
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/CW_ChemSpider.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/CW_DBTarget.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/CW_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Ensemble_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Flybase_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/LINKSET_EXACT_CHEBI20130408.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/LINKSET_EXACT_CHEMBL20130408.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/LINKSET_EXACT_DRUGBANK20130408.ttl");        
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/MGD_Uniport.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Ncbigene_uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/RGD_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/UniProt_Unigene.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/UniProt_mgi.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/UniProt_rgd.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_Ensembl.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_GeneID.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_ipi.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_ncbigene.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_pdb.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_refseq.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_sgd.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Uniprot_zfin.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/WPHMDBMetabolites_ChemSpider.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/Wormbase_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/ZDB-GENE_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/aers_drugbank_linkset.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/chembl_16_target_chembl_16_targetcmpt_ls.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/chembl_16_targetcmpt_uniprot_ls.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/refseq_uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/sgd_Uniprot.ttl");
+        runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/uniprot_omim.ttl");
         transativeFinder.UpdateTransative();
 
     }
