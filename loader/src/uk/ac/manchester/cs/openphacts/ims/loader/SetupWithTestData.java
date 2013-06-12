@@ -5,12 +5,15 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.io.IOException;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.Reporter;
 import org.bridgedb.utils.StoreType;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.rio.RDFHandlerException;
+import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
 
 /**
@@ -22,7 +25,7 @@ public class SetupWithTestData {
     Loader loader;
     
     public SetupWithTestData() throws BridgeDBException {
-        SQLUriMapper.factory(true, StoreType.LOAD);
+        SQLUriMapper mapper = SQLUriMapper.factory(true, StoreType.LOAD);
         loader = new Loader(StoreType.LOAD);
     }
     
@@ -33,10 +36,9 @@ public class SetupWithTestData {
     /**
      * Test of parse method, of class LinksetListener.
      */
-   public static void main(String[] args) throws BridgeDBException, VoidValidatorException {
+   public static void main(String[] args) throws BridgeDBException, VoidValidatorException, RDFHandlerException, IOException {
         Reporter.println("LoadTestData");
         SetupWithTestData loader = new SetupWithTestData();
-        loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-cm.ttl");
         loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-cm.ttl");
         loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cm.ttl");
         loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-ct.ttl");
@@ -45,6 +47,8 @@ public class SetupWithTestData {
         loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cs_test_lens.ttl");
         loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-cm_test_lens.ttl");
         loader.loadUri("https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cm_test_lens.ttl");
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
+        transativeFinder.UpdateTransative();
     }
 
  }
