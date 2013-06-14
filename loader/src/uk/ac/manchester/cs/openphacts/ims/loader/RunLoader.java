@@ -129,6 +129,17 @@ public class RunLoader {
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/refseq_uniprot.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/sgd_Uniprot.ttl");
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha1/uniprot_omim.ttl");
+        runLoader.loadVoid("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/ChEBI104VoID.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/has_functional_parentChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/has_parent_hydrideChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/has_partChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/has_roleChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/is_conjugate_acid_ofChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/is_enantiomer_ofChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/is_enantiomer_ofChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/is_substituent_group_fromChEBI104Linkset.ttl");
+        runLoader.loadLinkset("https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/is_tautomer_ofChEBI104Linkset.ttl");
+        
         transativeFinder.UpdateTransative();
 
     }
