@@ -108,7 +108,8 @@ public class Loader
         if (statement != null){
             return statement.getSubject();
         }
-        throw new BridgeDBException("Unable to get LinksetrId");
+        throw new BridgeDBException("Unable to find a statement with either " + VoidConstants.LINK_PREDICATE + " or " 
+                + DulConstants.EXPRESSES);
     }
     
     public int load(String uri) throws VoidValidatorException, BridgeDBException{
