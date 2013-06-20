@@ -19,18 +19,24 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.ws.server;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
+import org.bridgedb.uri.Mapping;
 import org.bridgedb.utils.BridgeDBException;
+import org.bridgedb.ws.WsUriConstants;
 import org.bridgedb.ws.uri.WSUriServer;
 import uk.ac.manchester.cs.openphacts.valdator.bean.StatementBean;
 import uk.ac.manchester.cs.openphacts.valdator.bean.URIBean;
@@ -141,7 +147,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
         sb.append("\n<div></body></html>");
     }
 
-    @Override
+/*    @Override
     public String getExampleResource() {
         return ExampleConstants.EXAMPLE_RESOURCE;
     }
@@ -180,7 +186,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
         + "    ops:hasHouseNumber \"23\";\n"
         + "    ops:hasWebsite <http://bbc.co.uk>.\n";
     }    
-    
+*/    
     @Override
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -286,6 +292,29 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
         return wsValidatorServer.validate(text, uri, rdfFormat, specification, includeWarning);
     }
     
+    @Produces({MediaType.TEXT_PLAIN, MediaType.TEXT_HTML})
+    @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF)
+    public String getMappingRDF() throws BridgeDBException {
+        throw new BridgeDBException(WsUriConstants.ID + " parameter missing.");     
+    }
+    
+    @Produces({MediaType.TEXT_PLAIN})
+    @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF + "/{id}")
+    public String getMappingRDF(@PathParam(WsUriConstants.ID) String idString) throws BridgeDBException {
+        if (idString == null) throw new BridgeDBException(WsUriConstants.ID + " parameter missing.");
+        if (idString.isEmpty()) throw new BridgeDBException(WsUriConstants.ID + " parameter may not be null.");
+        int id = Integer.parseInt(idString);
+        Mapping mapping = uriMapper.getMapping(id);
+        return mapping.toString();
+    }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF + "/{id}")
+    public Response getMappingRdfHtml(@PathParam(WsUriConstants.ID) String idString) throws BridgeDBException {
+        String rdf = getMappingRDF(idString);
+        return Response.ok(rdf, MediaType.TEXT_HTML).build();
+    }
 
 }
 
