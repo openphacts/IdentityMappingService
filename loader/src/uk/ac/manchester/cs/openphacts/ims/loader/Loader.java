@@ -33,7 +33,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
-import uk.ac.manchester.cs.openphacts.ims.constants.DulConstants;
+import org.bridgedb.rdf.constants.DulConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;

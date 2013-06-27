@@ -43,7 +43,7 @@ import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
 import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
-import uk.ac.manchester.cs.openphacts.ims.constants.DulConstants;
+import org.bridgedb.rdf.constants.DulConstants;
 import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.valdator.constants.RdfConstants;
