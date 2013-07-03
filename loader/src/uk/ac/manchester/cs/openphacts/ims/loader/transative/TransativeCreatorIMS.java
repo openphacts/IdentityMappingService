@@ -29,9 +29,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
+import org.bridgedb.uri.loader.transative.TransativeConfig;
 import org.bridgedb.uri.loader.transative.TransativeCreator;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.StoreType;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -83,7 +83,7 @@ class TransativeCreatorIMS extends TransativeCreator{
     protected void writeHeader(RDFWriter writer) throws BridgeDBException, RDFHandlerException {
         URI leftId = new URIImpl(leftInfo.getMappingSource());
         URI rightId = new URIImpl(rightInfo.getMappingSource());
-        String baseUri = ConfigReader.getTransitiveBaseUri();
+        String baseUri = TransativeConfig.getTransitiveBaseUri();
 
         URI newId = new URIImpl(baseUri + getid());
         writer.handleStatement(new StatementImpl(newId, RdfConstants.TYPE_URI, VoidConstants.LINKSET));
