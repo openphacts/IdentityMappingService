@@ -90,14 +90,14 @@ public class RunLoader {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc;
+            URL url;
             if (argv.length == 0){
-            	File fXmlFile = new File("test-data/load.xml");
-                doc = dBuilder.parse(fXmlFile);
+                url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/load.xml");
             } else {
-                URL url = new URL(argv[0]);
-                InputStream stream = url.openStream();
-                doc = dBuilder.parse(stream);
+                url = new URL(argv[0]);
             }    
+            InputStream stream = url.openStream();
+            doc = dBuilder.parse(stream);
             Element root = doc.getDocumentElement();
             clean(root);
             //optional, but recommended

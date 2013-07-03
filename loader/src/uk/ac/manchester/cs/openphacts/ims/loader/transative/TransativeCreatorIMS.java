@@ -26,12 +26,13 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.uri.loader.transative.TransativeCreator;
 import org.bridgedb.utils.BridgeDBException;
+import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.StoreType;
-import org.bridgedb.utils.TransitiveConfig;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -43,7 +44,6 @@ import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
 import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
-import org.bridgedb.rdf.constants.DulConstants;
 import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.valdator.constants.RdfConstants;
@@ -83,7 +83,7 @@ class TransativeCreatorIMS extends TransativeCreator{
     protected void writeHeader(RDFWriter writer) throws BridgeDBException, RDFHandlerException {
         URI leftId = new URIImpl(leftInfo.getMappingSource());
         URI rightId = new URIImpl(rightInfo.getMappingSource());
-        String baseUri = TransitiveConfig.getTransitiveBaseUri();
+        String baseUri = ConfigReader.getTransitiveBaseUri();
 
         URI newId = new URIImpl(baseUri + getid());
         writer.handleStatement(new StatementImpl(newId, RdfConstants.TYPE_URI, VoidConstants.LINKSET));
