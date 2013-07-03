@@ -32,7 +32,6 @@ import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.uri.loader.transative.TransativeConfig;
 import org.bridgedb.uri.loader.transative.TransativeCreator;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.StoreType;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -60,23 +59,23 @@ class TransativeCreatorIMS extends TransativeCreator{
     private final RdfReader reader;
     private static final Value ANY_OBJECT = null;
 
-   public static File doTransativeIfPossible(MappingSetInfo left, MappingSetInfo right, StoreType storeType) throws BridgeDBException, IOException {
-        TransativeCreator creator = new TransativeCreatorIMS(left, right, storeType);
+   public static File doTransativeIfPossible(MappingSetInfo left, MappingSetInfo right) throws BridgeDBException, IOException {
+        TransativeCreator creator = new TransativeCreatorIMS(left, right);
         return creator.generateOutputFileIfPossible();
     }
 
-    public static File doTransativeIfPossible(int leftId, int rightId, StoreType storeType) 
+    public static File doTransativeIfPossible(int leftId, int rightId) 
             throws BridgeDBException, IOException {
-        SQLUriMapper mapper = SQLUriMapper.factory(false, storeType);
+        SQLUriMapper mapper = SQLUriMapper.getExisting();
         MappingSetInfo left = mapper.getMappingSetInfo(leftId);
         MappingSetInfo right = mapper.getMappingSetInfo(rightId);
-        return doTransativeIfPossible(left, right, storeType);
+        return doTransativeIfPossible(left, right);
     }
     
-    protected TransativeCreatorIMS(MappingSetInfo left, MappingSetInfo right, StoreType storeType) 
+    protected TransativeCreatorIMS(MappingSetInfo left, MappingSetInfo right) 
             throws BridgeDBException, IOException{
-        super(left, right, storeType);
-        reader = RdfFactoryIMS.getReader(storeType);
+        super(left, right);
+        reader = RdfFactoryIMS.getReader();
     }
 
     @Override

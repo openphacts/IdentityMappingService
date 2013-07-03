@@ -5,7 +5,7 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.StoreType;
+import org.bridgedb.utils.ConfigReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
@@ -16,9 +16,9 @@ import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
  */
 public class RdfFactoryIMS {
 
-    public static RdfReader getReader(StoreType storeType) throws BridgeDBException {
+    public static RdfReader getReader() throws BridgeDBException {
         try {
-            if (storeType == StoreType.TEST){
+            if (ConfigReader.inTestMode()){
                 return RdfFactory.getTestFilebase();
             } else {
                 return RdfFactory.getImsFilebase();

@@ -25,7 +25,6 @@ import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import org.bridgedb.utils.StoreType;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
@@ -47,10 +46,10 @@ public class OldLoader {
     private final RdfReader reader;
 
     public OldLoader() throws BridgeDBException, VoidValidatorException {
-        SQLUriMapper.factory(true, StoreType.LOAD);
-        reader = RdfFactoryIMS.getReader(StoreType.LOAD);
+        SQLUriMapper.createNew();
+        reader = RdfFactoryIMS.getReader();
         reader.clear();
-        loader = new Loader(StoreType.LOAD);
+        loader = new Loader();
     }
     
     private int loadLinkset(String uri) throws BridgeDBException, VoidValidatorException{
@@ -67,7 +66,7 @@ public class OldLoader {
         ConfigReader.logToConsole();
 
         OldLoader runLoader = new OldLoader();
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
 
 /*        //Version 1.1
         runLoader.loadLinkset("http://openphacts.cs.man.ac.uk/ims/linkset/version1.1/Chembl13Molecule-Chembl13Id_nov12.ttl");

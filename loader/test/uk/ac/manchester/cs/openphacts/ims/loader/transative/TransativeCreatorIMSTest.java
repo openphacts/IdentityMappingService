@@ -21,7 +21,6 @@ package uk.ac.manchester.cs.openphacts.ims.loader.transative;
 
 import java.io.File;
 import org.bridgedb.utils.Reporter;
-import org.bridgedb.utils.StoreType;
 import org.junit.Test;
 
 /**
@@ -39,7 +38,7 @@ public class TransativeCreatorIMSTest extends TransativeTestBase {
         //Validator.
         loadFile("test-data/cw-cs.ttl");
         loadFile("test-data/cs-cm.ttl");
-        File transative = TransativeCreatorIMS.doTransativeIfPossible(1, 3, StoreType.TEST);
+        File transative = TransativeCreatorIMS.doTransativeIfPossible(1, 3);
         loadFile(transative);
     }
 

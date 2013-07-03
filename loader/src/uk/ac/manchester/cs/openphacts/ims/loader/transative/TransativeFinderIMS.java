@@ -26,7 +26,6 @@ import java.util.Set;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.uri.loader.transative.TransativeFinder;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.StoreType;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
 
@@ -36,19 +35,19 @@ import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
  */
 public class TransativeFinderIMS extends TransativeFinder{
     
-    public TransativeFinderIMS(StoreType storeType) throws BridgeDBException{
-        super(storeType);      
+    public TransativeFinderIMS() throws BridgeDBException{
+        super();      
     }
     
     @Override
     protected File doTransativeIfPossible(MappingSetInfo left, MappingSetInfo right) throws BridgeDBException, IOException{
-        return TransativeCreatorIMS.doTransativeIfPossible(left, right, storeType);
+        return TransativeCreatorIMS.doTransativeIfPossible(left, right);
     }
 
     @Override
     protected int loadLinkset(String absolutePath, String predicate, String justification, Set<String> viaLabels, 
             HashSet<Integer> chainIds) throws BridgeDBException {
-        Loader loader = new Loader(storeType);
+        Loader loader = new Loader();
         File file = new File(absolutePath);
         try {
             return loader.load(file, viaLabels, chainIds);

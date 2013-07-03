@@ -24,7 +24,7 @@ import java.util.List;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.StoreType;
+import org.bridgedb.utils.ConfigReader;
 import static org.hamcrest.Matchers.*;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -56,8 +56,9 @@ public class LoaderTest {
     
     @BeforeClass
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
-        instance = new Loader(StoreType.TEST);
-        uriListener = SQLUriMapper.factory(true, StoreType.TEST);
+        ConfigReader.useTest();
+        instance = new Loader();
+        uriListener = SQLUriMapper.createNew();
         reader = RdfFactory.getTestFilebase();
     }
     

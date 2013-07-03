@@ -25,11 +25,9 @@ import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import org.bridgedb.utils.StoreType;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
@@ -47,9 +45,10 @@ public class TransativeTestBase  {
 
     @BeforeClass
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
-        instance = new Loader(StoreType.TEST);
         ConfigReader.useTest();
-        uriListener = SQLUriMapper.factory(true, StoreType.TEST);
+        instance = new Loader();
+        ConfigReader.useTest();
+        uriListener = SQLUriMapper.createNew();
         reader = RdfFactory.getTestFilebase();
     }
     

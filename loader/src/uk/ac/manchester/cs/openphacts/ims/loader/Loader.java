@@ -23,17 +23,16 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
+import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.uri.UriListener;
 import org.bridgedb.uri.loader.LinksetHandler;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.StoreType;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
-import org.bridgedb.rdf.constants.DulConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
@@ -49,10 +48,10 @@ public class Loader
     private final RdfReader reader;
     private final UriListener uriListener;
             
-    public Loader(StoreType storeType) throws BridgeDBException {
+    public Loader() throws BridgeDBException {
         validator = new ValidatorImpl();
-        uriListener = SQLUriMapper.factory(false, storeType);
-        reader = RdfFactoryIMS.getReader(storeType);
+        uriListener = SQLUriMapper.getExisting();
+        reader = RdfFactoryIMS.getReader();
         BridgeDBRdfHandler.init();
     }
     

@@ -4,28 +4,20 @@
  */
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
-import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import org.bridgedb.utils.StoreType;
-import org.openrdf.model.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
-import uk.ac.manchester.cs.openphacts.valdator.metadata.MetaDataSpecification;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.validator.Validator;
-import uk.ac.manchester.cs.openphacts.validator.ValidatorImpl;
 
 /**
  *
@@ -42,12 +34,12 @@ public class RunLoader {
     private final RdfReader reader;
 
     public RunLoader(boolean clear) throws BridgeDBException, VoidValidatorException {
-        reader = RdfFactoryIMS.getReader(StoreType.LOAD);
+        reader = RdfFactoryIMS.getReader();
         if (clear){
-            SQLUriMapper.factory(true, StoreType.LOAD);
+            SQLUriMapper.getExisting();
             reader.clear();
         }
-        loader = new Loader(StoreType.LOAD);
+        loader = new Loader();
     }
     
 
@@ -121,7 +113,7 @@ public class RunLoader {
                     } else if (name.equals(VOID)){
                         runLoader.loadVoid(uri);
                     } else if (name.equals(DO_TRANSITIVE)){
-                        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.LOAD);
+                        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
                         transativeFinder.UpdateTransative();
                     } else {
                         Reporter.error("Unexpected element " + name);

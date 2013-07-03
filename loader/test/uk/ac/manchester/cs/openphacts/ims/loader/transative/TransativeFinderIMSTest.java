@@ -28,8 +28,8 @@ import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.OverallStatistics;
 import org.bridgedb.uri.Lens;
 import org.bridgedb.utils.BridgeDBException;
+import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import org.bridgedb.utils.StoreType;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,8 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
     @Before
     public void testLoader() throws BridgeDBException, IOException, OpenRDFException, FileNotFoundException {
         //Check database is running and settup correctly or kill the test. 
-        mapper = SQLUriMapper.factory(true, StoreType.TEST);
+        ConfigReader.useTest();
+        mapper = SQLUriMapper.createNew();
 //        linksetLoader = new LinksetLoader();
 //        linksetLoader.clearExistingData( StoreType.TEST);  
         setupPattern("TransativeTestA", "http://www.example.com/DS_A/$id");
@@ -73,7 +74,7 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
         loadFile("test-data/sampleEToD.ttl");
         loadFile("test-data/sampleAToC.ttl");
         loadFile("test-data/sampleAToD.ttl");
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS(StoreType.TEST);
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
         transativeFinder.UpdateTransative();
         OverallStatistics results = mapper.getOverallStatistics(Lens.getAllLens());
         assertEquals(20, results.getNumberOfMappingSets());
