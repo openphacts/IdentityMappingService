@@ -36,13 +36,12 @@ public class RunLoader {
     public RunLoader(boolean clear) throws BridgeDBException, VoidValidatorException {
         reader = RdfFactoryIMS.getReader();
         if (clear){
-            SQLUriMapper.getExisting();
+            SQLUriMapper.createNew();
             reader.clear();
         }
         loader = new Loader();
     }
     
-
     public static void clean(Node node) {
         NodeList childNodes = node.getChildNodes();
         for (int n = childNodes.getLength() - 1; n >= 0; n--) {
