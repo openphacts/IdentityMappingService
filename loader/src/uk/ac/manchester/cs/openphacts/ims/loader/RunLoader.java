@@ -4,8 +4,14 @@
  */
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.bridgedb.sql.SQLUriMapper;
@@ -18,6 +24,7 @@ import org.w3c.dom.NodeList;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.valdator.utils.UrlReader;
 
 /**
  *
@@ -26,6 +33,7 @@ import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
 public class RunLoader {
     
     private static final String CLEAR_ALL = "clearAll";
+    private static final String DIRECTORY = "directory";
     private static final String LINKSET = "linkset";
     private static final String VOID = "void";
     private static final String DO_TRANSITIVE = "doTransitive";      
@@ -63,7 +71,7 @@ public class RunLoader {
     }
 
     private void loadLinkset(String uri) throws BridgeDBException, VoidValidatorException{
-        Reporter.println("Loading " + uri);
+        Reporter.println("Loading linkset " + uri);
         //Validator validator = new ValidatorImpl();
         //String result = validator.validateUri(uri, null, "opsVoid", Boolean.TRUE);
         //System.out.println(result);
@@ -71,10 +79,35 @@ public class RunLoader {
     }
        
     private void loadVoid(String uri) throws BridgeDBException, VoidValidatorException{
-        Reporter.println("Loading " + uri);
+        Reporter.println("Loading void " + uri);
         reader.loadURI(uri);
     }
     
+    public void loadDirectory(String address) throws BridgeDBException, MalformedURLException, IOException, VoidValidatorException {  
+        //String address = "http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/";
+        Reporter.println("Loading directory " + address);
+        UrlReader urlReader = new UrlReader(address);
+        InputStream stream = urlReader.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(stream);
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+        String[] headerLinksArray = {"Name", "Last modified", "Size", "Description"};
+        List headerLinks = Arrays.asList(headerLinksArray);
+        String line;
+        while ((line = reader.readLine()) != null) {
+            //System.out.println(line);
+            String[] parts = line.split("<");
+            for (String part:parts){
+                if (part.startsWith("a ")){
+                    String link = part.substring(part.indexOf(">")+1);
+                    if (!headerLinks.contains(link)){
+                        loadVoid(address + link);
+                    }
+                }
+            }
+        }
+        reader.close();
+    }
+       
     public static void main(String argv[]) throws BridgeDBException {           
         RunLoader runLoader = null;
         try {
@@ -104,18 +137,22 @@ public class RunLoader {
                     String uri = nNode.getTextContent();
                     if (name.equals(CLEAR_ALL)){
                         runLoader = new RunLoader(true);
-                    } else if (name.equals(LINKSET)){
+                    } else {
                         if (runLoader == null){
                             runLoader = new RunLoader(false);
                         }
-                        runLoader.loadLinkset(uri);
-                    } else if (name.equals(VOID)){
-                        runLoader.loadVoid(uri);
-                    } else if (name.equals(DO_TRANSITIVE)){
-                        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-                        transativeFinder.UpdateTransative();
-                    } else {
-                        Reporter.error("Unexpected element " + name);
+                        if (name.equals(LINKSET)){
+                            runLoader.loadLinkset(uri);
+                        } else if (name.equals(DIRECTORY)){
+                            runLoader.loadDirectory(uri);
+                        } else if (name.equals(VOID)){
+                            runLoader.loadVoid(uri);
+                        } else if (name.equals(DO_TRANSITIVE)){
+                            TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
+                            transativeFinder.UpdateTransative();
+                        } else {
+                            Reporter.error("Unexpected element " + name);
+                        }
                     }
                 } else {
                     Reporter.error("Unexpected node " + nNode + " type " + nNode.getClass());            
