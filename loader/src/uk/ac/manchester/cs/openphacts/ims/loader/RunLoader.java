@@ -5,11 +5,13 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -40,6 +42,7 @@ public class RunLoader {
     
     private final Loader loader;
     private final RdfReader reader;
+    private int originalCount = 0;
 
     public RunLoader(boolean clear) throws BridgeDBException, VoidValidatorException {
         reader = RdfFactoryIMS.getReader();
@@ -72,15 +75,30 @@ public class RunLoader {
 
     private void loadLinkset(String uri) throws BridgeDBException, VoidValidatorException{
         Reporter.println("Loading linkset " + uri);
+            originalCount++;
         //Validator validator = new ValidatorImpl();
         //String result = validator.validateUri(uri, null, "opsVoid", Boolean.TRUE);
         //System.out.println(result);
-        loader.load(uri, null);
+        File file = UriFileMapper.toFile(uri);
+        if (file != null){
+            Reporter.println("\tUsing File: " + file.getAbsolutePath());
+            loader.load(file);
+        } else {
+            loader.load(uri, null);
+        }
     }
        
     private void loadVoid(String uri) throws BridgeDBException, VoidValidatorException{
         Reporter.println("Loading void " + uri);
-        reader.loadURI(uri);
+        File file = UriFileMapper.toFile(uri);
+        if (file != null){
+            Reporter.println("\tUsing File: " + file.getAbsolutePath());
+            reader.loadFile(file);
+        } else {
+            reader.loadURI(uri);
+        }
+        reader.commit();
+        reader.close();
     }
     
     public void loadDirectory(String address) throws BridgeDBException, MalformedURLException, IOException, VoidValidatorException {  
@@ -90,7 +108,7 @@ public class RunLoader {
         InputStream stream = urlReader.getInputStream();
         InputStreamReader inputStreamReader = new InputStreamReader(stream);
         BufferedReader reader = new BufferedReader(inputStreamReader);
-        String[] headerLinksArray = {"Name", "Last modified", "Size", "Description"};
+        String[] headerLinksArray = {"Name", "Last modified", "Size", "Description", "Parent Directory"};
         List headerLinks = Arrays.asList(headerLinksArray);
         String line;
         while ((line = reader.readLine()) != null) {
@@ -100,7 +118,13 @@ public class RunLoader {
                 if (part.startsWith("a ")){
                     String link = part.substring(part.indexOf(">")+1);
                     if (!headerLinks.contains(link)){
-                        loadVoid(address + link);
+                        if (link.equals("drosophila_melanogaster_core_71_546_ensembl_EPDLinkSets.ttl")){
+                            System.out.println("HACK skipping drosophila_melanogaster_core_71_546_ensembl_EPDLinkSets.ttl");
+                        } else if (link.equals("rattus_norvegicus_core_71_5_ensembl_MGI_transcript_nameLinkSets.ttl")){
+                            System.out.println("HACK skipping rattus_norvegicus_core_71_5_ensembl_MGI_transcript_nameLinkSets.ttl");
+                        } else {
+                            loadLinkset(address + URLEncoder.encode(link, "UTF-8"));
+                        }
                     }
                 }
             }
@@ -108,7 +132,9 @@ public class RunLoader {
         reader.close();
     }
        
-    public static void main(String argv[]) throws BridgeDBException {           
+    public static void main(String argv[]) throws BridgeDBException {   
+        UriFileMapper.init();
+        System.out.println("init done");
         RunLoader runLoader = null;
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -116,6 +142,7 @@ public class RunLoader {
             Document doc;
             URL url;
             if (argv.length == 0){
+                //url = new URL("file:///c:/Dropbox/linksets/version1.3.alpha2/load.xml");
                 url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/load.xml");
             } else {
                 url = new URL(argv[0]);
@@ -128,6 +155,8 @@ public class RunLoader {
             //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
             root.normalize();
  
+            System.out.println("Load read");
+
             NodeList nList = root.getChildNodes();
  
         	for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -161,6 +190,7 @@ public class RunLoader {
         } catch (Exception e) {
             throw new BridgeDBException("Error loading ", e);
         }
+        System.out.println("Load " + runLoader.originalCount + " linksets plus their transdatives");
     }
  
 }
