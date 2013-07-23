@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.ac.manchester.cs.openphacts</groupId>
     <artifactId>ws.server</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>OpenPhacts IMS Websever Server</name>
 
     <parent>
@@ -91,5 +91,7 @@
 			<scope>test</scope>
         </dependency>    
 	</dependencies>
-  
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+    </properties>
 </project>
