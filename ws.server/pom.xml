@@ -1,97 +1,126 @@
-<project 
-    xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
         http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>uk.ac.manchester.cs.openphacts</groupId>
-    <artifactId>ws.server</artifactId>
-    <packaging>war</packaging>
-    <name>OpenPhacts IMS Webserver Server</name>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.manchester.cs.openphacts</groupId>
+	<artifactId>ws.server</artifactId>
+	<packaging>war</packaging>
+	<name>OpenPhacts IMS Webserver Server</name>
 
-    <parent>
-        <groupId>uk.ac.manchester.cs.openphacts</groupId>
-        <artifactId>ims-bundle</artifactId>
-        <version>2.1.0</version>
-    </parent>
+	<parent>
+		<groupId>uk.ac.manchester.cs.openphacts</groupId>
+		<artifactId>ims-bundle</artifactId>
+		<version>2.1.0</version>
+	</parent>
 
-     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>1.1</version>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <executions>
-                <execution>
-                <id>make-a-war</id>
-                <phase>compile</phase>
-                <goals>
-                    <goal>war</goal>
-                </goals>
-                </execution>
-                </executions>
-            </plugin>
-         </plugins>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-a-war</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.10</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<stopKey>foo</stopKey>
+					<stopPort>9999</stopPort>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<daemon>true</daemon>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
-	
+
 	<dependencies>
- 		<dependency>
-			<groupId>org.bridgedb</groupId>
-			<artifactId>org.bridgedb.uri.ws.server</artifactId>
-			<version>${project.version}</version>
- 		</dependency>
- 		<dependency>
-    		<groupId>uk.ac.manchester.cs.openphacts</groupId>
-    		<artifactId>WebService-service</artifactId>
-			<version>${validator.version}</version>
- 		</dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-        	<groupId>com.sun.jersey</groupId>
-        	<artifactId>jersey-core</artifactId>
-        	<version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${jersey.version}</version>
-            <type>jar</type>
-        </dependency>
-       <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
-        </dependency>
 		<dependency>
 			<groupId>org.bridgedb</groupId>
 			<artifactId>org.bridgedb.uri.ws.server</artifactId>
 			<version>${project.version}</version>
-            <type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>uk.ac.manchester.cs.openphacts</groupId>
+			<artifactId>WebService-service</artifactId>
+			<version>${validator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version}</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bridgedb</groupId>
+			<artifactId>org.bridgedb.uri.ws.server</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-        	<groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>${hamcrest.version}</version>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>${hamcrest.version}</version>
 			<scope>test</scope>
-        </dependency>    
-        <dependency>
-        	<groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>${hamcrest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-library</artifactId>
+			<version>${hamcrest.version}</version>
 			<scope>test</scope>
-        </dependency>    
+		</dependency>
 	</dependencies>
-    <properties>
-        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
-    </properties>
+	<properties>
+		<netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+	</properties>
 </project>
