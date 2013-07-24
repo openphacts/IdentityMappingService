@@ -7,7 +7,7 @@
     <groupId>uk.ac.manchester.cs.openphacts</groupId>
     <artifactId>ws.server</artifactId>
     <packaging>war</packaging>
-    <name>OpenPhacts IMS Websever Server</name>
+    <name>OpenPhacts IMS Webserver Server</name>
 
     <parent>
         <groupId>uk.ac.manchester.cs.openphacts</groupId>
