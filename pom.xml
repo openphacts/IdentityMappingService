@@ -6,12 +6,13 @@
 	<artifactId>ims-bundle</artifactId>
 	<packaging>pom</packaging>
 	<name>OpenPhacts IMS bundle</name>
+	<version>2.1.0-SNAPSHOT</version>
 
-	<parent>
+<!-- 	<parent>
 		<artifactId>bridgedb-bundle</artifactId>
 		<groupId>org.bridgedb</groupId>
 		<version>2.1.0</version>
-	</parent>
+	</parent> -->
 
 	<properties>
 		<validator.version>1.0-SNAPSHOT</validator.version>
