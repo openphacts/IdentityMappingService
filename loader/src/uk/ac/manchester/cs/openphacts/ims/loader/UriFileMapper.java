@@ -5,7 +5,11 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +29,16 @@ public class UriFileMapper {
     }
     
     public static File toFile(String uri){
+        if (uri.startsWith("file:")){
+            URI asUri;
+            try {
+                asUri = new URI(uri);
+                 return new File(asUri);
+            } catch (URISyntaxException ex) {
+                //ok treat as uri
+            }
+           
+        }
         for (String key:pathToFile.keySet()){
             if (uri.startsWith(key)){
                 String path = pathToFile.get(key) + uri.substring(key.length());
