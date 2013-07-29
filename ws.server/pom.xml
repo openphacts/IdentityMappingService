@@ -71,7 +71,6 @@
         </pluginManagement>
      </build>
 	
->>>>>>> ian_local_changes
 	<dependencies>
 		<dependency>
 			<groupId>org.bridgedb</groupId>
