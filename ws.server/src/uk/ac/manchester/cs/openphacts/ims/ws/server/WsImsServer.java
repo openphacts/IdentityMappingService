@@ -292,7 +292,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
         return wsValidatorServer.validate(text, uri, rdfFormat, specification, includeWarning);
     }
     
-    @Produces({MediaType.TEXT_PLAIN, MediaType.TEXT_HTML})
+    /*@Produces({MediaType.TEXT_PLAIN, MediaType.TEXT_HTML})
     @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF)
     public String getMappingRDF() throws BridgeDBException {
         throw new BridgeDBException(WsUriConstants.ID + " parameter missing.");     
@@ -315,7 +315,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
         String rdf = getMappingRDF(idString);
         return Response.ok(rdf, MediaType.TEXT_HTML).build();
     }
-
+    */
 }
 
 
