@@ -80,8 +80,8 @@ class TransativeCreatorIMS extends TransativeCreator{
 
     @Override
     protected void writeHeader(RDFWriter writer) throws BridgeDBException, RDFHandlerException {
-        URI leftId = new URIImpl(leftInfo.getMappingSource());
-        URI rightId = new URIImpl(rightInfo.getMappingSource());
+        URI leftId = new URIImpl(leftInfo.getMappingName());
+        URI rightId = new URIImpl(rightInfo.getMappingName());
         String baseUri = TransativeConfig.getTransitiveBaseUri();
 
         URI newId = new URIImpl(baseUri + getid());

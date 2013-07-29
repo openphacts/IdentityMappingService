@@ -89,7 +89,7 @@ public class LoaderTest {
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));
         List<Statement> statements = reader.getStatementList(null, null,  null, context);
         assertThat(statements.size(), greaterThanOrEqualTo(3));
-        statements = reader.getStatementList(new URIImpl(mapping.getMappingSource()));
+        statements = reader.getStatementList(new URIImpl(mapping.getMappingName()));
         assertThat(statements.size(), greaterThanOrEqualTo(3));
     }
 
