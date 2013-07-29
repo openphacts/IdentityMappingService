@@ -79,7 +79,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
     }
                
     /**
-     * Welcome page for the Serivce.
+     * Welcome page for the Service.
      * 
      * Expected to be overridden by the QueryExpander
      * 
