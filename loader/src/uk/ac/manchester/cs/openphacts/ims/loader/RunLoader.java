@@ -9,16 +9,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.Reporter;
+import org.openrdf.model.Resource;
+import org.openrdf.model.impl.URIImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,6 +47,7 @@ public class RunLoader {
     private final Loader loader;
     private final RdfReader reader;
     private int originalCount = 0;
+    private HashSet<String> loaded = new HashSet<String>(); 
 
     public RunLoader(boolean clear) throws BridgeDBException, VoidValidatorException {
         reader = RdfFactoryIMS.getReader();
@@ -73,7 +78,8 @@ public class RunLoader {
         }
     }
 
-    private void loadLinkset(String uri) throws BridgeDBException, VoidValidatorException{
+    private void loadLinkset(String path, String link) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
+        String uri = path + link;
         Reporter.println("Loading linkset " + uri);
             originalCount++;
         //Validator validator = new ValidatorImpl();
@@ -82,20 +88,23 @@ public class RunLoader {
         File file = UriFileMapper.toFile(uri);
         if (file != null){
             Reporter.println("\tUsing File: " + file.getAbsolutePath());
-            loader.load(file);
+            Resource context = new URIImpl(uri);
+            loader.load(file, context);
         } else {
-            loader.load(uri, null);
+            loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
         }
     }
        
-    private void loadVoid(String uri) throws BridgeDBException, VoidValidatorException{
+    private void loadVoid(String path, String link) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
+        String uri = path + link;
         Reporter.println("Loading void " + uri);
+        loaded.add(uri);
         File file = UriFileMapper.toFile(uri);
         if (file != null){
             Reporter.println("\tUsing File: " + file.getAbsolutePath());
-            reader.loadFile(file);
+            reader.loadFile(file, uri);
         } else {
-            reader.loadURI(uri);
+            reader.loadURI(path + URLEncoder.encode(link, "UTF-8"));
         }
         reader.commit();
         reader.close();
@@ -103,6 +112,9 @@ public class RunLoader {
     
     public void loadDirectory(String address) throws BridgeDBException, MalformedURLException, IOException, VoidValidatorException {  
         //String address = "http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/";
+        if (!address.endsWith("/")){
+            address+="/";
+        }
         Reporter.println("Loading directory " + address);
         UrlReader urlReader = new UrlReader(address);
         InputStream stream = urlReader.getInputStream();
@@ -112,19 +124,26 @@ public class RunLoader {
         List headerLinks = Arrays.asList(headerLinksArray);
         String line;
         while ((line = reader.readLine()) != null) {
-            //System.out.println(line);
             String[] parts = line.split("<");
             for (String part:parts){
                 if (part.startsWith("a ")){
                     String link = part.substring(part.indexOf(">")+1);
-                    if (!headerLinks.contains(link)){
-                        if (link.equals("drosophila_melanogaster_core_71_546_ensembl_EPDLinkSets.ttl")){
-                            System.out.println("HACK skipping drosophila_melanogaster_core_71_546_ensembl_EPDLinkSets.ttl");
-                        } else if (link.equals("rattus_norvegicus_core_71_5_ensembl_MGI_transcript_nameLinkSets.ttl")){
-                            System.out.println("HACK skipping rattus_norvegicus_core_71_5_ensembl_MGI_transcript_nameLinkSets.ttl");
-                        } else {
-                            loadLinkset(address + URLEncoder.encode(link, "UTF-8"));
-                        }
+                    if (headerLinks.contains(link)){
+                        //skip
+                    } else if (link.endsWith("load.xml")){
+                        //skip
+                    } else if (link.endsWith("read.me")){
+                        //skip
+                    } else if (loaded.contains(address + link)){
+                        Reporter.println("Skipping " + link + " as already loaded ");
+                    } else if (link.endsWith(".sh")){
+                        Reporter.println("Skipping script " + link);
+                    } else if (link.endsWith("CRS/")){
+                        Reporter.println("SKIPPING CRS AS BROKEN");
+                    } else if (link.endsWith("/")){
+                        loadDirectory(address + link);
+                    } else {
+                        loadLinkset(address, link);
                     }
                 }
             }
@@ -142,8 +161,8 @@ public class RunLoader {
             Document doc;
             URL url;
             if (argv.length == 0){
-                //url = new URL("file:///c:/Dropbox/linksets/version1.3.alpha2/load.xml");
-                url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/load.xml");
+                url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/load.xml");
+                //url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/load.xml");
             } else {
                 url = new URL(argv[0]);
             }    
@@ -171,11 +190,11 @@ public class RunLoader {
                             runLoader = new RunLoader(false);
                         }
                         if (name.equals(LINKSET)){
-                            runLoader.loadLinkset(uri);
+                            runLoader.loadLinkset(uri,"");
                         } else if (name.equals(DIRECTORY)){
                             runLoader.loadDirectory(uri);
                         } else if (name.equals(VOID)){
-                            runLoader.loadVoid(uri);
+                            runLoader.loadVoid(uri,"");
                         } else if (name.equals(DO_TRANSITIVE)){
                             TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
                             transativeFinder.UpdateTransative();

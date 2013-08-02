@@ -107,6 +107,13 @@ public class Loader
         if (statement != null){
             return statement.getSubject();
         }
+        statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
+        if (statement != null){
+            throw new BridgeDBException("Found an void:inDataset to " + statement.getObject() +
+                    " but that did not lead to find a statement with either " + VoidConstants.LINK_PREDICATE + " or " 
+                    + DulConstants.EXPRESSES);
+        }
+        
         throw new BridgeDBException("Unable to find a statement with either " + VoidConstants.LINK_PREDICATE + " or " 
                 + DulConstants.EXPRESSES);
     }
@@ -124,21 +131,35 @@ public class Loader
     }
 
     public int load(File file) throws VoidValidatorException, BridgeDBException{
-        return load (file, null);
+        Resource context = new URIImpl(file.toURI().toString());
+        return load(file, context);
+    }
+    
+    public int load(File file, Resource context) throws VoidValidatorException, BridgeDBException{
+        return load (file, context, null);
     }
     
     public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        return load (file, rdfFormatName, null, null);
-    }
-    
-    public int load(File file, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
-            throws VoidValidatorException, BridgeDBException{
-        return load (file, null,  viaLabels, chainedLinkSets);
-    }
-    
-    public int load(File file, String rdfFormatName, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
-            throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(file.toURI().toString());
+        return load(file, context, rdfFormatName);
+    }
+    
+    public int load(File file, Resource context, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
+        return load (file, context, rdfFormatName, null, null);
+    }
+    
+    public int load(File file, Set<String> viaLabels, Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
+        Resource context = new URIImpl(file.toURI().toString());
+        return load(file, context, viaLabels, chainedLinkSets);
+    }
+
+    public int load(File file, Resource context, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
+            throws VoidValidatorException, BridgeDBException{
+        return load (file, context, null,  viaLabels, chainedLinkSets);
+    }
+    
+    public int load(File file, Resource context, String rdfFormatName, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
+            throws VoidValidatorException, BridgeDBException{
         PredicateFinderHandler finder = getPredicateFinderHandler(file, rdfFormatName);
         RdfParserIMS parser = getParser(context , finder, viaLabels, chainedLinkSets);
         parser.parse(file, rdfFormatName);
