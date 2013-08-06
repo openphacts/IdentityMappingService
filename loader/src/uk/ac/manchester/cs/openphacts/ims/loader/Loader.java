@@ -197,5 +197,9 @@ public class Loader
             throw new BridgeDBException("Found statement " + statement + " but object is not a URI.");
         }
     }
+
+    void recover() throws BridgeDBException {
+        uriListener.recover();
+    }
     
 }

@@ -41,6 +41,7 @@ public class RunLoader {
     private static final String CLEAR_ALL = "clearAll";
     private static final String DIRECTORY = "directory";
     private static final String LINKSET = "linkset";
+    private static final String RECOVER = "recover";
     private static final String VOID = "void";
     private static final String DO_TRANSITIVE = "doTransitive";      
     
@@ -110,6 +111,11 @@ public class RunLoader {
         reader.close();
     }
     
+    private void recover() throws BridgeDBException {
+        loader.recover();
+    }
+ 
+
     public void loadDirectory(String address) throws BridgeDBException, MalformedURLException, IOException, VoidValidatorException {  
         //String address = "http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/";
         if (!address.endsWith("/")){
@@ -189,7 +195,9 @@ public class RunLoader {
                         if (runLoader == null){
                             runLoader = new RunLoader(false);
                         }
-                        if (name.equals(LINKSET)){
+                        if (name.equals(RECOVER)){
+                            runLoader.recover();
+                        } else if (name.equals(LINKSET)){
                             runLoader.loadLinkset(uri,"");
                         } else if (name.equals(DIRECTORY)){
                             runLoader.loadDirectory(uri);
@@ -211,5 +219,5 @@ public class RunLoader {
         }
         System.out.println("Load " + runLoader.originalCount + " linksets plus their transdatives");
     }
- 
+
 }
