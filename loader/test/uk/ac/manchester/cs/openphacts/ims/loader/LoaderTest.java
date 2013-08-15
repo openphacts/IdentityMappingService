@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
+import org.bridgedb.uri.loader.transative.constant.ChemInf;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import static org.hamcrest.Matchers.*;
@@ -83,7 +84,7 @@ public class LoaderTest {
         File file  = new File("test-data/cw-cs.ttl");
         Resource context = new URIImpl(file.toURI().toString());
         String formatName = null;
-        int result = instance.load(file, formatName);
+        int result = instance.load(file, formatName, ChemInf.CHEMICAL_ENTITY, null);
         MappingSetInfo mapping = uriListener.getMappingSetInfo(result);
         int numberOfLinks = mapping.getNumberOfLinks();
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));

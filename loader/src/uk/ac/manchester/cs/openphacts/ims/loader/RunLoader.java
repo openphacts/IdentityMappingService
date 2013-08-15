@@ -79,10 +79,11 @@ public class RunLoader {
         }
     }
 
-    private void loadLinkset(String path, String link) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
+    private void loadLinkset(String path, String link, String sourceDataType, String targetDataType) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
         String uri = path + link;
         Reporter.println("Loading linkset " + uri);
-            originalCount++;
+        loaded.add(uri);
+        originalCount++;
         //Validator validator = new ValidatorImpl();
         //String result = validator.validateUri(uri, null, "opsVoid", Boolean.TRUE);
         //System.out.println(result);
@@ -90,9 +91,9 @@ public class RunLoader {
         if (file != null){
             Reporter.println("\tUsing File: " + file.getAbsolutePath());
             Resource context = new URIImpl(uri);
-            loader.load(file, context);
+            loader.load(file, context, sourceDataType, targetDataType);
         } else {
-            loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
+            loader.load((path + URLEncoder.encode(link, "UTF-8")), null, sourceDataType, targetDataType);
         }
     }
        
@@ -144,12 +145,14 @@ public class RunLoader {
                         Reporter.println("Skipping " + link + " as already loaded ");
                     } else if (link.endsWith(".sh")){
                         Reporter.println("Skipping script " + link);
-                    } else if (link.endsWith("CRS/")){
-                        Reporter.println("SKIPPING CRS AS BROKEN");
+                    } else if (link.endsWith(".pdf")){
+                        Reporter.println("Skipping pdf " + link);
+                    } else if (link.contains("RefSeq")){
+                        Reporter.println("SKIPPING RefSeq");
                     } else if (link.endsWith("/")){
                         loadDirectory(address + link);
                     } else {
-                        loadLinkset(address, link);
+                        loadLinkset(address, link, null, null);
                     }
                 }
             }
@@ -167,7 +170,7 @@ public class RunLoader {
             Document doc;
             URL url;
             if (argv.length == 0){
-                url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/load.xml");
+                url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/loadOther.xml");
                 //url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/load.xml");
             } else {
                 url = new URL(argv[0]);
@@ -198,7 +201,11 @@ public class RunLoader {
                         if (name.equals(RECOVER)){
                             runLoader.recover();
                         } else if (name.equals(LINKSET)){
-                            runLoader.loadLinkset(uri,"");
+                            Element element = (Element)nNode;
+                            String sourceDataType = element.getAttribute("sourceDataType");
+                            String targetDataType = element.getAttribute("targetDataType");
+                            System.out.println("sourceDataType=" + sourceDataType);
+                            runLoader.loadLinkset(uri, "", sourceDataType, targetDataType);
                         } else if (name.equals(DIRECTORY)){
                             runLoader.loadDirectory(uri);
                         } else if (name.equals(VOID)){

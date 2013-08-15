@@ -31,7 +31,7 @@ public class TestLoader {
         reader.loadFile(voidFile);
         Reporter.println("Loaded " + voidFile);
         File linkFile = new File("C:/Dropbox/linksets/Ops1_3_alpha2/homo_sapiens_core_71_37_ensembl_UniGeneLinkSets.ttl");
-        loader.load(linkFile);
+        loader.load(linkFile, null, null);
         Reporter.println("Loaded " + linkFile);
     }
 

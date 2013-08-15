@@ -42,6 +42,7 @@ public class TransativeTestBase  {
     static SQLUriMapper uriListener;
     static RdfReader reader;
     static Loader instance;
+    static String TEST_TYPE = "TEST_TYPE";
 
     @BeforeClass
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
@@ -59,7 +60,7 @@ public class TransativeTestBase  {
     
     protected void loadFile(File file) throws BridgeDBException, VoidValidatorException{
         Reporter.println("parsing " + file.getAbsolutePath());
-        int mappingSetId = instance.load(file);
+        int mappingSetId = instance.load(file, TEST_TYPE, TEST_TYPE);
         MappingSetInfo mapping = uriListener.getMappingSetInfo(mappingSetId);
         int numberOfLinks = mapping.getNumberOfLinks();
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));      

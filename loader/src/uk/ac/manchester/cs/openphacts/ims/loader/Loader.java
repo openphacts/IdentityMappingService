@@ -118,56 +118,60 @@ public class Loader
                 + DulConstants.EXPRESSES);
     }
     
-    public int load(String uri) throws VoidValidatorException, BridgeDBException{
-        return load(uri, null);
+    public int load(String uri, String sourceDataType, String targetDataType) throws VoidValidatorException, BridgeDBException{
+        return load(uri, null, sourceDataType, targetDataType);
     }
     
-    public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
+    public int load(String uri, String rdfFormatName, String sourceDataType, String targetDataType) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(uri);
         PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
-        RdfParserIMS parser = getParser(context, finder, null, null);
+        RdfParserIMS parser = getParser(context, finder, sourceDataType, targetDataType, null, null);
         parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
-    public int load(File file) throws VoidValidatorException, BridgeDBException{
+    public int load(File file, String sourceDataType, String targetDataType) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(file.toURI().toString());
-        return load(file, context);
+        return load(file, context, sourceDataType, targetDataType);
     }
     
-    public int load(File file, Resource context) throws VoidValidatorException, BridgeDBException{
-        return load (file, context, null);
+    public int load(File file, Resource context, String sourceDataType, String targetDataType ) 
+            throws VoidValidatorException, BridgeDBException{
+        return load (file, context, null, sourceDataType, targetDataType);
     }
     
-    public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
+    public int load(File file, String rdfFormatName, String sourceDataType, String targetDataType ) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(file.toURI().toString());
-        return load(file, context, rdfFormatName);
+        return load(file, context, rdfFormatName, sourceDataType, targetDataType);
     }
     
-    public int load(File file, Resource context, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        return load (file, context, rdfFormatName, null, null);
+    public int load(File file, Resource context, String rdfFormatName, String sourceDataType, String targetDataType) 
+            throws VoidValidatorException, BridgeDBException{
+        return load (file, context, rdfFormatName, sourceDataType, targetDataType, null, null);
     }
     
-    public int load(File file, Set<String> viaLabels, Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
+    public int load(File file, String sourceDataType, String targetDataType, Set<String> viaLabels, 
+            Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(file.toURI().toString());
-        return load(file, context, viaLabels, chainedLinkSets);
+        return load(file, context, sourceDataType, targetDataType, viaLabels, chainedLinkSets);
     }
 
-    public int load(File file, Resource context, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
+    public int load(File file, Resource context, String sourceDataType, String targetDataType, Set<String> viaLabels, 
+            Set<Integer> chainedLinkSets) 
             throws VoidValidatorException, BridgeDBException{
-        return load (file, context, null,  viaLabels, chainedLinkSets);
+        return load (file, context, null, sourceDataType, targetDataType,  viaLabels, chainedLinkSets);
     }
     
-    public int load(File file, Resource context, String rdfFormatName, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
-            throws VoidValidatorException, BridgeDBException{
+    public int load(File file, Resource context, String rdfFormatName, String sourceDataType, String targetDataType, 
+            Set<String> viaLabels, Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
         PredicateFinderHandler finder = getPredicateFinderHandler(file, rdfFormatName);
-        RdfParserIMS parser = getParser(context , finder, viaLabels, chainedLinkSets);
+        RdfParserIMS parser = getParser(context , finder, sourceDataType, targetDataType, viaLabels, chainedLinkSets);
         parser.parse(file, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
-    public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, Set<String> viaLabels, 
-           Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
+    public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, String sourceDataType, 
+            String targetDataType, Set<String> viaLabels, Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
@@ -182,8 +186,8 @@ public class Loader
             linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
             justification = getObject(finder, DulConstants.EXPRESSES).stringValue();    
         }
-        LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
-                linksetId.stringValue(), true, viaLabels, chainedLinkSets);
+        LinksetHandler linksetHandler = new LinksetHandler(uriListener, sourceDataType, linkPredicate, justification, 
+                targetDataType, linksetId.stringValue(), true, viaLabels, chainedLinkSets);
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         ImsRdfHandler combinedHandler = 
                 new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
