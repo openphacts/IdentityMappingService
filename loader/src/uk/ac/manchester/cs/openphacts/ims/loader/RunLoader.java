@@ -170,8 +170,8 @@ public class RunLoader {
             Document doc;
             URL url;
             if (argv.length == 0){
-                url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/loadOther.xml");
-                //url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha2/load.xml");
+                //url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/load.xml");
+                url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha4/load.xml");
             } else {
                 url = new URL(argv[0]);
             }    
