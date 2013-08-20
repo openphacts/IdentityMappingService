@@ -7,15 +7,64 @@ Validator https://github.com/openphacts/Validator
 
 Currently neither is available in a maven repository so please download and build these first.
 
+The IMS WebService includes all methods from both the BridgeDb WS (including URI calls) and the Validator WS.
+
+===
+Configuration:
+
 This project depends on configurations as described in BOTH:
 {$bridgeDB}README.txt which covers things like setting up MYSQL, DataSources, Transitive directories and Lens.
 {$validator}README.md which covers things like RDF setup, and if required external account setup.
 
-The IMS WebService includes all methods from both the BridgeDb WS (including URI calls) and the Validator WS.
+----
+local.properties
+-
+A single local.properties file is shared between BridgeDB, Validator, IMS and if applicable QueryExpander
 
-===
-Properties File Location:
-See: {$bridgeDB}README.txt Properties File Location:
+-
+Finding local copied of URIs being loaded.
+
+In addition to overwriting any value in any other properties file, local.properties can also be used to set URI pattern to file path mappings.
+
+The path to file properties map a uriPattern to a file path.
+So if there is a local copy of the data the file is used.
+For each URI that begins with a known pattern the URI String is changed replacing the uriPattern with the path.
+The new String is used to try to find a local copy of the URI.
+If a local copy is found, and is readable, this file is passed to the OpenRDF parser.
+No attempt will be made to see if the local file is the same as the one at the URI!
+
+If no local copy is found the URI will be copied to a temporary file which is removed after loading.
+The WS will always publish the URI and NOT the replacement file
+
+The property key is in 3 parts separated by a full stop.
+
+Part 1 is always "pathToFile". This allows these properties to be mixed with others in local.properties
+
+Part 2 Is used purely to map a uriPattern to a path: 
+    It can be any String legal in Java properties keys without a fullstop in it.
+
+Part 3 uriPattern
+    Beginning of a URI that is to be replaced with a path.
+    Does not need to go all the way to the last / as long as the local directories are Exactly the same as the URI directories
+    As the pattern (value of this property) is the key to a map they must all be UNIQUE! 
+        IE. You can not use the same pattern twice. But you can use one pattern that is a substring of another.
+        
+Part 3 path
+    The path to the local copies of the file.
+    This must be in the local file format.
+    If and only if the uriPattern ends with a slash the path must too.
+    Remember the loader must have the correct permission to read the file.
+    The Loader will NOT write to this path. (so write permissions not required)
+    
+example:
+pathToFile.ops.uriPattern    http://openphacts.cs.man.ac.uk/ims/linkset/
+pathToFile.ops.path          /OPS/linksets/
+
+While the uriPatterns must be unique. Alternatives can be given by shortening both the uriPattern and path
+For example: (works together with the previous example)
+pathToFile.opsMore.uriPattern    http://openphacts.cs.man.ac.uk/ims/linkset
+pathToFile.opsMore.path          /OPS_more/linksets
+
 
 ==
 Data loading:
