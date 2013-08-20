@@ -10,8 +10,12 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
+import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.valdator.utils.UrlReader;
 
 /**
  *
@@ -72,7 +76,7 @@ public class UriFileMapper {
         }
     }
     
-    public static File toFile(String uri){
+    public static File toFile(String uri) throws VoidValidatorException{
         if (uri.startsWith("file:")){
             URI asUri;
             try {
@@ -93,8 +97,7 @@ public class UriFileMapper {
                 System.out.println ("\t missing: " + file.getAbsolutePath());
             }
         }
-        System.out.println ("\t no path ");
-        return null;
+        return uriToTempFile(uri);
     }
 
     private static void addMapping(String uriPattern, String path) throws BridgeDBException {
@@ -105,5 +108,10 @@ public class UriFileMapper {
         } else {
             pathToFile.put(uriPattern, path);
         }
+    }
+
+    private static File uriToTempFile(String uri) throws VoidValidatorException {
+        UrlReader urlReader = new UrlReader(uri);
+        return urlReader.getTempTextFile();
     }
 }

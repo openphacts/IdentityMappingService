@@ -183,7 +183,7 @@ public class Loader
             justification = getObject(finder, DulConstants.EXPRESSES).stringValue();    
         }
         LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
-                linksetId.stringValue(), true, viaLabels, chainedLinkSets);
+                context.stringValue(), true, viaLabels, chainedLinkSets);
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         ImsRdfHandler combinedHandler = 
                 new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);

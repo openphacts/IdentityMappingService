@@ -87,13 +87,9 @@ public class RunLoader {
         //String result = validator.validateUri(uri, null, "opsVoid", Boolean.TRUE);
         //System.out.println(result);
         File file = UriFileMapper.toFile(uri);
-        if (file != null){
-            Reporter.println("\tUsing File: " + file.getAbsolutePath());
-            Resource context = new URIImpl(uri);
-            loader.load(file, context);
-        } else {
-            loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
-        }
+        Reporter.println("\tUsing File: " + file.getAbsolutePath());
+        Resource context = new URIImpl(uri);
+        loader.load(file, context);
     }
        
     private void loadVoid(String path, String link) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
@@ -101,12 +97,8 @@ public class RunLoader {
         Reporter.println("Loading void " + uri);
         loaded.add(uri);
         File file = UriFileMapper.toFile(uri);
-        if (file != null){
-            Reporter.println("\tUsing File: " + file.getAbsolutePath());
-            reader.loadFile(file, uri);
-        } else {
-            reader.loadURI(path + URLEncoder.encode(link, "UTF-8"));
-        }
+        Reporter.println("\tUsing File: " + file.getAbsolutePath());
+        reader.loadFile(file, uri);
         reader.commit();
         reader.close();
     }
@@ -167,7 +159,7 @@ public class RunLoader {
             Document doc;
             URL url;
             if (argv.length == 0){
-                //url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/load.xml");
+                //url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/loadtemp.xml");
                 url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha4/load.xml");
             } else {
                 url = new URL(argv[0]);
