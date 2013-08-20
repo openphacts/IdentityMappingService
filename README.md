@@ -113,6 +113,7 @@ This will have the following elements directly as children of the root (typciall
                Can only be a URI to a directory that returns a HTML page showing the files
                Limited implementation that works on the Manchester OPS server. Untested elsewhere
                Not expected to work with a file URI.
+               Therefor pathToFile settings are ignored when reading directories. But are used for the files in the directory.
                Will exclude files read earlier by a void or linkset command.
                Excludes some non RDF files but again only does required by OPS implemented.
 <doTransitive/> : Tells the loader to compute the transitive linksets
