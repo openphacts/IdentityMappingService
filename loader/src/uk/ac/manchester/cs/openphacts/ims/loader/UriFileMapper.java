@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
+import org.bridgedb.utils.Reporter;
 import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.valdator.utils.UrlReader;
 
@@ -76,7 +77,7 @@ public class UriFileMapper {
         }
     }
     
-    public static File toFile(String uri) throws VoidValidatorException{
+    public static File toFile(String uri) {
         if (uri.startsWith("file:")){
             URI asUri;
             try {
@@ -85,7 +86,6 @@ public class UriFileMapper {
             } catch (URISyntaxException ex) {
                 //ok treat as uri
             }
-           
         }
         for (String key:pathToFile.keySet()){
             if (uri.startsWith(key)){
@@ -110,8 +110,13 @@ public class UriFileMapper {
         }
     }
 
-    private static File uriToTempFile(String uri) throws VoidValidatorException {
-        UrlReader urlReader = new UrlReader(uri);
-        return urlReader.getTempTextFile();
+    private static File uriToTempFile(String uri) {
+        try {
+            UrlReader urlReader = new UrlReader(uri);
+            return urlReader.getTempTextFile();
+        } catch (VoidValidatorException ex) {
+            Reporter.println("Ignoring file creation error " + ex + " and returning null");
+            return null;
+        }
     }
 }

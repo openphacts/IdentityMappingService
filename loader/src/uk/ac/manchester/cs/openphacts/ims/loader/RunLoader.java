@@ -86,19 +86,27 @@ public class RunLoader {
         //Validator validator = new ValidatorImpl();
         //String result = validator.validateUri(uri, null, "opsVoid", Boolean.TRUE);
         //System.out.println(result);
-        File file = UriFileMapper.toFile(uri);
-        Reporter.println("\tUsing File: " + file.getAbsolutePath());
-        Resource context = new URIImpl(uri);
-        loader.load(file, context);
+        File file = UriFileMapper.toFile(path + URLEncoder.encode(link, "UTF-8"));
+        if (file != null){
+            Reporter.println("\tUsing File: " + file.getAbsolutePath());
+            Resource context = new URIImpl(uri);
+            loader.load(file, context);
+        } else {
+            loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
+        }
     }
        
     private void loadVoid(String path, String link) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
         String uri = path + link;
         Reporter.println("Loading void " + uri);
         loaded.add(uri);
-        File file = UriFileMapper.toFile(uri);
-        Reporter.println("\tUsing File: " + file.getAbsolutePath());
-        reader.loadFile(file, uri);
+        File file = UriFileMapper.toFile(path + URLEncoder.encode(link, "UTF-8"));
+        if (file != null){
+            Reporter.println("\tUsing File: " + file.getAbsolutePath());
+            reader.loadFile(file, uri);
+        } else {
+            reader.loadURI(path + URLEncoder.encode(link, "UTF-8"));
+        }
         reader.commit();
         reader.close();
     }
