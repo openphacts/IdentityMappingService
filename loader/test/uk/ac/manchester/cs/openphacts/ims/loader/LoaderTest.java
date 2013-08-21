@@ -22,6 +22,7 @@ package uk.ac.manchester.cs.openphacts.ims.loader;
 import java.io.File;
 import java.util.List;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.sql.TestSqlFactory;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
@@ -57,6 +58,7 @@ public class LoaderTest {
     @BeforeClass
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
         ConfigReader.useTest();
+        TestSqlFactory.checkSQLAccess();
         instance = new Loader();
         uriListener = SQLUriMapper.createNew();
         reader = RdfFactory.getTestFilebase();

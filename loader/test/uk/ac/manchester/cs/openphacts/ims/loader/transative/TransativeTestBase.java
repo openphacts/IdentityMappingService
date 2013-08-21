@@ -21,6 +21,7 @@ package uk.ac.manchester.cs.openphacts.ims.loader.transative;
 
 import java.io.File;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.sql.TestSqlFactory;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
@@ -46,8 +47,8 @@ public class TransativeTestBase  {
     @BeforeClass
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
         ConfigReader.useTest();
+        TestSqlFactory.checkSQLAccess();
         instance = new Loader();
-        ConfigReader.useTest();
         uriListener = SQLUriMapper.createNew();
         reader = RdfFactory.getTestFilebase();
     }
