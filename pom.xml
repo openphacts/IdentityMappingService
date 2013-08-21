@@ -6,15 +6,11 @@
 	<artifactId>ims-bundle</artifactId>
 	<packaging>pom</packaging>
 	<name>OpenPhacts IMS bundle</name>
-    <parent>
-		<artifactId>bridgedb-bundle</artifactId>
-		<groupId>org.bridgedb</groupId>
-		<version>2.1.0-SNAPSHOT</version>
-	</parent>
+    <version>2.1.0-SNAPSHOT</version>
     
 	<properties>
 		<validator.version>1.0-SNAPSHOT</validator.version>
-<!--        <cxf.version>2.4.3</cxf.version>
+        <cxf.version>2.4.3</cxf.version>
         <hamcrest.version>1.2</hamcrest.version>
         <jersey.version>1.10</jersey.version>
         <mysql.version>5.1.20</mysql.version>
@@ -23,8 +19,7 @@
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
         <owlapi-api.version>3.4</owlapi-api.version>
         <slf4j.version>1.6.4</slf4j.version>
-        <log4j.version>1.2.16</log4j.version> 
--->        
+        <log4j.version>1.2.16</log4j.version>    
 	</properties>
 
 	<modules>
