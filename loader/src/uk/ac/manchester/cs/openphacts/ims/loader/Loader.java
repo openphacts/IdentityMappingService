@@ -62,10 +62,10 @@ public class Loader
         return finder;
     }
     
-    private PredicateFinderHandler getPredicateFinderHandler(File file, String rdfFormatName) throws BridgeDBException{
+    private PredicateFinderHandler getPredicateFinderHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
         PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
-        parser.parse(file, rdfFormatName);
+        parser.parse(baseURI, file, rdfFormatName);
         return finder;
     }
 
@@ -160,9 +160,9 @@ public class Loader
     
     public int load(File file, Resource context, String rdfFormatName, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
             throws VoidValidatorException, BridgeDBException{
-        PredicateFinderHandler finder = getPredicateFinderHandler(file, rdfFormatName);
+        PredicateFinderHandler finder = getPredicateFinderHandler(context.stringValue(), file, rdfFormatName);
         RdfParserIMS parser = getParser(context , finder, viaLabels, chainedLinkSets);
-        parser.parse(file, rdfFormatName);
+        parser.parse(context.stringValue(), file, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
