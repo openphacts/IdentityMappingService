@@ -7,13 +7,16 @@ Validator https://github.com/openphacts/Validator
 
 Currently neither is available in a maven repository so please download and build these first.
 
+Please see the {$bridgeDB}README.md for documentation including the property files it refers to.
+Note: The Transitive section of config.txt is required by the IMS
+
 The IMS WebService includes all methods from both the BridgeDb WS (including URI calls) and the Validator WS.
 
 ===
 Configuration:
 
 This project depends on configurations as described in BOTH:
-{$bridgeDB}README.txt which covers things like setting up MYSQL, DataSources, Transitive directories and Lens.
+{$bridgeDB}README.md which covers things like setting up MYSQL, DataSources, Transitive directories and Lens.
 {$validator}README.md which covers things like RDF setup, and if required external account setup.
 
 ----
@@ -70,9 +73,9 @@ pathToFile.opsMore.path          /OPS_more/linksets
 Data loading:
 
 New to OpenPhacts 1.2: Data loading is done from URIs so no need to have local copies of the files.
-Transative linksets are however saved to and loaded from local files.
-
 New to OpenPhacts 1.3: Data loading instructions is instructions come from a xml file.
+
+Transitive linksets are however saved to and loaded from local files.
 
 To Load run loader-*.one-jar (using java -jar)
 Found in the loader module.
