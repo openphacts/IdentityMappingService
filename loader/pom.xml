@@ -38,7 +38,7 @@
 			<scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>uk.ac.manchester.cs.void.validator</groupId>
+            <groupId>uk.ac.manchester.cs.datadesc.validator</groupId>
 			<artifactId>metadata</artifactId>
 			<version>${validator.version}</version>
 			<scope>compile</scope>
