@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.manchester.cs.openphacts</groupId>
 	<artifactId>ws.server</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>OpenPhacts IMS Webserver Server</name>
     <parent>
         <groupId>uk.ac.manchester.cs.openphacts</groupId>
