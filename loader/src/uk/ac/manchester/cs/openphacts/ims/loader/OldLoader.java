@@ -29,8 +29,8 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  * @author Christian

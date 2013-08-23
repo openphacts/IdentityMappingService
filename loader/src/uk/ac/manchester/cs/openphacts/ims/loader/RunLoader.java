@@ -28,9 +28,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.valdator.utils.UrlReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
 
 /**
  *

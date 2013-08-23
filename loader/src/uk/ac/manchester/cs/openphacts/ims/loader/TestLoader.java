@@ -13,8 +13,8 @@ import org.bridgedb.uri.loader.transative.TransativeFinder;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *

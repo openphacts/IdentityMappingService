@@ -30,9 +30,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfFactory;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *

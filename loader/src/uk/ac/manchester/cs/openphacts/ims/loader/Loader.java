@@ -36,11 +36,11 @@ import org.openrdf.model.impl.URIImpl;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
-import uk.ac.manchester.cs.openphacts.valdator.constants.VoidConstants;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.validator.Validator;
-import uk.ac.manchester.cs.openphacts.validator.ValidatorImpl;
+import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.Validator;
+import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
 
 public class Loader 
 {

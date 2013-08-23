@@ -19,39 +19,32 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.ws.server;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
-import org.bridgedb.uri.Mapping;
 import org.bridgedb.utils.BridgeDBException;
-import org.bridgedb.ws.WsUriConstants;
 import org.bridgedb.ws.uri.WSUriServer;
-import uk.ac.manchester.cs.openphacts.valdator.bean.StatementBean;
-import uk.ac.manchester.cs.openphacts.valdator.bean.URIBean;
-import uk.ac.manchester.cs.openphacts.valdator.metadata.MetaDataSpecification;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.ExampleConstants;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfFactory;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfInterface;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.valdator.server.FrameInterface;
-import uk.ac.manchester.cs.openphacts.valdator.server.HtmlWSInterface;
-import uk.ac.manchester.cs.openphacts.valdator.server.WsValidatorServer;
-import uk.ac.manchester.cs.openphacts.valdator.ws.WsValidationConstants;
-import uk.ac.manchester.cs.openphacts.validator.Validator;
-import uk.ac.manchester.cs.openphacts.validator.ValidatorExampleConstants;
-import uk.ac.manchester.cs.openphacts.validator.ValidatorImpl;
+import uk.ac.manchester.cs.datadesc.validator.Validator;
+import uk.ac.manchester.cs.datadesc.validator.ValidatorExampleConstants;
+import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
+import uk.ac.manchester.cs.datadesc.validator.bean.StatementBean;
+import uk.ac.manchester.cs.datadesc.validator.bean.URIBean;
+import uk.ac.manchester.cs.datadesc.validator.metadata.MetaDataSpecification;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfFactory;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.server.FrameInterface;
+import uk.ac.manchester.cs.datadesc.validator.server.HtmlWSInterface;
+import uk.ac.manchester.cs.datadesc.validator.server.WsValidatorServer;
+import uk.ac.manchester.cs.datadesc.validator.ws.WsValidationConstants;
 
 /**
  *

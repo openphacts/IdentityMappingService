@@ -27,7 +27,7 @@ import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.uri.loader.transative.TransativeFinder;
 import org.bridgedb.utils.BridgeDBException;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *

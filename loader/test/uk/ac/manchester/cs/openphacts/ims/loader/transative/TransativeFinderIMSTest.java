@@ -35,7 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.OpenRDFException;
 import org.openrdf.rio.RDFHandlerException;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *

@@ -23,8 +23,8 @@ import java.io.InputStream;
 import org.bridgedb.uri.loader.RdfParser;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.rio.RDFHandler;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.valdator.utils.UrlReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
 
 /**
  *

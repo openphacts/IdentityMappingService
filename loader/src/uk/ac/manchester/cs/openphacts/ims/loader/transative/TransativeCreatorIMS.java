@@ -45,10 +45,10 @@ import org.openrdf.rio.RDFWriter;
 import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
 import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
-import uk.ac.manchester.cs.openphacts.valdator.constants.RdfConstants;
-import uk.ac.manchester.cs.openphacts.valdator.constants.VoidConstants;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.valdator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.datadesc.validator.constants.RdfConstants;
+import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *
