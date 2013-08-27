@@ -173,17 +173,16 @@ public class Loader
         URI linkPredicate;
         String justification;    
         if (statement != null){
-            linksetId  = statement.getSubject();
-            Resource inDataSetLinkset = getObject(statement);
-            linkPredicate = getObject(inDataSetLinkset, VoidConstants.LINK_PREDICATE);
-            justification = getObject(inDataSetLinkset, DulConstants.EXPRESSES).stringValue();                
+            linksetId  = getObject(statement);
+            linkPredicate = getObject(linksetId, VoidConstants.LINK_PREDICATE);
+            justification = getObject(linksetId, DulConstants.EXPRESSES).stringValue();                
         } else {
             linksetId = getLinksetId(finder);
             linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
             justification = getObject(finder, DulConstants.EXPRESSES).stringValue();    
         }
         LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
-                context.stringValue(), true, viaLabels, chainedLinkSets);
+                linksetId, context, true, viaLabels, chainedLinkSets);
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         ImsRdfHandler combinedHandler = 
                 new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);

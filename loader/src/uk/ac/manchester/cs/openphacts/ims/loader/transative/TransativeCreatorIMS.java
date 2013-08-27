@@ -42,13 +42,13 @@ import org.openrdf.model.impl.StatementImpl;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
-import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
-import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
-import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.datadesc.validator.constants.RdfConstants;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
+import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
+import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 
 /**
  *
@@ -80,8 +80,8 @@ class TransativeCreatorIMS extends TransativeCreator{
 
     @Override
     protected void writeHeader(RDFWriter writer) throws BridgeDBException, RDFHandlerException {
-        URI leftId = new URIImpl(leftInfo.getMappingName());
-        URI rightId = new URIImpl(rightInfo.getMappingName());
+        URI leftId = new URIImpl(leftInfo.getMappingResource());
+        URI rightId = new URIImpl(rightInfo.getMappingResource());
         String baseUri = TransativeConfig.getTransitiveBaseUri();
 
         URI newId = new URIImpl(baseUri + getid());
