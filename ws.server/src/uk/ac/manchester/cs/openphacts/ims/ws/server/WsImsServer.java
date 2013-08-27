@@ -41,7 +41,7 @@ import uk.ac.manchester.cs.datadesc.validator.metadata.MetaDataSpecification;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.server.FrameInterface;
-import uk.ac.manchester.cs.datadesc.validator.server.HtmlWSInterface;
+import uk.ac.manchester.cs.datadesc.validator.server.ValidatorWSInterface;
 import uk.ac.manchester.cs.datadesc.validator.server.WsValidatorServer;
 import uk.ac.manchester.cs.datadesc.validator.ws.WsValidationConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
@@ -50,7 +50,7 @@ import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
  *
  * @author Christian
  */
-public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSInterface{
+public class WsImsServer extends WSUriServer implements FrameInterface, ValidatorWSInterface{
     
     private final WsValidatorServer wsValidatorServer;
 
