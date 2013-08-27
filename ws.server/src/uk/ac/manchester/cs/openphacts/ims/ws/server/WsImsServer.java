@@ -38,13 +38,13 @@ import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
 import uk.ac.manchester.cs.datadesc.validator.bean.StatementBean;
 import uk.ac.manchester.cs.datadesc.validator.bean.URIBean;
 import uk.ac.manchester.cs.datadesc.validator.metadata.MetaDataSpecification;
-import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.server.FrameInterface;
 import uk.ac.manchester.cs.datadesc.validator.server.HtmlWSInterface;
 import uk.ac.manchester.cs.datadesc.validator.server.WsValidatorServer;
 import uk.ac.manchester.cs.datadesc.validator.ws.WsValidationConstants;
+import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 
 /**
  *
@@ -60,7 +60,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, HtmlWSIn
         super();
         wsValidatorServer = new WsValidatorServer();
         try {
-            RdfInterface rdfInterface = RdfFactory.getValidatorFilebase();
+            RdfInterface rdfInterface = (RdfInterface) RdfFactoryIMS.getReader();
             Validator validator = new ValidatorImpl(rdfInterface);
             wsValidatorServer.setUp(rdfInterface, validator, this);
             MetaDataSpecification.LoadSpecification(ValidatorExampleConstants.SIMPLE_FILE, 

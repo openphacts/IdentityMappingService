@@ -18,10 +18,15 @@ public class RdfFactoryIMS {
 
     public static RdfReader getReader() throws BridgeDBException {
         try {
+            RdfFactory.setStandAloneValidator(false);
+        } catch (VoidValidatorException ex) {
+            throw new BridgeDBException ("Unexpceted call to RdfFactory before this call." + ex);
+        }
+        try {
             if (ConfigReader.inTestMode()){
                 return RdfFactory.getTestFilebase();
             } else {
-                return RdfFactory.getImsFilebase();
+                return RdfFactory.getFilebase();
             }
         } catch (VoidValidatorException ex) {
             throw new BridgeDBException("Unable to get RDFReader.", ex);
