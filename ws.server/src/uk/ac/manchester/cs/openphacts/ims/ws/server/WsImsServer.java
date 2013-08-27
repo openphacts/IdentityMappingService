@@ -30,6 +30,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
+import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.ws.uri.WSUriServer;
 import uk.ac.manchester.cs.datadesc.validator.Validator;
@@ -180,6 +181,14 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
         + "    ops:hasWebsite <http://bbc.co.uk>.\n";
     }    
 */    
+    
+    @Override
+    protected void addMappingTable(StringBuilder sb, List<MappingSetInfo> mappingSetInfos, HttpServletRequest httpServletRequest) 
+            throws BridgeDBException{
+        IMSMappingSetTableMaker maker = new IMSMappingSetTableMaker(mappingSetInfos, httpServletRequest);
+        maker.tableMaker(sb);
+    }
+    
     @Override
     @GET
     @Produces(MediaType.TEXT_HTML)
