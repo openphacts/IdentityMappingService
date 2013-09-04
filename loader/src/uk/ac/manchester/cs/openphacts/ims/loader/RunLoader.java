@@ -172,6 +172,7 @@ public class RunLoader {
             } else {
                 url = new URL(argv[0]);
             }    
+            System.out.println("loading based on " + url);
             InputStream stream = url.openStream();
             doc = dBuilder.parse(stream);
             Element root = doc.getDocumentElement();
