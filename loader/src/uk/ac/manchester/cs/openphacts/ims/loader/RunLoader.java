@@ -23,6 +23,7 @@ import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.Reporter;
 import org.openrdf.model.Resource;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.rio.RDFHandlerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -155,6 +156,15 @@ public class RunLoader {
             }
         }
         reader.close();
+    }
+       
+    public static void mainR(String argv[]) throws BridgeDBException, VoidValidatorException, RDFHandlerException, IOException {   
+        UriFileMapper.init();
+        System.out.println("init done");
+        RunLoader runLoader = new RunLoader(false);
+        runLoader.recover();
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
+        transativeFinder.UpdateTransative();
     }
        
     public static void main(String argv[]) throws BridgeDBException {   
