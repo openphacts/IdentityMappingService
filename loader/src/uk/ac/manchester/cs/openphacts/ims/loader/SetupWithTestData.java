@@ -5,12 +5,15 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.bridgedb.uri.loader.transative.TransativeFinder;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
+import org.openrdf.rio.RDFHandlerException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *
@@ -18,7 +21,7 @@ import org.bridgedb.utils.ConfigReader;
  */
 public class SetupWithTestData {
     
-    public static void main(String[] args) throws BridgeDBException  {
+    public static void main(String[] args) throws BridgeDBException, VoidValidatorException, RDFHandlerException, IOException  {
         LogManager.getLogger(TransativeFinder.class).setLevel(Level.DEBUG);
         ConfigReader.logToConsole();
         File file = new File("test-data/load.xml");

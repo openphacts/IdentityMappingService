@@ -23,6 +23,7 @@ import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.Reporter;
 import org.openrdf.model.Resource;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.rio.RDFHandlerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -157,6 +158,15 @@ public class RunLoader {
         reader.close();
     }
        
+    public static void mainR(String argv[]) throws BridgeDBException, VoidValidatorException, RDFHandlerException, IOException {   
+        UriFileMapper.init();
+        System.out.println("init done");
+        RunLoader runLoader = new RunLoader(false);
+        runLoader.recover();
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
+        transativeFinder.UpdateTransative();
+    }
+       
     public static void main(String argv[]) throws BridgeDBException {   
         UriFileMapper.init();
         System.out.println("init done");
@@ -168,10 +178,11 @@ public class RunLoader {
             URL url;
             if (argv.length == 0){
                 //url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/loadtemp.xml");
-                url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha4/load.xml");
+                url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha5/load.xml");
             } else {
                 url = new URL(argv[0]);
             }    
+            System.out.println("loading based on " + url);
             InputStream stream = url.openStream();
             doc = dBuilder.parse(stream);
             Element root = doc.getDocumentElement();

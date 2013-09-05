@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <loadSteps>
     <clearAll/>
+    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cs.ttl</linkset>
     <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-cm.ttl</linkset>
     <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cm.ttl</linkset>
     <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-ct.ttl</linkset>
