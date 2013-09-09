@@ -48,8 +48,8 @@ public class TransativeTestBase  {
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
         ConfigReader.useTest();
         TestSqlFactory.checkSQLAccess();
-        instance = new Loader();
         uriListener = SQLUriMapper.createNew();
+        instance = new Loader();
         reader = RdfFactory.getTestFilebase();
     }
     
