@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
+import org.openrdf.model.impl.URIImpl;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
 
@@ -30,7 +31,9 @@ public class UriFileMapper {
     private static final String URI_PATTERN = "uriPattern";
     private static final String PATH = "path";
     
-    public static void init() throws BridgeDBException{
+    static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UriFileMapper.class);
+    
+    public static synchronized void init() throws BridgeDBException{
         if (pathToFile != null){
             return;
         }
@@ -76,8 +79,28 @@ public class UriFileMapper {
                     + "but no matching "+ PATH_TO_FILE_PREFIX + "." + part1 + "." + PATH + "propery");
         }
     }
+
+    public static org.openrdf.model.URI getUri(File file) throws BridgeDBException{
+        init();
+        String path = file.getAbsolutePath();
+        System.out.println(path);
+        for (String value:pathToFile.values()){
+            System.out.println("\t" + value);
+            if (path.startsWith(value)){
+                String uriPrefix = getkey(value);
+                String uri = uriPrefix + path.substring(value.length());
+                try {
+                    return new URIImpl(uri); 
+                } catch (Exception ex) {
+                    logger.error("Unable to convert file " + path + " to uri " + uri);
+                }
+            }
+        }
+        return new URIImpl(file.toURI().toString());
+    }
     
-    public static File toFile(String uri) {
+    public static File toFile(String uri) throws BridgeDBException {
+        init();
         if (uri.startsWith("file:")){
             URI asUri;
             try {
@@ -87,7 +110,7 @@ public class UriFileMapper {
                 //ok treat as uri
             }
         }
-        for (String key:pathToFile.keySet()){
+         for (String key:pathToFile.keySet()){
             if (uri.startsWith(key)){
                 String path = pathToFile.get(key) + uri.substring(key.length());
                 File file = new File(path);
@@ -100,15 +123,18 @@ public class UriFileMapper {
         return uriToTempFile(uri);
     }
 
-    private static void addMapping(String uriPattern, String path) throws BridgeDBException {
+    public static void addMapping(String uriPattern, String path) throws BridgeDBException {
+        init();
         if (pathToFile.containsKey(uriPattern)){
             if (!pathToFile.get(uriPattern).equals(path)){
-                throw new BridgeDBException("Illegal attempt to map to paths to " + uriPattern);
+                throw new BridgeDBException("Illegal attempt to map " + path + " to " + uriPattern 
+                        + " another path already mapped to this uri");
             }
         } else {
             pathToFile.put(uriPattern, path);
         }
-    }
+        System.out.println(pathToFile);
+     }
 
     private static File uriToTempFile(String uri) {
         try {
@@ -118,5 +144,14 @@ public class UriFileMapper {
             Reporter.println("Ignoring file creation error " + ex + " and returning null");
             return null;
         }
+    }
+
+    private static String getkey(String value) throws BridgeDBException {
+         for (String key:pathToFile.keySet()){
+             if (pathToFile.get(key).equals(value)){
+                 return key;
+             }
+         }
+         throw new BridgeDBException("Unable to find key for " + value);
     }
 }

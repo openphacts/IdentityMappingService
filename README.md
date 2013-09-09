@@ -55,6 +55,8 @@ Part 3 uriPattern
 Part 3 path
     The path to the local copies of the file.
     This must be in the local file format.
+    Remember to put the slashes in the direction used by the local system.
+         \ for windows   \ for linux
     If and only if the uriPattern ends with a slash the path must too.
     Remember the loader must have the correct permission to read the file.
     The Loader will NOT write to this path. (so write permissions not required)
@@ -68,6 +70,7 @@ For example: (works together with the previous example)
 pathToFile.opsMore.uriPattern    http://openphacts.cs.man.ac.uk/ims/linkset
 pathToFile.opsMore.path          /OPS_more/linksets
 
+Note: The system will automatically create a mapping between TransitiveDirectory and TransitiveBaseUri (see BridgeDB properties)
 
 ==
 Data loading:

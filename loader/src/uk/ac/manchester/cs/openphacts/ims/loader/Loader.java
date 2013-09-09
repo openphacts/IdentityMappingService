@@ -131,7 +131,7 @@ public class Loader
     }
 
     public int load(File file) throws VoidValidatorException, BridgeDBException{
-        Resource context = new URIImpl(file.toURI().toString());
+        Resource context = UriFileMapper.getUri(file);
         return load(file, context);
     }
     
@@ -140,7 +140,7 @@ public class Loader
     }
     
     public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        Resource context = new URIImpl(file.toURI().toString());
+        Resource context = UriFileMapper.getUri(file);
         return load(file, context, rdfFormatName);
     }
     
@@ -148,11 +148,6 @@ public class Loader
         return load (file, context, rdfFormatName, null, null);
     }
     
-    public int load(File file, Set<String> viaLabels, Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
-        Resource context = new URIImpl(file.toURI().toString());
-        return load(file, context, viaLabels, chainedLinkSets);
-    }
-
     public int load(File file, Resource context, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
             throws VoidValidatorException, BridgeDBException{
         return load (file, context, null,  viaLabels, chainedLinkSets);

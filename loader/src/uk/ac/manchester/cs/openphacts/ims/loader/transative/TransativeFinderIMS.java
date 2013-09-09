@@ -24,10 +24,13 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import org.bridgedb.statistics.MappingSetInfo;
+import org.bridgedb.uri.loader.transative.TransativeConfig;
 import org.bridgedb.uri.loader.transative.TransativeFinder;
 import org.bridgedb.utils.BridgeDBException;
+import org.openrdf.model.Resource;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.loader.UriFileMapper;
 
 /**
  *
@@ -36,7 +39,16 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 public class TransativeFinderIMS extends TransativeFinder{
     
     public TransativeFinderIMS() throws BridgeDBException{
-        super();      
+        super();   
+        File file = TransativeConfig.getTransativeDirectory();
+        String baseUri = TransativeConfig.getTransitiveBaseUri();
+        String path = file.getAbsolutePath();
+        if (baseUri.endsWith("\\")){
+            baseUri = baseUri.substring(0, baseUri.length()-1);
+        } else if (baseUri.endsWith("/")){
+            baseUri = baseUri.substring(0, baseUri.length()-1);
+        }
+        UriFileMapper.addMapping(baseUri, path);
     }
     
     @Override
@@ -50,7 +62,7 @@ public class TransativeFinderIMS extends TransativeFinder{
         Loader loader = new Loader();
         File file = new File(absolutePath);
         try {
-            return loader.load(file, viaLabels, chainIds);
+            return loader.load(file, UriFileMapper.getUri(file), viaLabels, chainIds);
         } catch (VoidValidatorException ex) {
             throw new BridgeDBException ("Error loading transative file", ex);
         }
