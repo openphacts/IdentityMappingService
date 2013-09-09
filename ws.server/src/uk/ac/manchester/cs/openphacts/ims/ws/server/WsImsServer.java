@@ -210,6 +210,14 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
     }
 
     @GET
+    @Produces({MediaType.TEXT_PLAIN})
+    @Path(WsValidationConstants.RDF_DUMP)
+    @Override
+    public String getRdfDump() throws VoidValidatorException {
+        return wsValidatorServer.getRdfDump();
+    }
+
+    @GET
     @Produces(MediaType.TEXT_HTML)
     @Path(WsValidationConstants.BY_RESOURCE)
     @Override
@@ -318,6 +326,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
         return Response.ok(rdf, MediaType.TEXT_HTML).build();
     }
     */
+
 }
 
 
