@@ -4,7 +4,11 @@
  */
 package uk.ac.manchester.cs.openphacts.ims.ws.server;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.utils.BridgeDBException;
@@ -18,6 +22,8 @@ import uk.ac.manchester.cs.datadesc.validator.ws.WsValidationConstants;
  */
 public class IMSMappingSetTableMaker extends MappingSetTableMaker {
     
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(IMSMappingSetTableMaker.class);
+   
     public IMSMappingSetTableMaker(List<MappingSetInfo> mappingSetInfos, HttpServletRequest httpServletRequest){
         super(mappingSetInfos, httpServletRequest);
     }
@@ -35,7 +41,12 @@ public class IMSMappingSetTableMaker extends MappingSetTableMaker {
             sb.append("?");
             sb.append(WsValidationConstants.RESOURCE);        
             sb.append("=");
-            sb.append(resource);
+            try {
+                sb.append(URLEncoder.encode(resource, "UTF-8"));
+            } catch (UnsupportedEncodingException ex) {
+                logger.error(ex);
+                sb.append(resource);
+            }
             sb.append("\">");
             URIImpl impl = new URIImpl(resource); 
             sb.append(impl.getLocalName());

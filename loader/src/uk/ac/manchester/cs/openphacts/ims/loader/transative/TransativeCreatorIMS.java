@@ -26,6 +26,7 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
@@ -91,6 +92,7 @@ class TransativeCreatorIMS extends TransativeCreator{
         Value titleValue = new LiteralImpl(title);
         writer.handleStatement(new StatementImpl(newId, DctermsConstants.TITLE, titleValue));
            
+        String descriptiom = "Transative linkset from " + leftInfo.getMappingResource() + " to " + rightInfo.getMappingResource();
         writer.handleStatement(new StatementImpl(newId, DctermsConstants.DESCRIPTION, titleValue));
 
         Value subject = getPossibleObject(leftId, VoidConstants.SUBJECTSTARGET);
@@ -112,6 +114,18 @@ class TransativeCreatorIMS extends TransativeCreator{
             throw new BridgeDBException ("Error getting statements for " + DctermsConstants.LICENSE, ex);
         }
             
+        try {
+            List<Statement> vaiStatements = reader.getStatementList(leftId, BridgeDBConstants.VIA_URI, ANY_OBJECT);
+            vaiStatements.addAll(reader.getStatementList(rightId, BridgeDBConstants.VIA_URI, ANY_OBJECT));
+            for (Statement liscenceStatement:vaiStatements){
+                writer.handleStatement(new StatementImpl(newId, BridgeDBConstants.VIA_URI, liscenceStatement.getObject()));
+            }
+        } catch (VoidValidatorException ex) {
+            throw new BridgeDBException ("Error getting statements for " + DctermsConstants.LICENSE, ex);
+        }
+        writer.handleStatement(new StatementImpl(newId, BridgeDBConstants.VIA_URI, leftId));
+        writer.handleStatement(new StatementImpl(newId, BridgeDBConstants.VIA_URI, rightId));
+
         writer.handleStatement(new StatementImpl(newId, VoidConstants.LINK_PREDICATE, this.predicate));
 
         writer.handleStatement(new StatementImpl(newId, DulConstants.EXPRESSES, new URIImpl(this.justification)));

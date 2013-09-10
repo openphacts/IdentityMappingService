@@ -121,7 +121,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
     @Override
     public void addSideBarMiddle(StringBuilder sb, HttpServletRequest httpServletRequest) {
         super.addSideBarMiddle(sb, httpServletRequest);
-        addValidatorSideBar(sb, httpServletRequest);
+        wsValidatorServer.addValidatorSideBar(sb, httpServletRequest);
     }
    
     protected void addValidatorSideBar(StringBuilder sb, HttpServletRequest httpServletRequest) {
