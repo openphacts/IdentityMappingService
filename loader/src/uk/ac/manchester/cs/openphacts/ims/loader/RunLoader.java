@@ -175,15 +175,15 @@ public class RunLoader {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc;
-            URL url;
+            UrlReader urlReader;
             if (argv.length == 0){
                 //url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/loadtemp.xml");
-                url = new URL("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3.alpha5/load.xml");
-            } else {
-                url = new URL(argv[0]);
+                urlReader = new UrlReader("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.alpha7/load.xml");
+           } else {
+                urlReader = new UrlReader(argv[0]);
             }    
-            System.out.println("loading based on " + url);
-            InputStream stream = url.openStream();
+            System.out.println("loading based on " + urlReader.toString());
+            InputStream stream = urlReader.getInputStream();
             doc = dBuilder.parse(stream);
             Element root = doc.getDocumentElement();
             clean(root);
