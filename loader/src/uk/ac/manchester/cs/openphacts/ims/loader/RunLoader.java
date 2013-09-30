@@ -28,10 +28,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
+import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 
 /**
  *
@@ -145,8 +145,10 @@ public class RunLoader {
                         Reporter.println("Skipping " + link + " as already loaded ");
                     } else if (link.endsWith(".sh")){
                         Reporter.println("Skipping script " + link);
-                    } else if (link.endsWith("CRS/")){
-                        Reporter.println("SKIPPING CRS AS BROKEN");
+                    } else if (link.endsWith(".pdf")){
+                        Reporter.println("Skipping PDF " + link);
+                    } else if (link.endsWith(".jpg")){
+                        Reporter.println("Skipping Jpg " + link);
                     } else if (link.endsWith("/")){
                         loadDirectory(address + link);
                     } else {
@@ -176,14 +178,17 @@ public class RunLoader {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc;
             UrlReader urlReader;
+            //URL url;
             if (argv.length == 0){
-                //url = new URL("file:///C:/Dropbox/linksets/version1.3.alpha4/loadtemp.xml");
+                //url = new URL("file:///C:/Dropbox/ims/dev/version1.3.alpha7/load.xml");
                 urlReader = new UrlReader("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.alpha7/load.xml");
            } else {
+                //url = null;
                 urlReader = new UrlReader(argv[0]);
             }    
             System.out.println("loading based on " + urlReader.toString());
             InputStream stream = urlReader.getInputStream();
+            //InputStream stream = url.openStream();
             doc = dBuilder.parse(stream);
             Element root = doc.getDocumentElement();
             clean(root);
