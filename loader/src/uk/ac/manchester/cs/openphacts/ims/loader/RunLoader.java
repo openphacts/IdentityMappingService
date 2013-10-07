@@ -181,7 +181,7 @@ public class RunLoader {
             //URL url;
             if (argv.length == 0){
                 //url = new URL("file:///C:/Dropbox/ims/dev/version1.3.alpha7/load.xml");
-                urlReader = new UrlReader("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.alpha7/load.xml");
+                urlReader = new UrlReader("http://openphacts.cs.man.ac.uk/ims/linkset/version1.3/load.xml");
            } else {
                 //url = null;
                 urlReader = new UrlReader(argv[0]);
