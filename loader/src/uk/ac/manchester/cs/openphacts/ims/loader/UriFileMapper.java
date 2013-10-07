@@ -33,7 +33,7 @@ public class UriFileMapper {
     
     static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UriFileMapper.class);
     
-    public static synchronized void init() throws BridgeDBException{
+    public static void init() throws BridgeDBException{
         if (pathToFile != null){
             return;
         }
