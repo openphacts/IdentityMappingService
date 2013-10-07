@@ -1,4 +1,5 @@
 Identity Mapping Service.
+(SPECIAL for OpenPhacts 1.3 an SQL hack must be run after loading: See EndOfLoadhack.txt)
 
 This repository depends on 
 
@@ -77,6 +78,7 @@ Data loading:
 
 New to OpenPhacts 1.2: Data loading is done from URIs so no need to have local copies of the files.
 New to OpenPhacts 1.3: Data loading instructions is instructions come from a xml file.
+SPECIAL for OpenPhacts 1.3 an SQL hack must be run after loading: See EndOfLoadhack.txt
 
 Transitive linksets are however saved to and loaded from local files.
 

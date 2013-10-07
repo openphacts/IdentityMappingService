@@ -1,0 +1,17 @@
+Special for OpenPHACTS 1.3
+
+After loading data as described in README.md
+
+Run the following SQL commands:
+
+CREATE TABLE mappingSetOriginal LIKE mappingSet; 
+INSERT mappingSetOriginal SELECT * FROM mappingSet;
+UPDATE mappingSet SET justification = "http://semanticscience.org/resource/SIO_000985" where justification = "http://example.com/ConceptWikiGene" and sourceDataSource = "ConceptWiki";
+UPDATE mappingSet SET justification = "http://semanticscience.org/resource/SIO_000985" where justification = "http://example.com/ConceptWikiProtein" and sourceDataSource = "ConceptWiki";
+
+Creating the mappingSetOriginal table is optional but highly recommened as allows for recovery.
+ 
+--
+Optional later when everything works you can do
+DELETE table mappingSetOriginal
+
