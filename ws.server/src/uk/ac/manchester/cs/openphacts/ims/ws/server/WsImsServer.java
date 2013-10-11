@@ -97,24 +97,6 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
         return "OpenPhacts IMS ";
     }
 
-    @Override
-    protected void top(StringBuilder sb, String title){
-        sb.append("<div id=\"container\">");
-        sb.append("<div id=\"top\">");
-        sb.append("<a href=\"http://www.cs.manchester.ac.uk/\">" +
-        		"<img style=\"float: left; border: none; padding: 0px; margin: 0px;\" " +
-        		"src=\"http://assets.manchester.ac.uk/logos/university-1.png\" " +
-        		"alt=\"The University of Manchester\" height=\"50\"></img></a>");
-        sb.append("<a href=\"http://www.openphacts.org/\">" +
-        		"<img style=\"float: right; border: none; padding: 0px; margin: 0px;\" " +
-        		"src=\"http://www.openphacts.org/images/stories/banner.jpg\" " +
-        		"alt=\"Open PHACTS\" height=\"50\"></img></a>");
-        sb.append("<h1>");
-        sb.append(title);
-        sb.append("</h1>");
-        sb.append("</div>");   
-    }
-
     /**
      * Allows Super classes to add to the side bar
      */
