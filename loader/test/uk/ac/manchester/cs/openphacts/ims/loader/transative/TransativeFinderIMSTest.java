@@ -22,8 +22,8 @@ package uk.ac.manchester.cs.openphacts.ims.loader.transative;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.bridgedb.DataSource;
-import org.bridgedb.rdf.DataSourceUris;
 import org.bridgedb.rdf.UriPattern;
+import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.OverallStatistics;
 import org.bridgedb.uri.Lens;
@@ -63,9 +63,7 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
     private void setupPattern (String name, String pattern) throws BridgeDBException{
         DataSource dataSource = DataSource.register(name, name).asDataSource();
         TransativeFinderIMS.addAcceptableVai(dataSource);
-        UriPattern uriPattern = UriPattern.existingOrCreateByPattern(pattern);
-        uriPattern.setPrimaryDataSource(DataSourceUris.byDataSource(dataSource));
-        mapper.registerUriPattern(dataSource, pattern);     
+        UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
     }
     
     @Test
