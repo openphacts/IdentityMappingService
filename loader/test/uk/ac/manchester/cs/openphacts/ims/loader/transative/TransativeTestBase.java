@@ -40,7 +40,7 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
  */
 public class TransativeTestBase  {
     
-    static SQLUriMapper uriListener;
+    public static SQLUriMapper uriListener;
     static RdfReader reader;
     static Loader instance;
 

@@ -4,9 +4,11 @@
  */
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
+import org.bridgedb.uri.RegexUriPattern;
 import org.bridgedb.utils.Reporter;
 import org.junit.Test;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
+import static org.junit.Assert.*;
 
 /**
  *
