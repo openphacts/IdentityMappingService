@@ -23,8 +23,10 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
+import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.uri.RegexUriPattern;
 import org.bridgedb.uri.UriListener;
 import org.bridgedb.uri.loader.LinksetHandler;
 import org.bridgedb.utils.BridgeDBException;
@@ -52,7 +54,7 @@ public class Loader
         validator = new ValidatorImpl();
         uriListener = SQLUriMapper.getExisting();
         reader = RdfFactoryIMS.getReader();
-        BridgeDBRdfHandler.init();
+        UriPattern.refreshUriPatterns();
     }
     
     private PredicateFinderHandler getPredicateFinderHandler(String uri, String rdfFormatName) throws BridgeDBException{

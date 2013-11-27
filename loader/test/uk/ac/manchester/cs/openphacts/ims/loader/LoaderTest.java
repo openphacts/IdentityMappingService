@@ -58,9 +58,9 @@ public class LoaderTest {
     @BeforeClass
     public static void setUpClass() throws BridgeDBException, VoidValidatorException {
         ConfigReader.useTest();
-        TestSqlFactory.checkSQLAccess();
-        instance = new Loader();
+        //TestSqlFactory.checkSQLAccess();
         uriListener = SQLUriMapper.createNew();
+        instance = new Loader();        
         reader = RdfFactory.getTestFilebase();
     }
     
