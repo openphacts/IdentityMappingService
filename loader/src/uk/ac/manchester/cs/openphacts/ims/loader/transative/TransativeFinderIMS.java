@@ -57,12 +57,12 @@ public class TransativeFinderIMS extends TransativeFinder{
     }
 
     @Override
-    protected int loadLinkset(String absolutePath, String predicate, String justification, Set<String> viaLabels, 
+    protected int loadLinkset(String absolutePath, String predicate, String justification, Boolean symetric, Set<String> viaLabels, 
             HashSet<Integer> chainIds) throws BridgeDBException {
         Loader loader = new Loader();
         File file = new File(absolutePath);
         try {
-            return loader.load(file, UriFileMapper.getUri(file), viaLabels, chainIds);
+            return loader.load(file, UriFileMapper.getUri(file), symetric, viaLabels, chainIds);
         } catch (VoidValidatorException ex) {
             throw new BridgeDBException ("Error loading transative file", ex);
         }
