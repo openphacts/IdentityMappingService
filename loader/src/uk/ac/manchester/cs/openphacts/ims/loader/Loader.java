@@ -24,18 +24,19 @@ import java.util.List;
 import java.util.Set;
 import org.bridgedb.rdf.BridgeDBRdfHandler;
 import org.bridgedb.rdf.UriPattern;
+import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.uri.RegexUriPattern;
 import org.bridgedb.uri.UriListener;
 import org.bridgedb.uri.loader.LinksetHandler;
 import org.bridgedb.utils.BridgeDBException;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
@@ -87,17 +88,71 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
     }
     
+    private URI getObject(PredicateFinderHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
+       Statement statement =  finder.getSinglePredicateStatements(predicateMain);
+        if (statement != null){
+            Value object = statement.getObject();
+            if (object instanceof URI){
+                return (URI)object;
+            }
+            throw new BridgeDBException ("Unexpected Object in " + statement);
+        }
+        statement =  finder.getSinglePredicateStatements(predicateBackup);
+        if (statement != null){
+            Value object = statement.getObject();
+            if (object instanceof URI){
+                return (URI)object;
+            }
+            throw new BridgeDBException ("Unexpected Object in " + statement);
+        }
+        Integer count = finder.getPredicateCount(predicateMain);
+        if (count == 0){
+            throw new BridgeDBException("No statement found with predicate "+ predicateMain);
+        }
+        throw new BridgeDBException("Found " + count + " statements with predicate "+ predicateMain);
+    }
+
+    private Value getPossibleValue(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
+        Statement statement =  finder.getSinglePredicateStatements(predicate);
+        if (statement != null){
+            return statement.getObject();
+        }
+        return null;
+    }
+
+    private Value getPossibleValue(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
+        Value result = null;
+        for (Statement statement:reader.getStatementList(subject, predicate, null)){
+            if (result == null){
+                result = statement.getObject();
+            } else if (result.stringValue().equals(statement.getObject().stringValue())){
+                //ignore dublicate
+            } else {
+                throw new BridgeDBException ("Found two (or more) objects for subject " + subject 
+                    + " and predicate " + predicate + ". Found " + result + " and " + statement.getObject());
+            }
+        }
+        return result;
+    }
+
     private URI getObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
-        List<Statement> statements = reader.getStatementList(subject, predicate, null);
-        if (statements == null || statements.isEmpty()){
+        Value value = getPossibleValue(subject, predicate);
+        if (value == null){
             throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicate);
-        }
-        if (statements.size() == 1){
-            return getObject(statements.get(0));
         } else {
-            throw new BridgeDBException ("Found " + statements.size() + " statements for subject " + subject 
-                    + " and predicate " + predicate);
+            return getUri(value);
         }
+    }
+
+    private URI getObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicateMain);
+        if (value == null){
+            value = getPossibleValue(subject, predicateBackup);
+        }
+        if (value == null){
+            throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicateMain);
+        }
+        return getUri(value);
     }
 
     private Resource getLinksetId(PredicateFinderHandler finder) throws BridgeDBException{
@@ -168,24 +223,44 @@ public class Loader
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
-        String justification;    
+        String justification;
+        Value isSymetric;
         if (statement != null){
             linksetId  = getObject(statement);
             linkPredicate = getObject(linksetId, VoidConstants.LINK_PREDICATE);
-            justification = getObject(linksetId, DulConstants.EXPRESSES).stringValue();                
+            justification = getObject(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
+            isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         } else {
             linksetId = getLinksetId(finder);
             linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
-            justification = getObject(finder, DulConstants.EXPRESSES).stringValue();    
+            justification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();    
+            isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
         }
         LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
-                linksetId, context, symmetric, viaLabels, chainedLinkSets);
+                linksetId, context, mergeSymetric(context, symmetric, isSymetric), viaLabels, chainedLinkSets);
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
-        ImsRdfHandler combinedHandler = 
-                new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
+        //ImsRdfHandler combinedHandler = 
+        //        new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
         return new RdfParserIMS(linksetHandler, readerHandler, linkPredicate);
     }
 
+    private Boolean mergeSymetric (Resource context, Boolean given, Value read) throws BridgeDBException{
+        if (read == null){
+            return given;
+        }
+        if (read instanceof Literal){
+            Literal literal = (Literal)read;
+            boolean saysSymetric = literal.booleanValue();
+            if (given != null && given.booleanValue() != saysSymetric){
+                throw new BridgeDBException ("Request to load " + context + " with symetric = " + given 
+                            + " but found " + read);
+            }
+            return saysSymetric;
+        } 
+        throw new BridgeDBException ("Reading " + context + " unexpected object " + read 
+                + " found with predicate " + BridgeDBConstants.IS_SYMETRIC);
+    }
+    
     private URI getObject(Statement statement) throws BridgeDBException{
         if (statement.getObject() instanceof URI){
             return (URI)statement.getObject();
@@ -194,7 +269,15 @@ public class Loader
         }
     }
 
-    void recover() throws BridgeDBException {
+   private URI getUri(Value value) throws BridgeDBException{
+        if (value instanceof URI){
+            return (URI)value;
+        } else {
+            throw new BridgeDBException("Found " + value + " but it is not a URI.");
+        }
+    }
+
+   void recover() throws BridgeDBException {
         uriListener.recover();
     }
     

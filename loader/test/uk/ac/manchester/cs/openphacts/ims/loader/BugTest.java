@@ -4,11 +4,24 @@
  */
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import org.bridgedb.DataSource;
+import org.bridgedb.rdf.UriPattern;
+import org.bridgedb.rdf.UriPatternType;
+import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.uri.RegexUriPattern;
+import org.bridgedb.utils.BridgeDBException;
+import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
 import org.junit.Test;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.openrdf.OpenRDFException;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 
 /**
  *
@@ -16,12 +29,54 @@ import static org.junit.Assert.*;
  */
 public class BugTest extends TransativeTestBase{
     
+    @Before
+    public void testLoader() throws BridgeDBException, IOException, OpenRDFException, FileNotFoundException {
+        //Check database is running and settup correctly or kill the test. 
+        ConfigReader.useTest();
+//        linksetLoader = new LinksetLoader();
+//        linksetLoader.clearExistingData( StoreType.TEST);  
+        setupPattern("TransativeTestA", "http://www.example.com/DS_A/$id");
+        setupPattern("TransativeTestB", "http://www.example.com/DS_B/$id");
+        SQLUriMapper mapper = SQLUriMapper.createNew();
+ 	}
+
+    private void setupPattern (String name, String pattern) throws BridgeDBException{
+        DataSource dataSource = DataSource.register(name, name).urlPattern(pattern).asDataSource();
+        TransativeFinderIMS.addAcceptableVai(dataSource);
+        UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
+        System.out.println(pattern);
+    }
+    
     @Test
     public void testBug1() throws Exception {
         Reporter.println("LoadBug1");
         //Validator.
         loadFile("test-data/buglinkset1.ttl");
-
     }
  
+    //Doible loaded void but all info the same
+    @Test
+    public void DoubleBugA() throws Exception {
+        Reporter.println("DoubleBugA");
+        RdfReader reader = RdfFactoryIMS.getReader();
+        File file = new File("test-data/void1A.ttl");
+        reader.loadFile(file, file.toURI().toString());
+        file = new File("test-data/void2A.ttl");
+        reader.loadFile(file, file.toURI().toString());
+        //Validator.
+        loadFile("test-data/doubleA.ttl");
+    }
+
+    //Double loaded void but all justification changed
+    @Test (expected =  BridgeDBException.class)
+    public void DoubleBugB() throws Exception {
+        Reporter.println("DoubleBugB");
+        RdfReader reader = RdfFactoryIMS.getReader();
+        File file = new File("test-data/void1B.ttl");
+        reader.loadFile(file, file.toURI().toString());
+        file = new File("test-data/void2B.ttl");
+        reader.loadFile(file, file.toURI().toString());
+        //Validator.
+        loadFile("test-data/doubleB.ttl");
+    }
 }

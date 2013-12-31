@@ -103,7 +103,11 @@ class TransativeCreatorIMS extends TransativeCreator{
         if (object != null){
             writer.handleStatement(new StatementImpl(newId, VoidConstants.OBJECTSTARGET, object));
         }
-
+        
+        Boolean symetric = leftInfo.hasOrIsSymmetric() && rightInfo.hasOrIsSymmetric();
+        LiteralImpl symetricLit = new LiteralImpl(symetric.toString());
+        writer.handleStatement(new StatementImpl(newId, BridgeDBConstants.IS_SYMETRIC, symetricLit));
+        
         try {
             List<Statement> liscenceStatements = reader.getStatementList(leftId, DctermsConstants.LICENSE, ANY_OBJECT);
             liscenceStatements.addAll(reader.getStatementList(rightId, DctermsConstants.LICENSE, ANY_OBJECT));
