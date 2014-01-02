@@ -281,4 +281,7 @@ public class Loader
         uriListener.recover();
     }
     
+   void closeInput() throws BridgeDBException {
+        uriListener.closeInput();
+    }
 }
