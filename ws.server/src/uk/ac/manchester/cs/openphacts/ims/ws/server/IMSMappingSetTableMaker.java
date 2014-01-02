@@ -7,11 +7,10 @@ package uk.ac.manchester.cs.openphacts.ims.ws.server;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import org.bridgedb.statistics.MappingSetInfo;
-import org.bridgedb.uri.ws.server.MappingSetTableMaker;
 import org.bridgedb.utils.BridgeDBException;
+import org.bridgedb.ws.uri.MappingSetTableMaker;
 import org.openrdf.model.impl.URIImpl;
 import uk.ac.manchester.cs.datadesc.validator.ws.WsValidationConstants;
 
