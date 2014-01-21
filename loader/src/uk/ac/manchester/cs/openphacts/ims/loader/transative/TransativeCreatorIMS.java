@@ -48,7 +48,7 @@ import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.constants.DctermsConstants;
-import uk.ac.manchester.cs.openphacts.ims.constants.PavConstants;
+import org.bridgedb.rdf.constants.PavConstants;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 
 /**
