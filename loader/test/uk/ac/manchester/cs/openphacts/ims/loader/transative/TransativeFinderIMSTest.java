@@ -26,7 +26,7 @@ import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.OverallStatistics;
-import org.bridgedb.uri.Lens;
+import org.bridgedb.uri.lens.Lens;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
@@ -75,7 +75,10 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
         loadFile("test-data/sampleAToD.ttl");
         TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
         transativeFinder.UpdateTransative();
-        OverallStatistics results = mapper.getOverallStatistics(Lens.getAllLens());
+        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
+        assertEquals(20, results.getNumberOfMappingSets());
+        transativeFinder.UpdateTransative();
+        results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
         assertEquals(20, results.getNumberOfMappingSets());
         Reporter.println("testFinder Done");
 	}
