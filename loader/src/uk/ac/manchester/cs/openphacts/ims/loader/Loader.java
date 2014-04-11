@@ -27,9 +27,8 @@ import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
-import org.bridgedb.uri.RegexUriPattern;
-import org.bridgedb.uri.UriListener;
 import org.bridgedb.uri.loader.LinksetHandler;
+import org.bridgedb.uri.tools.UriListener;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -39,11 +38,11 @@ import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
-import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
-import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.Validator;
 import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
+import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 public class Loader 
 {
