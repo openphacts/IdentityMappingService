@@ -180,8 +180,8 @@ public class RunLoader {
             UrlReader urlReader;
             //URL url;
             if (argv.length == 0){
-                //urlReader = new UrlReader("file:///C:/Dropbox/ims/linkset/version1.3/load.xml");
-                urlReader = new UrlReader("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/load.xml");
+                urlReader = new UrlReader("file:///C:/Dropbox/ims/linkset/versions1.4.1/load.xml");
+                //urlReader = new UrlReader("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/load.xml");
            } else {
                 //url = null;
                 urlReader = new UrlReader(argv[0]);

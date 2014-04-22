@@ -47,8 +47,8 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 public class Loader 
 {
     private final Validator validator;
-    private final RdfReader reader;
-    private final UriListener uriListener;
+    protected final RdfReader reader;
+    protected final SQLUriMapper uriListener;
             
     public Loader() throws BridgeDBException {
         validator = new ValidatorImpl();
@@ -57,7 +57,7 @@ public class Loader
         UriPattern.refreshUriPatterns();
     }
     
-    private PredicateFinderHandler getPredicateFinderHandler(String uri, String rdfFormatName) throws BridgeDBException{
+    protected final PredicateFinderHandler getPredicateFinderHandler(String uri, String rdfFormatName) throws BridgeDBException{
         PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(uri, rdfFormatName);
@@ -71,7 +71,7 @@ public class Loader
         return finder;
     }
 
-    private URI getObject(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
+    protected final  URI getObject(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(predicate);
         if (statement != null){
             Value object = statement.getObject();
@@ -87,7 +87,7 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
     }
     
-    private URI getObject(PredicateFinderHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
+    protected final  URI getObject(PredicateFinderHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
        Statement statement =  finder.getSinglePredicateStatements(predicateMain);
         if (statement != null){
             Value object = statement.getObject();
@@ -111,7 +111,7 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicateMain);
     }
 
-    private Value getPossibleValue(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
+    protected final Value getPossibleValue(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(predicate);
         if (statement != null){
             return statement.getObject();
@@ -119,7 +119,7 @@ public class Loader
         return null;
     }
 
-    private Value getPossibleValue(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
+    protected final Value getPossibleValue(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
         Value result = null;
         for (Statement statement:reader.getStatementList(subject, predicate, null)){
             if (result == null){
@@ -134,7 +134,7 @@ public class Loader
         return result;
     }
 
-    private URI getObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
+    protected final URI getObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
         Value value = getPossibleValue(subject, predicate);
         if (value == null){
             throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicate);
@@ -143,7 +143,7 @@ public class Loader
         }
     }
 
-    private URI getObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
+    protected final URI getObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
         Value value = getPossibleValue(subject, predicateMain);
         if (value == null){
             value = getPossibleValue(subject, predicateBackup);
@@ -154,7 +154,7 @@ public class Loader
         return getUri(value);
     }
 
-    private Resource getLinksetId(PredicateFinderHandler finder) throws BridgeDBException{
+    protected final Resource getLinksetId(PredicateFinderHandler finder) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
             return statement.getSubject();
@@ -260,7 +260,7 @@ public class Loader
                 + " found with predicate " + BridgeDBConstants.IS_SYMETRIC);
     }
     
-    private URI getObject(Statement statement) throws BridgeDBException{
+    protected final URI getObject(Statement statement) throws BridgeDBException{
         if (statement.getObject() instanceof URI){
             return (URI)statement.getObject();
         } else {
