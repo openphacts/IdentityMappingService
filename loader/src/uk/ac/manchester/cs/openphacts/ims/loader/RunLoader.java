@@ -45,6 +45,13 @@ public class RunLoader {
     private static final String RECOVER = "recover";
     private static final String VOID = "void";
     private static final String DO_TRANSITIVE = "doTransitive";      
+
+    private static void usage() {
+        System.out.println("Welcome to the Open PHACTS IMS loader.");
+        System.out.println("The main java file is known so does not have to be specified.");
+        System.out.println("Please supply a single parameter which is a URI to the load XML file");
+        System.out.println("Note: To specify a file dont forget the schema part: file://");
+    }
     
     private final Loader loader;
     private final RdfReader reader;
@@ -82,6 +89,10 @@ public class RunLoader {
 
     private void loadLinkset(String path, String link) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException{
         String uri = path + link;
+        if (loaded.contains(uri)){
+            Reporter.println("Already loaded " + uri);
+            return;
+        }
         Reporter.println("Loading linkset " + uri);
             originalCount++;
         //Validator validator = new ValidatorImpl();
@@ -159,7 +170,8 @@ public class RunLoader {
         }
         reader.close();
     }
-       
+
+    
     public static void mainR(String argv[]) throws BridgeDBException, VoidValidatorException, RDFHandlerException, IOException {   
         UriFileMapper.init();
         System.out.println("init done");
@@ -170,6 +182,14 @@ public class RunLoader {
     }
        
     public static void main(String argv[]) throws BridgeDBException {   
+        if (argv.length == 1){
+            System.out.println("Running loader with \"" + argv[0] + "\"");            
+        } else if (argv.length == 0){
+            System.out.println("Running loader with built in load.xml");
+        } else {
+            usage();
+            return;
+        }
         UriFileMapper.init();
         System.out.println("init done");
         RunLoader runLoader = null;
@@ -231,9 +251,14 @@ public class RunLoader {
                 }
             }
         } catch (Exception e) {
-            throw new BridgeDBException("Error loading ", e);
+             throw new BridgeDBException("Error loading ", e);
         }
         System.out.println("Load " + runLoader.originalCount + " linksets plus their transdatives");
     }
 
+    //public static void main(String argv[]) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException {   
+    //    //UriFileMapper.init();
+    //    RunLoader runLoader = new RunLoader(false);
+    //    runLoader.loadVoid("file:///C:/Dropbox/ims/dev/version1.4.alpha1/ConceptWiki-extra/CW-Void_hacked.ttl","");
+    //}
 }
