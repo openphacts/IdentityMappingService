@@ -100,9 +100,11 @@ The URI parameter to RunLoader should point to an xml file often called load.xml
 This will have the following elements directly as children of the root (typcially <loadSteps>)
 <clearAll/>  : Tells the loader to clear any existing data SQL and RDF and start from fresh
                Must be the first child. Otherwise all loading up to this point will be lost!
+               
 <recover/>   : Tells the loader to attempt to restart from a previous loaded that failed part way through.
                The load.xml should not include any URIs successfully loaded.
                Must be the first child.
+               
 <void>       : Tells the loader to load a URI as a void file
                Format <void>URI</void>
                Only required if a URI used in a void:inDataSet, or void:subset statement is not resolvable.
@@ -111,11 +113,13 @@ This will have the following elements directly as children of the root (typciall
                Must be an earlier child than the linksets that depend on this void.
                The URI must end with the file extension that matches the RDF format.
                Can be a file URI.
+               
 <linkset>    : Tells the loader to load a URI as a void file
                Format <linkset>URi</linkset>
                The URI must end with the file extension that matches the RDF format.
                Can be a file URI.
                The URI may include void statements but MUST include links.
+               
 <directory>  : Tells the loader to load all files in this URi directory (including sub directories.
                Format <directory>URI</directory>
                Can only be a URI to a directory that returns a HTML page showing the files
@@ -124,6 +128,7 @@ This will have the following elements directly as children of the root (typciall
                Therefor pathToFile settings are ignored when reading directories. But are used for the files in the directory.
                Will exclude files read earlier by a void or linkset command.
                Excludes some non RDF files but again only does required by OPS implemented.
+               
 <doTransitive/> : Tells the loader to compute the transitive linksets
                Typically the last child but this is not required.
                May appear more than once.
