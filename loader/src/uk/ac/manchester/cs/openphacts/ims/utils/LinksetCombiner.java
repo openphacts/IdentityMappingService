@@ -398,229 +398,432 @@ public class LinksetCombiner extends Loader {
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_ArrayExpressLinkSets.ttl");
         combiner.writeFile("ensembl/ArrayExpress");
     }
-    /*
-    public static void () throws Exception {
+    
+    public static void BioGRID() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims//dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
-        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/");
-        combiner.writeFile("ensembl/");
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_BioGRIDLinkSets.ttl");
+        combiner.writeFile("ensembl/BioGRID");
+    }
+
+    public static void EC_NUMBER() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_EC_NUMBERLinkSets.ttl");
+        combiner.writeFile("ensembl/EC_NUMBER");
+    }
+
+    //   
+    //
+    
+    public static void EMBL() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_EMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_EMBLLinkSets.ttl");
+        combiner.writeFile("ensembl/EMBL");
+    }
+
+    public static void ENS_LRG_gene() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_ENS_LRG_geneLinkSets.ttl");
+        combiner.writeFile("ensembl/ENS_LRG_gene");
+    }
+
+    public static void EntrezGene() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_EntrezGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_EntrezGeneLinkSets.ttl");
+       combiner.writeFile("ensembl/EntrezGene");
+    }
+
+    public static void flybase() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_annotation_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_gene_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_transcript_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_translation_idLinkSets.ttl");
+        combiner.writeFile("ensembl/flybase");
     }
     
-drosophila_melanogaster_core_71_546_ensembl_BioGRIDLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_EC_NUMBERLinkSets.ttl
-bos_taurus_core_71_31_ensembl_EMBLLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_EMBLLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_EMBLLinkSets.ttl
-danio_rerio_core_71_9_ensembl_EMBLLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_EMBLLinkSets.ttl
-equus_caballus_core_71_2_ensembl_EMBLLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_EMBLLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_EMBLLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_EMBLLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_EMBLLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_ENS_LRG_geneLinkSets.ttl
-bos_taurus_core_71_31_ensembl_EntrezGeneLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_EntrezGeneLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_EntrezGeneLinkSets.ttl
-danio_rerio_core_71_9_ensembl_EntrezGeneLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_EntrezGeneLinkSets.ttl
-equus_caballus_core_71_2_ensembl_EntrezGeneLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_EntrezGeneLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_EntrezGeneLinkSets.ttl
-mus_musculus_core_71_38_ensembl_EntrezGeneLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_EntrezGeneLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_EntrezGeneLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_EntrezGeneLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_flybase_annotation_idLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_flybase_gene_idLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_flybase_transcript_idLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_flybase_translation_idLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_GO_to_geneLinkSets.ttl
-bos_taurus_core_71_31_ensembl_GOLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_GOLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_GOLinkSets.ttl
-danio_rerio_core_71_9_ensembl_GOLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_GOLinkSets.ttl
-equus_caballus_core_71_2_ensembl_GOLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_GOLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_GOLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_GOLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_GOLinkSets.ttl
-bos_taurus_core_71_31_ensembl_goslim_goaLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_goslim_goaLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_goslim_goaLinkSets.ttl
-danio_rerio_core_71_9_ensembl_goslim_goaLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_goslim_goaLinkSets.ttl
-equus_caballus_core_71_2_ensembl_goslim_goaLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_goslim_goaLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_goslim_goaLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_goslim_goaLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_goslim_goaLinkSets.ttl
-bos_taurus_core_71_31_ensembl_HGNCLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_HGNCLinkSets.ttl
-danio_rerio_core_71_9_ensembl_HGNCLinkSets.ttl
-equus_caballus_core_71_2_ensembl_HGNCLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_HGNCLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_HGNCLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_HGNCLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_InterproLinkSets.ttl
-bos_taurus_core_71_31_ensembl_IPILinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_IPILinkSets.ttl
-homo_sapiens_core_71_37_ensembl_LRGLinkSets.ttl
-bos_taurus_core_71_31_ensembl_MEROPSLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_MEROPSLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_MEROPSLinkSets.ttl
-danio_rerio_core_71_9_ensembl_MEROPSLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_MEROPSLinkSets.ttl
-equus_caballus_core_71_2_ensembl_MEROPSLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_MEROPSLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_MEROPSLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_MEROPSLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_MEROPSLinkSets.ttl
-mus_musculus_core_71_38_ensembl_MGILinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_MGILinkSets.ttl
-homo_sapiens_core_71_37_ensembl_MIM_GENELinkSets.ttl
-homo_sapiens_core_71_37_ensembl_MIM_MORBIDLinkSets.ttl
-bos_taurus_core_71_31_ensembl_miRBaseLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_miRBaseLinkSets.ttl
-danio_rerio_core_71_9_ensembl_miRBaseLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_miRBaseLinkSets.ttl
-equus_caballus_core_71_2_ensembl_miRBaseLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_miRBaseLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_miRBaseLinkSets.ttl
-mus_musculus_core_71_38_ensembl_miRBaseLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_miRBaseLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_OrphanetLinkSets.ttl
-danio_rerio_core_71_9_ensembl_OTTGLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_OTTGLinkSets.ttl
-mus_musculus_core_71_38_ensembl_OTTGLinkSets.ttl
-bos_taurus_core_71_31_ensembl_PDBLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_PDBLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_PDBLinkSets.ttl
-danio_rerio_core_71_9_ensembl_PDBLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_PDBLinkSets.ttl
-equus_caballus_core_71_2_ensembl_PDBLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_PDBLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_PDBLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_PDBLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_PDBLinkSets.ttl
-bos_taurus_core_71_31_ensembl_protein_idLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_protein_idLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_protein_idLinkSets.ttl
-danio_rerio_core_71_9_ensembl_protein_idLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_protein_idLinkSets.ttl
-equus_caballus_core_71_2_ensembl_protein_idLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_protein_idLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_protein_idLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_protein_idLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_protein_idLinkSets.ttl
-bos_taurus_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl
-equus_caballus_core_71_2_ensembl_RefSeq_mRNA_predictedLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RefSeq_mRNA_predictedLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RefSeq_mRNA_predictedLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RefSeq_mRNA_predictedLinkSets.ttl
-bos_taurus_core_71_31_ensembl_RefSeq_mRNALinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_RefSeq_mRNALinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RefSeq_mRNALinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_RefSeq_mRNALinkSets.ttl
-equus_caballus_core_71_2_ensembl_RefSeq_mRNALinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RefSeq_mRNALinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RefSeq_mRNALinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RefSeq_mRNALinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_RefSeq_mRNALinkSets.ttl
-bos_taurus_core_71_31_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl
-equus_caballus_core_71_2_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl
-bos_taurus_core_71_31_ensembl_RefSeq_ncRNALinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_RefSeq_ncRNALinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RefSeq_ncRNALinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_RefSeq_ncRNALinkSets.ttl
-equus_caballus_core_71_2_ensembl_RefSeq_ncRNALinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RefSeq_ncRNALinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RefSeq_ncRNALinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RefSeq_ncRNALinkSets.ttl
-bos_taurus_core_71_31_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-danio_rerio_core_71_9_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-equus_caballus_core_71_2_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RefSeq_peptide_predictedLinkSets.ttl
-bos_taurus_core_71_31_ensembl_RefSeq_peptideLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_RefSeq_peptideLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RefSeq_peptideLinkSets.ttl
-danio_rerio_core_71_9_ensembl_RefSeq_peptideLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_RefSeq_peptideLinkSets.ttl
-equus_caballus_core_71_2_ensembl_RefSeq_peptideLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RefSeq_peptideLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RefSeq_peptideLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RefSeq_peptideLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_RefSeq_peptideLinkSets.ttl
-bos_taurus_core_71_31_ensembl_RFAMLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_RFAMLinkSets.ttl
-danio_rerio_core_71_9_ensembl_RFAMLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_RFAMLinkSets.ttl
-equus_caballus_core_71_2_ensembl_RFAMLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_RFAMLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_RFAMLinkSets.ttl
-mus_musculus_core_71_38_ensembl_RFAMLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_RFAMLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RFAMLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_RGDLinkSets.ttl
-bos_taurus_core_71_31_ensembl_UniGeneLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_UniGeneLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_UniGeneLinkSets.ttl
-danio_rerio_core_71_9_ensembl_UniGeneLinkSets.ttl
-equus_caballus_core_71_2_ensembl_UniGeneLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_UniGeneLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_UniGeneLinkSets.ttl
-mus_musculus_core_71_38_ensembl_UniGeneLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_UniGeneLinkSets.ttl
-bos_taurus_core_71_31_ensembl_UniParcLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_UniParcLinkSets.ttl
-danio_rerio_core_71_9_ensembl_UniParcLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_UniParcLinkSets.ttl
-equus_caballus_core_71_2_ensembl_UniParcLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_UniParcLinkSets.ttl
-bos_taurus_core_71_31_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-danio_rerio_core_71_9_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-equus_caballus_core_71_2_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_Uniprot%2FSPTREMBLLinkSets.ttl
-bos_taurus_core_71_31_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-caenorhabditis_elegans_core_71_235_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-canis_familiaris_core_71_31_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-danio_rerio_core_71_9_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-drosophila_melanogaster_core_71_546_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-equus_caballus_core_71_2_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-gallus_gallus_core_71_4_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-pan_troglodytes_core_71_214_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-rattus_norvegicus_core_71_5_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-saccharomyces_cerevisiae_core_71_4_ensembl_Uniprot%2FSWISSPROTLinkSets.ttl
-homo_sapiens_core_71_37_ensembl_uniprot.ttl
-danio_rerio_core_71_9_ensembl_ZFIN_IDLinkSets.ttl
+ /*  public static void GO_to_gene() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_GO_to_geneLinkSets.ttl");
+        combiner.writeFile("ensembl/GO_to_gene");
+    }
+
+   public static void GO() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_GOLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_GOLinkSets.ttl");
+       combiner.writeFile("ensembl/GO");
+    }
+
+    public static void goslim_goa() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_goslim_goaLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_goslim_goaLinkSets.ttl");
+        combiner.writeFile("ensembl/goslim_goa");
+    }
 */
+    public static void HGNC() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_HGNCLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_HGNCLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_HGNCLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_HGNCLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_HGNCLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_HGNCLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_HGNCLinkSets.ttl");
+        combiner.writeFile("ensembl/HGNC");
+    }
+
+    public static void Interpro() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_InterproLinkSets.ttl");
+        combiner.writeFile("ensembl/Interpro");
+    }
+
+    public static void IPI() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_IPILinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_IPILinkSets.ttl");        
+        combiner.writeFile("ensembl/IPI");
+    }
+    
+    public static void LRG() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_LRGLinkSets.ttl");
+        combiner.writeFile("ensembl/LRG");
+    }
+
+    public static void MEROPS() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_MEROPSLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_MEROPSLinkSets.ttl");
+        combiner.writeFile("ensembl/MEROPS");
+    }
+     
+    public static void MGI() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_MGILinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_MGILinkSets.ttl");
+       combiner.writeFile("ensembl/MGI");
+    }
+    
+    public static void MIM_GENE() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_MIM_GENELinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_MIM_MORBIDLinkSets.ttl");
+        combiner.writeFile("ensembl/MIM_GENE");
+    }
+
+    public static void miRBase() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_miRBaseLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_miRBaseLinkSets.ttl");
+        combiner.writeFile("ensembl/miRBase");
+    }
+    
+    public static void Orphanet() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_OrphanetLinkSets.ttl");
+        combiner.writeFile("ensembl/Orphanet");
+    }
+    
+    public static void OTTG() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_OTTGLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_OTTGLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_OTTGLinkSets.ttl");
+        combiner.writeFile("ensembl/OTTG");
+    }
+    
+     public static void PDB() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_PDBLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_PDBLinkSets.ttl");
+        combiner.writeFile("ensembl/PDB");
+    }
+        
+     public static void protein_id() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_protein_idLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_protein_idLinkSets.ttl");
+        combiner.writeFile("ensembl/protein_id");
+    }
+        
+     public static void RefSeq_mRNA_predicted() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_RefSeq_mRNALinkSets.ttl");
+        combiner.writeFile("ensembl/RefSeq_mRNA_predicted");
+    }
+        
+     public static void RefSeq_ncRNA_predicted() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_ncRNALinkSets.ttl");
+        combiner.writeFile("ensembl/RefSeq_ncRNA_predicted");
+    }
+        
+     public static void RefSeq_peptide() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_RefSeq_peptideLinkSets.ttl");
+        combiner.writeFile("ensembl/RefSeq_peptide");
+    }
+        
+     public static void RFAM() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RFAMLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RFAMLinkSets.ttl");
+        combiner.writeFile("ensembl/RFAM");
+    }
+        
+     public static void RGD() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RGDLinkSets.ttl");
+        combiner.writeFile("ensembl/RGD");
+    }
+        
+     public static void UniGene() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ensembl/Ensembl_71.ttl");       
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_UniGeneLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_UniGeneLinkSets.ttl");
+        combiner.writeFile("ensembl/UniGene");
+    }
+        
+     public static void UniParc() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_UniParcLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_UniParcLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_UniParcLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_UniParcLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_UniParcLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_UniParcLinkSets.ttl");
+        combiner.writeFile("ensembl/UniParc");
+    }
+        
+     public static void uniprot() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_uniprot.ttl");
+        combiner.writeFile("ensembl/uniprot");
+    }
+        
+     public static void ZFIN_ID() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_ZFIN_IDLinkSets.ttl");
+        combiner.writeFile("ensembl/ZFIN_ID");
+    }    
     
     public static void main(String[] args) throws Exception {
-     //   CHARGE_UNSENSITIVE();
-     //   FRAGMENT_UNSENSITIVE();
-     //   ISOTOPE_UNSENSITIVE();
-     //   STEREO_UNSENSITIVE();
-     //   SUPER_UNSENSITIVE();
-     //   TAUTOMER_UNSENSITIVEAT_7_4_PH();
-     //   TAUTOMER_UNSENSITIVE();
-     //   OPS_CHEMSPIDER();
-     //   FRAGMENT();
+        //   CHARGE_UNSENSITIVE();
+        //   FRAGMENT_UNSENSITIVE();
+        //   ISOTOPE_UNSENSITIVE();
+        //   STEREO_UNSENSITIVE();
+        //   SUPER_UNSENSITIVE();
+        //   TAUTOMER_UNSENSITIVEAT_7_4_PH();
+        //   TAUTOMER_UNSENSITIVE();
+        //   OPS_CHEMSPIDER();
+        //   FRAGMENT();
         
-     ArrayExpress();
+        //ArrayExpress();
+        //BioGRID();
+        //EC_NUMBER();
+        //EMBL();
+        //ENS_LRG_gene();
+        //flybase();
+//     GO_to_gene();
+//     GO();
+//     goslim_goa();
+        //HGNC();
+        //Interpro();
+        //IPI();
+        //LRG();
+        //MEROPS();
+        //MGI();
+        //MIM_GENE();
+        //miRBase();
+        //Orphanet();
+        //OTTG();
+        //PDB();
+        //protein_id();
+        //RefSeq_mRNA_predicted();
+        //RefSeq_ncRNA_predicted();
+        //RefSeq_peptide();
+        //RFAM();
+        //RGD();
+        //UniGene();
+        //UniParc();
+        uniprot();
+        ZFIN_ID();
     }
 }
