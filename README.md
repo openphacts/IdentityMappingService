@@ -134,4 +134,4 @@ This will have the following elements directly as children of the root (typciall
                May appear more than once.
                However any linksets / directories in later children are not included.
  
- Note Open and closing angle brackets replaced with double qoutes to make this file readable in html ad text.
+ Note Open and closing angle brackets replaced with double qoutes to make this file readable in html and text.
