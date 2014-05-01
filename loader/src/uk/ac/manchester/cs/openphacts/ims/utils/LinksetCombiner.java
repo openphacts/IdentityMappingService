@@ -72,6 +72,7 @@ public class LinksetCombiner extends Loader {
    private ArrayList<URI> originals;
    private DataSource sourceDataSource;
    private DataSource targetDataSource;
+   private boolean convert = false;
    
    private LinksetCombiner() throws BridgeDBException{
        linkPredicate = null;
@@ -176,7 +177,7 @@ public class LinksetCombiner extends Loader {
                 return false;
             }
             if (xref == null){
-                System.err.println("No xref for  " + subject);
+                System.err.println("No xref for subject <" + subject + ">");
                 return false;
             } else if (sourceDataSource == null){
                 sourceDataSource = xref.getDataSource();
@@ -196,7 +197,7 @@ public class LinksetCombiner extends Loader {
                 return false;
             }
             if (xref == null){
-                System.err.println("No xref for  " + object);
+                System.err.println("No xref for object <" + object + ">");
                 return false;
             } else if (targetDataSource == null){
                 targetDataSource = xref.getDataSource();
@@ -210,20 +211,10 @@ public class LinksetCombiner extends Loader {
         return true;
     }
 
-    private void writeRDF(RDFWriter goodWriter, RDFWriter badWriter, URI linksetId) 
+    private void writeSimple(RDFWriter goodWriter, RDFWriter badWriter) 
             throws IOException, RDFHandlerException, RepositoryException, BridgeDBException{ 
         int goodCount = 0;
         int badCount = 0;
-        //rdfWriter.handleNamespace("", DEFAULT_BASE_URI);
-        goodWriter.startRDF();
-        badWriter.startRDF();
-        for (URI original:originals){
-            Statement statement = new StatementImpl(linksetId, PavConstants.DERIVED_FROM, original);
-            goodWriter.handleStatement(statement);
-        }
-        goodWriter.handleStatement(new StatementImpl(linksetId, VoidConstants.LINK_PREDICATE, linkPredicate));
-        goodWriter.handleStatement(new StatementImpl(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, justification));
-         
         //derivedFrom
         RepositoryResult<Statement> statements = 
                 repositoryConnection.getStatements(null, linkPredicate, null, true);
@@ -240,9 +231,106 @@ public class LinksetCombiner extends Loader {
                 Reporter.println("Writing " + goodCount + " ignoring " + badCount);
             }
         }
+        Reporter.println("Wrote " + goodCount + " Ignored " + badCount);
+    }
+
+    private URI convertSubject(Resource subject) throws BridgeDBException {
+        Xref xref;
+        if (subject instanceof URI){
+            try{
+                 xref = uriListener.toXref(subject.stringValue());
+            } catch (BridgeDBException e){
+                System.err.println(e.getMessage());
+                return null;
+            }
+            if (xref == null){
+                System.err.println("No xref for subject <" + subject + ">");
+                return null;
+            } else if (sourceDataSource == null){
+                sourceDataSource = xref.getDataSource();
+            } else if (sourceDataSource != xref.getDataSource()){
+                throw new BridgeDBException("found two dataSources was " + sourceDataSource + " now " + xref.getDataSource());
+            }
+            return new URIImpl(xref.getKnownUrl());
+        } else {
+            System.err.println("None URI object " + subject);
+            return null;
+        }        
+    }
+
+    private URI convertObject(Value object) throws BridgeDBException {
+        Xref xref;
+        if (object instanceof URI){
+            try{
+                 xref = uriListener.toXref(object.stringValue());
+            } catch (BridgeDBException e){
+                System.err.println(e.getMessage());
+                return null;
+            }
+            if (xref == null){
+                System.err.println("No xref for object <" + object + ">");
+                return null;
+            } else if (targetDataSource == null){
+                targetDataSource = xref.getDataSource();
+            } else if (targetDataSource != xref.getDataSource()){
+                throw new BridgeDBException("found two dataSources was " + targetDataSource + " now " + xref.getDataSource());
+            }
+            return new URIImpl(xref.getKnownUrl());
+        } else {
+            System.err.println("None URI object " + object);
+            return null;
+        }        
+    }
+
+
+    private void writeConverting(RDFWriter goodWriter, RDFWriter badWriter) 
+            throws IOException, RDFHandlerException, RepositoryException, BridgeDBException{ 
+        int goodCount = 0;
+        int badCount = 0;
+        //derivedFrom
+        RepositoryResult<Statement> statements = 
+                repositoryConnection.getStatements(null, linkPredicate, null, true);
+        while (statements.hasNext()) {
+            Statement statement = statements.next(); 
+            URI subject = convertSubject(statement.getSubject());
+            URI object = convertObject(statement.getObject());
+            if (subject == null || object == null){
+                badWriter.handleStatement(statement);                
+                badCount++;
+                if (badCount % 100 == 0){
+                    Reporter.println("Writing " + goodCount + " ignoring " + badCount);
+                }
+            } else {   
+                Statement newStatement = new StatementImpl(subject, statement.getPredicate(), object);
+                goodWriter.handleStatement(newStatement);
+                goodCount++;
+                if (goodCount % 100000 == 0){
+                    Reporter.println("Writing " + goodCount + " ignoring " + badCount);
+                }
+            }
+        }
+        Reporter.println("Wrote " + goodCount + " Ignored " + badCount);
+    }
+
+    private void writeRDF(RDFWriter goodWriter, RDFWriter badWriter, URI linksetId) 
+            throws IOException, RDFHandlerException, RepositoryException, BridgeDBException{ 
+         //rdfWriter.handleNamespace("", DEFAULT_BASE_URI);
+        goodWriter.startRDF();
+        badWriter.startRDF();
+        for (URI original:originals){
+            Statement statement = new StatementImpl(linksetId, PavConstants.DERIVED_FROM, original);
+            goodWriter.handleStatement(statement);
+        }
+        goodWriter.handleStatement(new StatementImpl(linksetId, VoidConstants.LINK_PREDICATE, linkPredicate));
+        goodWriter.handleStatement(new StatementImpl(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, justification));
+ 
+        if (convert){
+            writeConverting(goodWriter, badWriter);            
+        } else {
+            writeSimple(goodWriter, badWriter);
+        }
         goodWriter.endRDF();
         badWriter.endRDF();
-        Reporter.println("Wrote " + goodCount + " Ignored " + badCount);
     }
        
     public void writeFile(String fileMiddle) throws VoidValidatorException, RepositoryException, BridgeDBException {
@@ -636,7 +724,7 @@ public class LinksetCombiner extends Loader {
         combiner.writeFile("ensembl/protein_id");
     }
         
-     public static void RefSeq_mRNA_predicted() throws Exception {
+     public static void RefSeq() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
         combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
@@ -654,12 +742,6 @@ public class LinksetCombiner extends Loader {
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_mRNALinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_mRNALinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_RefSeq_mRNALinkSets.ttl");
-        combiner.writeFile("ensembl/RefSeq_mRNA_predicted");
-    }
-        
-     public static void RefSeq_ncRNA_predicted() throws Exception {
-        LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_ncRNA_predictedLinkSets.ttl");
@@ -674,12 +756,6 @@ public class LinksetCombiner extends Loader {
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/gallus_gallus_core_71_4_ensembl_RefSeq_ncRNALinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_ncRNALinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_ncRNALinkSets.ttl");
-        combiner.writeFile("ensembl/RefSeq_ncRNA_predicted");
-    }
-        
-     public static void RefSeq_peptide() throws Exception {
-        LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_RefSeq_peptide_predictedLinkSets.ttl");
@@ -697,7 +773,7 @@ public class LinksetCombiner extends Loader {
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_RefSeq_peptideLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RefSeq_peptideLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_RefSeq_peptideLinkSets.ttl");
-        combiner.writeFile("ensembl/RefSeq_peptide");
+        combiner.writeFile("ensembl/RefSeq");
     }
         
      public static void RFAM() throws Exception {
@@ -752,6 +828,7 @@ public class LinksetCombiner extends Loader {
         
      public static void uniprot() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
+        combiner.convert = true;
         combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
@@ -784,46 +861,109 @@ public class LinksetCombiner extends Loader {
         combiner.writeFile("ensembl/ZFIN_ID");
     }    
     
+     public static void enzyme_expasy_org() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ConceptWiki/CW-Void_v13.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/enzyme_expasy_org_EC-compound.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/enzyme_expasy_org_EC-protein.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/enzyme_expasy_org_EC-rest.ttl");
+        combiner.writeFile("ConceptWiki/enzyme_expasy_org");
+    }    
+
+    public static void chemspider() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.convert = true;
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ConceptWiki/CW-Void_v13.ttl");
+        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.4.alpha1/ConceptWiki-extra/hack.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/www_chemspider_com-compound.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/rdf_chemspider_com-compound.ttl");
+        combiner.writeFile("ConceptWiki/chemspider");
+    }    
+    
+    public static void purl_bioontology_org_ontology_MSH() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        //Only these two have the same justification
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28_tweaked/purl_bioontology_org_ontology_MSH-disease.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28_tweaked/purl_bioontology_org_ontology_MSH-rest.ttl");
+        combiner.writeFile("ConceptWiki/purl_bioontology_org_ontology_MSH");
+    }    
+
+    public static void purl_bioontology_org_ontology_NCIM() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        //Only these two have the same justification
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28_tweaked/purl_bioontology_org_ontology_NCIM-disease.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28_tweaked/purl_bioontology_org_ontology_NCIM-rest.ttl");
+        combiner.writeFile("ConceptWiki/purl_bioontology_org_ontology_NCIM");
+    }    
+
+    public static void purl_org_obo_owl_GO() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/purl_org_obo_owl_GO-disease.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/purl_org_obo_owl_GO-gene.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/purl_org_obo_owl_GO-protein.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/purl_org_obo_owl_GO-rest.ttl");
+        combiner.writeFile("ConceptWiki/purl_org_obo_owl_GO");
+    }    
+    
+    public static void wikipathways() throws Exception {
+        LinksetCombiner combiner = new LinksetCombiner();
+        combiner.convert = true;
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/identifiers_org_wikipathways-rest.ttl");
+        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/rdf_wikipathways_org_Pathway-rest.ttl");
+        combiner.writeFile("ConceptWiki/wikipathways");
+    }    
+
     public static void main(String[] args) throws Exception {
-        //   CHARGE_UNSENSITIVE();
-        //   FRAGMENT_UNSENSITIVE();
-        //   ISOTOPE_UNSENSITIVE();
-        //   STEREO_UNSENSITIVE();
-        //   SUPER_UNSENSITIVE();
-        //   TAUTOMER_UNSENSITIVEAT_7_4_PH();
-        //   TAUTOMER_UNSENSITIVE();
-        //   OPS_CHEMSPIDER();
-        //   FRAGMENT();
+/*        CHARGE_UNSENSITIVE();
+        FRAGMENT_UNSENSITIVE();
+        ISOTOPE_UNSENSITIVE();
+        STEREO_UNSENSITIVE();
+        SUPER_UNSENSITIVE();
+        TAUTOMER_UNSENSITIVEAT_7_4_PH();
+        TAUTOMER_UNSENSITIVE();
+        OPS_CHEMSPIDER();
+        FRAGMENT();
         
-        //ArrayExpress();
-        //BioGRID();
-        //EC_NUMBER();
-        //EMBL();
-        //ENS_LRG_gene();
-        //flybase();
+        ArrayExpress();
+        BioGRID();
+        EC_NUMBER();
+        EMBL();
+        ENS_LRG_gene();
+        EntrezGene() ;
+        flybase();
+        
+        //Three below not done due to missing voids.      
 //     GO_to_gene();
 //     GO();
 //     goslim_goa();
-        //HGNC();
-        //Interpro();
-        //IPI();
-        //LRG();
-        //MEROPS();
-        //MGI();
-        //MIM_GENE();
-        //miRBase();
-        //Orphanet();
-        //OTTG();
-        //PDB();
-        //protein_id();
-        //RefSeq_mRNA_predicted();
-        //RefSeq_ncRNA_predicted();
-        //RefSeq_peptide();
-        //RFAM();
-        //RGD();
-        //UniGene();
-        //UniParc();
-        uniprot();
-        ZFIN_ID();
+        HGNC();
+        Interpro();
+        IPI();
+        LRG();
+        MEROPS();
+        MGI();
+        //Not IMS data
+ //       MIM_GENE();
+        miRBase();
+        Orphanet();
+        OTTG();
+        PDB();
+        protein_id();
+        RefSeq();
+        RFAM();
+        RGD();
+        UniGene();
+        UniParc();
+*/        uniprot();
+/*        ZFIN_ID();  
+
+        enzyme_expasy_org();
+        chemspider();
+/        purl_bioontology_org_ontology_MSH();
+        purl_bioontology_org_ontology_NCIM();
+        purl_org_obo_owl_GO();  
+        wikipathways();
+*/
     }
+
 }
