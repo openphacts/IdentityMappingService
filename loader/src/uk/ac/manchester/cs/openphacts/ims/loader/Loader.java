@@ -235,8 +235,26 @@ public class Loader
             justification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();    
             isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
         }
-        LinksetHandler linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
-                linksetId, context, mergeSymetric(context, symmetric, isSymetric), viaLabels, chainedLinkSets);
+        Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
+        LinksetHandler linksetHandler;
+        if (mergedSymetric == null){
+            String backwardJustification = JustificationHandler.getInverse(justification); //getInverseJustification(justification);  
+            if (viaLabels != null && !viaLabels.isEmpty()){
+                throw new BridgeDBException("Request to load " + context + " with non null vaiLabels " + viaLabels + " but with no symetric set");
+            }
+            if (chainedLinkSets != null && !chainedLinkSets.isEmpty()){
+                throw new BridgeDBException("Request to load " + context + " with non null chainedLinkSets " + chainedLinkSets + " but with no symetric set");
+            }
+            if (justification.equals(backwardJustification)){
+                linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
+                linksetId, context, true, viaLabels, chainedLinkSets);
+            } else {
+                linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, backwardJustification, linksetId, context);
+            }
+        } else {
+            linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
+                linksetId, context, mergedSymetric.booleanValue(), viaLabels, chainedLinkSets);
+        }
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         //ImsRdfHandler combinedHandler = 
         //        new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
@@ -250,7 +268,7 @@ public class Loader
         if (read instanceof Literal){
             Literal literal = (Literal)read;
             boolean saysSymetric = literal.booleanValue();
-            if (given != null && given.booleanValue() != saysSymetric){
+            if (given != null && given != saysSymetric){
                 throw new BridgeDBException ("Request to load " + context + " with symetric = " + given 
                             + " but found " + read);
             }

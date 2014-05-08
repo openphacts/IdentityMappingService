@@ -78,6 +78,41 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
         OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
         assertEquals(20, results.getNumberOfMappingSets());
         Reporter.println("testFinder Done");
+    }
+	
+    @Test
+	public void testFinder2Way() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
+        Reporter.println("testFinder2Way");
+        loadFile("test-data/sampleAToB.ttl");
+        loadFile("test-data/sampleAToCForward.ttl");
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
+        transativeFinder.UpdateTransative();
+        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
+        assertEquals(6, results.getNumberOfMappingSets());
+        Reporter.println("testFinder Done");
 	}
 	
+    @Test
+	public void testFinderDoubleForward() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
+        Reporter.println("testFinderDoubleForward");
+        loadFile("test-data/sampleAToBForward.ttl");
+        loadFile("test-data/sampleAToCForward.ttl");
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
+        transativeFinder.UpdateTransative();
+        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
+        assertEquals(4, results.getNumberOfMappingSets());
+        Reporter.println("testFinder Done");
+	}
+        
+    @Test
+	public void testFinderForwardBackward() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
+        Reporter.println("testFinderForwardBackward");
+        loadFile("test-data/sampleAToBBackward.ttl");
+        loadFile("test-data/sampleAToCForward.ttl");
+        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
+        transativeFinder.UpdateTransative();
+        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
+        assertEquals(4, results.getNumberOfMappingSets());
+        Reporter.println("testFinder Done");
+	}
 }
