@@ -34,6 +34,7 @@ import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.rdf.constants.VoidConstants;
 import org.bridgedb.utils.BridgeDBException;
+import org.bridgedb.utils.ConfigReader;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -202,14 +203,18 @@ public class LinksetChecker extends Loader {
     }
 
     public static void main(String[] args) throws Exception {
+        ConfigReader.useTest();
         LinksetChecker checker = new LinksetChecker() ;
         //checker.addUri("http://openphacts.cs.man.ac.uk/ims//linkset/version1.4.1/ensembl/ENS_LRG_gene.ttl");
         //checker.addUri("http://openphacts.cs.man.ac.uk/ims//linkset/version1.4.1/ensembl/uniprot.ttl");
        // System.out.println("aaded finished");
         //checker.writeSubjectCount("C:/Dropbox/OPS/linkCounts/enembleBased.csv");
-        checker.addUri("http://openphacts.cs.man.ac.uk/ims//linkset/version1.4.1/uniprot/uniprot_ensembl.ttl");
+        //checker.addUri("http://openphacts.cs.man.ac.uk/ims//linkset/version1.4.1/uniprot/uniprot_ensembl.ttl");
+        File file = new File("C:/Dropbox/ims/dev/temp/linkSetENSGENST.ttl");
+        checker.addFile(file);
         System.out.println("aaded finished");
-        checker.writeObjectCount("C:/Dropbox/OPS/linkCounts/uniportBased.csv");
+        checker.writeSubjectCount("C:/Dropbox/ims/dev/temp/linkSetENSGENST_subjects.csv");
+        checker.writeObjectCount("C:/Dropbox/ims/dev/temp/linkSetENSGENST_objects.csv");
         
     }
 

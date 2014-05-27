@@ -850,8 +850,8 @@ public class LinksetCombiner extends Loader {
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/pan_troglodytes_core_71_214_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_Uniprot%252FSWISSPROTLinkSets.ttl");
-        combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_uniprot.ttl");
-        combiner.writeFile("ensembl/uniprot");
+        //combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_uniprot.ttl");
+        combiner.writeFile("ensembl/nonHuman_uniprot");
     }
         
      public static void ZFIN_ID() throws Exception {
