@@ -954,7 +954,7 @@ public class LinksetCombiner extends Loader {
         RGD();
         UniGene();
         UniParc();
-*/        uniprot();
+*z/        uniprot();
 /*        ZFIN_ID();  
 
         enzyme_expasy_org();

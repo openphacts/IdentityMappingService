@@ -222,37 +222,38 @@ public class Loader
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
-        String justification;
+        String rawJustification;
         Value isSymetric;
         if (statement != null){
             linksetId  = getObject(statement);
             linkPredicate = getObject(linksetId, VoidConstants.LINK_PREDICATE);
-            justification = getObject(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
+            rawJustification = getObject(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
             isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         } else {
             linksetId = getLinksetId(finder);
             linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
-            justification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();    
+            rawJustification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();    
             isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
         }
         Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
         LinksetHandler linksetHandler;
         if (mergedSymetric == null){
-            String backwardJustification = JustificationHandler.getInverse(justification); //getInverseJustification(justification);  
+            String forwardJustification = JustificationHandler.getForward(rawJustification); //getInverseJustification(justification);  
+            String backwardJustification = JustificationHandler.getInverse(rawJustification); //getInverseJustification(justification);  
             if (viaLabels != null && !viaLabels.isEmpty()){
                 throw new BridgeDBException("Request to load " + context + " with non null vaiLabels " + viaLabels + " but with no symetric set");
             }
             if (chainedLinkSets != null && !chainedLinkSets.isEmpty()){
                 throw new BridgeDBException("Request to load " + context + " with non null chainedLinkSets " + chainedLinkSets + " but with no symetric set");
             }
-            if (justification.equals(backwardJustification)){
-                linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
+            if (forwardJustification.equals(backwardJustification)){
+                linksetHandler = new LinksetHandler(uriListener, linkPredicate, rawJustification, 
                 linksetId, context, true, viaLabels, chainedLinkSets);
             } else {
-                linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, backwardJustification, linksetId, context);
+                linksetHandler = new LinksetHandler(uriListener, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
             }
         } else {
-            linksetHandler = new LinksetHandler(uriListener, linkPredicate, justification, 
+            linksetHandler = new LinksetHandler(uriListener, linkPredicate, rawJustification, 
                 linksetId, context, mergedSymetric.booleanValue(), viaLabels, chainedLinkSets);
         }
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);

@@ -55,12 +55,12 @@ public class JustificationHandler {
         if (justification.equals("http://purl.obolibrary.org/obo#has_part")){
             return "http://purl.obolibrary.org/obo#part_of";
         }
-        if (justification.equals("http://example.com/ConceptWikiGene")){
-            return PROTEIN_CODING_GENE;
-        }
-        if (justification.equals("http://example.com/ConceptWikiProtein")){
-            return PROTEIN_CODING_GENE;
-        }
+        //if (justification.equals("http://example.com/ConceptWikiGene")){
+        //    return PROTEIN_CODING_GENE;
+        //}
+        //if (justification.equals("http://example.com/ConceptWikiProtein")){
+        //    return PROTEIN_CODING_GENE;
+        //}
         if (justification.equals(Lens.getTestJustifictaion() + "Forward")){
             return Lens.getTestJustifictaion() + "BackWard";
         }
@@ -70,4 +70,13 @@ public class JustificationHandler {
         return justification;
     }
     
+    public static String getForward(String justification) {
+        if (justification.equals("http://example.com/ConceptWikiGene")){
+            return PROTEIN_CODING_GENE;
+        }
+        if (justification.equals("http://example.com/ConceptWikiProtein")){
+            return PROTEIN_CODING_GENE;
+        }
+        return justification;
+    }
 }

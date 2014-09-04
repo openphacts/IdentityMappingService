@@ -210,7 +210,7 @@ public class LinksetChecker extends Loader {
        // System.out.println("aaded finished");
         //checker.writeSubjectCount("C:/Dropbox/OPS/linkCounts/enembleBased.csv");
         //checker.addUri("http://openphacts.cs.man.ac.uk/ims//linkset/version1.4.1/uniprot/uniprot_ensembl.ttl");
-        File file = new File("C:/Dropbox/ims/dev/temp/linkSetENSGENST.ttl");
+        File file = new File("C:\\Dropbox\\ims\\dev\\version1.4.2.alpha1\\RSC\\LINKSET_SUPER_CHILD_CHILD.ttl");
         checker.addFile(file);
         System.out.println("aaded finished");
         checker.writeSubjectCount("C:/Dropbox/ims/dev/temp/linkSetENSGENST_subjects.csv");
