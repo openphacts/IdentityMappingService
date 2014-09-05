@@ -28,6 +28,7 @@ import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.uri.loader.LinksetHandler;
+import org.bridgedb.uri.loader.transative.JustificationMaker;
 import org.bridgedb.uri.tools.UriListener;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Literal;
@@ -36,13 +37,13 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
-import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.Validator;
 import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
 
 public class Loader 
 {
@@ -238,8 +239,8 @@ public class Loader
         Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
         LinksetHandler linksetHandler;
         if (mergedSymetric == null){
-            String forwardJustification = JustificationHandler.getForward(rawJustification); //getInverseJustification(justification);  
-            String backwardJustification = JustificationHandler.getInverse(rawJustification); //getInverseJustification(justification);  
+            String forwardJustification = JustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
+            String backwardJustification = JustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
             if (viaLabels != null && !viaLabels.isEmpty()){
                 throw new BridgeDBException("Request to load " + context + " with non null vaiLabels " + viaLabels + " but with no symetric set");
             }
