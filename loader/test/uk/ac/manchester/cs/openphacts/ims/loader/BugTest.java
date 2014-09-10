@@ -11,6 +11,7 @@ import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
@@ -79,4 +80,14 @@ public class BugTest extends TransativeTestBase{
         //Validator.
         loadFile("test-data/doubleB.ttl");
     }
+
+   @Test
+    public void testBugDrugbank() throws Exception {
+        Reporter.println("BugDrugbank");
+        SQLUriMapper sqlUriMapper = SQLUriMapper.createNew();
+        RegexUriPattern pattern = sqlUriMapper.toUriPattern("http://drugbank.ca/drugs/DB01269");
+        System.out.println(pattern);
+        assertNotNull(pattern);
+    }
+    
 }
