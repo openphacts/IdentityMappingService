@@ -11,17 +11,18 @@ import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.sql.transative.ExtendableTransitiveChecker;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import org.junit.Test;
-import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.openrdf.OpenRDFException;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
+import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
 
 /**
  *
@@ -42,7 +43,7 @@ public class BugTest extends TransativeTestBase{
 
     private void setupPattern (String name, String pattern) throws BridgeDBException{
         DataSource dataSource = DataSource.register(name, name).urlPattern(pattern).asDataSource();
-        TransativeFinderIMS.addAcceptableVai(dataSource);
+        ExtendableTransitiveChecker.addAcceptableVai(dataSource);
         UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
         System.out.println(pattern);
     }

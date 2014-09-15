@@ -25,6 +25,7 @@ import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.sql.transative.ExtendableTransitiveChecker;
 import org.bridgedb.statistics.OverallStatistics;
 import org.bridgedb.uri.lens.Lens;
 import org.bridgedb.utils.BridgeDBException;
@@ -62,7 +63,7 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
 
     private void setupPattern (String name, String pattern) throws BridgeDBException{
         DataSource dataSource = DataSource.register(name, name).urlPattern(pattern).asDataSource();
-        TransativeFinderIMS.addAcceptableVai(dataSource);
+        ExtendableTransitiveChecker.addAcceptableVai(dataSource);
         UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
     }
     
