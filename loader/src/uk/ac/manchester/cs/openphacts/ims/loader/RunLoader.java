@@ -31,7 +31,6 @@ import org.w3c.dom.NodeList;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
-import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 
 /**
  *
@@ -171,16 +170,6 @@ public class RunLoader {
         }
         reader.close();
     }
-
-    
-    public static void mainR(String argv[]) throws BridgeDBException, VoidValidatorException, RDFHandlerException, IOException {   
-        UriFileMapper.init();
-        System.out.println("init done");
-        RunLoader runLoader = new RunLoader(false);
-        runLoader.recover();
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-        transativeFinder.UpdateTransative();
-    }
        
     public static void main(String argv[]) throws BridgeDBException {   
         if (argv.length == 1){
@@ -241,8 +230,7 @@ public class RunLoader {
                         } else if (name.equals(VOID)){
                             runLoader.loadVoid(uri,"");
                         } else if (name.equals(DO_TRANSITIVE)){
-                            TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-                            transativeFinder.UpdateTransative();
+                            Reporter.warn("Transitive no longer preloaded");
                         } else {
                             Reporter.error("Unexpected element " + name);
                         }

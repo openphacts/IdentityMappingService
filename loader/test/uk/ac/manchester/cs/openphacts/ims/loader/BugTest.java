@@ -21,7 +21,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.OpenRDFException;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
 
 /**

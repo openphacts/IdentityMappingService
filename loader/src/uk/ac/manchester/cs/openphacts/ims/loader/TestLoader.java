@@ -9,7 +9,6 @@ import java.net.URI;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.bridgedb.sql.SQLUriMapper;
-import org.bridgedb.uri.loader.transative.TransativeFinder;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
