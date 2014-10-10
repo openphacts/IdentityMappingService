@@ -25,18 +25,12 @@ import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
-import org.bridgedb.sql.transative.ExtendableTransitiveChecker;
-import org.bridgedb.statistics.OverallStatistics;
 import org.bridgedb.uri.lens.Lens;
+import org.bridgedb.uri.lens.LensTools;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
-import org.bridgedb.utils.Reporter;
-import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Test;
 import org.openrdf.OpenRDFException;
-import org.openrdf.rio.RDFHandlerException;
-import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *
@@ -63,7 +57,8 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
 
     private void setupPattern (String name, String pattern) throws BridgeDBException{
         DataSource dataSource = DataSource.register(name, name).urlPattern(pattern).asDataSource();
-        ExtendableTransitiveChecker.addAcceptableVai(dataSource);
+        Lens testLens = LensTools.byId(Lens.TEST_LENS_NAME);
+        testLens.addAllowedMiddleSource(dataSource);
         UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
     }
     
