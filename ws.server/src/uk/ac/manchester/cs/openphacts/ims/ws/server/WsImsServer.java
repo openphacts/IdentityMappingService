@@ -30,7 +30,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
+import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
+import org.bridgedb.uri.api.UriMapper;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.ws.uri.WSUriServer;
 import uk.ac.manchester.cs.datadesc.validator.Validator;
@@ -58,7 +60,11 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
     static final Logger logger = Logger.getLogger(WsImsServer.class);
     
     public WsImsServer()  throws BridgeDBException   {
-        super();
+        this(SQLUriMapper.getExisting());
+    }
+               
+    public WsImsServer(UriMapper uriMapper)  throws BridgeDBException   {
+        super(uriMapper);
         wsValidatorServer = new WsValidatorServer();
         try {
             RdfInterface rdfInterface = (RdfInterface) RdfFactoryIMS.getReader();
@@ -71,7 +77,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
             logger.error("Initisation of WsImsServer Service failed!", ex);
         }
     }
-               
+
     /**
      * Welcome page for the Service.
      * 
