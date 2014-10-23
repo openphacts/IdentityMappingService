@@ -25,17 +25,12 @@ import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
-import org.bridgedb.statistics.OverallStatistics;
 import org.bridgedb.uri.lens.Lens;
+import org.bridgedb.uri.lens.LensTools;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
-import org.bridgedb.utils.Reporter;
-import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Test;
 import org.openrdf.OpenRDFException;
-import org.openrdf.rio.RDFHandlerException;
-import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 
 /**
  *
@@ -62,57 +57,9 @@ public class TransativeFinderIMSTest extends TransativeTestBase{
 
     private void setupPattern (String name, String pattern) throws BridgeDBException{
         DataSource dataSource = DataSource.register(name, name).urlPattern(pattern).asDataSource();
-        TransativeFinderIMS.addAcceptableVai(dataSource);
+        Lens testLens = LensTools.byId(Lens.TEST_LENS_NAME);
+        testLens.addAllowedMiddleSource(dataSource);
         UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
     }
     
-    @Test
-	public void testFinder1() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
-        Reporter.println("testFinder1");
-        loadFile("test-data/sampleAToB.ttl");
-        loadFile("test-data/sampleEToD.ttl");
-        loadFile("test-data/sampleAToC.ttl");
-        loadFile("test-data/sampleAToD.ttl");
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-        transativeFinder.UpdateTransative();
-        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
-        assertEquals(20, results.getNumberOfMappingSets());
-        Reporter.println("testFinder Done");
-    }
-	
-    @Test
-	public void testFinder2Way() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
-        Reporter.println("testFinder2Way");
-        loadFile("test-data/sampleAToB.ttl");
-        loadFile("test-data/sampleAToCForward.ttl");
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-        transativeFinder.UpdateTransative();
-        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
-        assertEquals(6, results.getNumberOfMappingSets());
-        Reporter.println("testFinder Done");
-	}
-	
-    @Test
-	public void testFinderDoubleForward() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
-        Reporter.println("testFinderDoubleForward");
-        loadFile("test-data/sampleAToBForward.ttl");
-        loadFile("test-data/sampleAToCForward.ttl");
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-        transativeFinder.UpdateTransative();
-        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
-        assertEquals(4, results.getNumberOfMappingSets());
-        Reporter.println("testFinder Done");
-	}
-        
-    @Test
-	public void testFinderForwardBackward() throws BridgeDBException, RDFHandlerException, IOException, VoidValidatorException {	
-        Reporter.println("testFinderForwardBackward");
-        loadFile("test-data/sampleAToBBackward.ttl");
-        loadFile("test-data/sampleAToCForward.ttl");
-        TransativeFinderIMS transativeFinder = new TransativeFinderIMS();
-        transativeFinder.UpdateTransative();
-        OverallStatistics results = mapper.getOverallStatistics(Lens.ALL_LENS_NAME);
-        assertEquals(4, results.getNumberOfMappingSets());
-        Reporter.println("testFinder Done");
-	}
 }

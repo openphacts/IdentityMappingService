@@ -38,8 +38,6 @@ public class TransativeCreatorIMSTest extends TransativeTestBase {
         //Validator.
         loadFile("test-data/cw-cs.ttl");
         loadFile("test-data/cs-cm.ttl");
-        File transative = TransativeCreatorIMS.doTransativeIfPossible(1, 3);
-        loadFile(transative);
     }
 
  }

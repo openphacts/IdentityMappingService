@@ -20,16 +20,13 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
-import java.util.List;
 import java.util.Set;
-import org.bridgedb.rdf.BridgeDBRdfHandler;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.sql.justification.OpsJustificationMaker;
 import org.bridgedb.uri.loader.LinksetHandler;
-import org.bridgedb.uri.loader.transative.JustificationMaker;
-import org.bridgedb.uri.tools.UriListener;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -239,8 +236,9 @@ public class Loader
         Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
         LinksetHandler linksetHandler;
         if (mergedSymetric == null){
-            String forwardJustification = JustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
-            String backwardJustification = JustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
+            OpsJustificationMaker opsJustificationMaker = OpsJustificationMaker.getInstance();
+            String forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
+            String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
             if (viaLabels != null && !viaLabels.isEmpty()){
                 throw new BridgeDBException("Request to load " + context + " with non null vaiLabels " + viaLabels + " but with no symetric set");
             }

@@ -11,18 +11,18 @@ import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
 import org.bridgedb.sql.SQLUriMapper;
+import org.bridgedb.uri.lens.Lens;
+import org.bridgedb.uri.lens.LensTools;
 import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
-import org.junit.Test;
-import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 import org.openrdf.OpenRDFException;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
-import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeFinderIMS;
+import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
 
 /**
  *
@@ -43,7 +43,8 @@ public class BugTest extends TransativeTestBase{
 
     private void setupPattern (String name, String pattern) throws BridgeDBException{
         DataSource dataSource = DataSource.register(name, name).urlPattern(pattern).asDataSource();
-        TransativeFinderIMS.addAcceptableVai(dataSource);
+        Lens testLens = LensTools.byId(Lens.TEST_LENS_NAME);
+        testLens.addAllowedMiddleSource(dataSource);
         UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
         System.out.println(pattern);
     }
