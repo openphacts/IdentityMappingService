@@ -25,6 +25,7 @@
 	<modules>
 		<module>loader</module>
 		<module>ws.server</module>
+	 <module>ImsMapper</module>
 	</modules>
 
 	<repositories>

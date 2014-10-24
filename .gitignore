@@ -6,9 +6,11 @@
 #Ignore logs
 /logs
 /loader/logs
+/ImsMapper/logs
 
 #Ignore stuff written during tests
 /TestDirectory
 /org.bridgedb.ws.server/target/
 /rdf
 */work
+/ImsMapper/target/
