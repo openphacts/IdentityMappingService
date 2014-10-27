@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <loadSteps>
     <clearAll/>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cs.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-ops.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/ops-ops_lensed.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cs_lensed.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-ops_lensed.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cs-ops.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cs-ops.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/ops-ops_lensed.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cw-cs_lensed.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cs-ops_lensed.ttl</linkset>
 </loadSteps>
