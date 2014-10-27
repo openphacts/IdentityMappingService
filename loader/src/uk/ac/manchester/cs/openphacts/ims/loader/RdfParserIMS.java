@@ -19,10 +19,7 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
-import org.bridgedb.uri.loader.LinksetHandler;
-import org.openrdf.model.URI;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsRdfHandler;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
 
 /**
  *
@@ -30,10 +27,10 @@ import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
  */
 public class RdfParserIMS extends RdfParserPlus{
     
-    private final LinksetHandler linksetHandler;
+    private final ImsHandler linksetHandler;
     
-    public RdfParserIMS(LinksetHandler linksetHandler, RdfInterfacteHandler rdfInterfacteHandler, URI predicate){
-        super(new ImsRdfHandler(linksetHandler, rdfInterfacteHandler, predicate));
+    public RdfParserIMS(ImsHandler linksetHandler){
+        super(linksetHandler);
         this.linksetHandler = linksetHandler;
     }
     

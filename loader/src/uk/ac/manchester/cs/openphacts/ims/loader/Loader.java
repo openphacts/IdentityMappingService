@@ -37,8 +37,8 @@ import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
@@ -224,25 +224,24 @@ public class Loader
             isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
         }
         Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
-        LinksetHandler linksetHandler;
+        ImsHandler handler;
         if (mergedSymetric == null){
             OpsJustificationMaker opsJustificationMaker = OpsJustificationMaker.getInstance();
             String forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
             String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
             if (forwardJustification.equals(backwardJustification)){
-                linksetHandler = new LinksetHandler(imsMapper, linkPredicate, rawJustification, 
+                handler = new ImsHandler(reader, context, imsMapper, linkPredicate, rawJustification, 
                         linksetId, context, true);
             } else {
-                linksetHandler = new LinksetHandler(imsMapper, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
+                handler = new ImsHandler(reader, context, imsMapper, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
             }
         } else {
-            linksetHandler = new LinksetHandler(imsMapper, linkPredicate, rawJustification, 
+            handler = new ImsHandler(reader, context, imsMapper, linkPredicate, rawJustification, 
                 linksetId, context, mergedSymetric.booleanValue());
         }
-        RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         //ImsRdfHandler combinedHandler = 
         //        new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
-        return new RdfParserIMS(linksetHandler, readerHandler, linkPredicate);
+        return new RdfParserIMS(handler);
     }
 
     private Boolean mergeSymetric (Resource context, Boolean given, Value read) throws BridgeDBException{

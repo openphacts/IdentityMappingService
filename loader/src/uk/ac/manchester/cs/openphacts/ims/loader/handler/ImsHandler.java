@@ -19,34 +19,49 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.bridgedb.uri.loader.LinksetHandler;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.helpers.RDFHandlerBase;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
 
 /**
  *
  * @author Christian
  */
-public class RdfInterfacteHandler extends RDFHandlerBase{
+public class ImsHandler extends LinksetHandler{
+    
     private final RdfInterface rdfInterface;
     private final Resource context;
-    
-    public RdfInterfacteHandler(RdfInterface rdfInterface, Resource context){
+
+    public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String justification, Resource mappingResource, 
+            Resource mappingSource, boolean symetric){
+        super(imsListener, linkPredicate, justification, mappingResource, mappingSource, symetric);
         this.rdfInterface = rdfInterface;
         this.context = context;
     }
     
+    public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String forwardJustification, 
+            String backwardJustification, Resource mappingResource, Resource mappingSource){
+        super(imsListener, linkPredicate, forwardJustification, backwardJustification, mappingResource, mappingSource);
+        this.rdfInterface = rdfInterface;
+        this.context = context;
+    }
+
     @Override
     public void handleStatement(Statement st) throws RDFHandlerException {
-        try {
-            rdfInterface.add(st, context);
-        } catch (VoidValidatorException ex) {
-            throw new RDFHandlerException("unable to load statement " + st, ex);
+        if (st.getPredicate().equals(linkPredicate)){
+            super.handleStatement(st);
+        } else {
+            try {
+                rdfInterface.add(st, context);
+            } catch (VoidValidatorException ex) {
+                throw new RDFHandlerException("unable to load statement " + st, ex);
+            }
         }
     }
 
