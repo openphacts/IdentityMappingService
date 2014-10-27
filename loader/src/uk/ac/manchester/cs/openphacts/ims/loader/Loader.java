@@ -179,7 +179,7 @@ public class Loader
     public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         Resource context = new URIImpl(uri);
         PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
-        RdfParserIMS parser = getParser(context, finder, null, null, null);
+        RdfParserIMS parser = getParser(context, finder, null);
         parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
     }
@@ -190,33 +190,23 @@ public class Loader
     }
     
     public int load(File file, Resource context) throws VoidValidatorException, BridgeDBException{
-        return load (file, context, null);
+        return load (file, context, null, null);
     }
     
     public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         Resource context = UriFileMapper.getUri(file);
-        return load(file, context, rdfFormatName);
+        return load(file, context, rdfFormatName, null);
     }
     
-    public int load(File file, Resource context, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        return load (file, context, rdfFormatName, null, null, null);
-    }
-    
-    public int load(File file, Resource context, Boolean symmetric, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
-            throws VoidValidatorException, BridgeDBException{
-        return load (file, context, null,  symmetric, viaLabels, chainedLinkSets);
-    }
-    
-    public int load(File file, Resource context, String rdfFormatName, Boolean symmetric, Set<String> viaLabels, Set<Integer> chainedLinkSets) 
+    public int load(File file, Resource context, String rdfFormatName, Boolean symmetric) 
             throws VoidValidatorException, BridgeDBException{
         PredicateFinderHandler finder = getPredicateFinderHandler(context.stringValue(), file, rdfFormatName);
-        RdfParserIMS parser = getParser(context , finder, symmetric, viaLabels, chainedLinkSets);
+        RdfParserIMS parser = getParser(context , finder, symmetric);
         parser.parse(context.stringValue(), file, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
-    public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, Boolean symmetric, Set<String> viaLabels, 
-           Set<Integer> chainedLinkSets) throws VoidValidatorException, BridgeDBException{
+    public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
@@ -239,21 +229,15 @@ public class Loader
             OpsJustificationMaker opsJustificationMaker = OpsJustificationMaker.getInstance();
             String forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
             String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
-            if (viaLabels != null && !viaLabels.isEmpty()){
-                throw new BridgeDBException("Request to load " + context + " with non null vaiLabels " + viaLabels + " but with no symetric set");
-            }
-            if (chainedLinkSets != null && !chainedLinkSets.isEmpty()){
-                throw new BridgeDBException("Request to load " + context + " with non null chainedLinkSets " + chainedLinkSets + " but with no symetric set");
-            }
             if (forwardJustification.equals(backwardJustification)){
                 linksetHandler = new LinksetHandler(uriListener, linkPredicate, rawJustification, 
-                linksetId, context, true, viaLabels, chainedLinkSets);
+                        linksetId, context, true);
             } else {
                 linksetHandler = new LinksetHandler(uriListener, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
             }
         } else {
             linksetHandler = new LinksetHandler(uriListener, linkPredicate, rawJustification, 
-                linksetId, context, mergedSymetric.booleanValue(), viaLabels, chainedLinkSets);
+                linksetId, context, mergedSymetric.booleanValue());
         }
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
         //ImsRdfHandler combinedHandler = 
