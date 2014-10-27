@@ -47,7 +47,6 @@ public class ImsMapper extends SQLUriMapper{
     private static final String DESCRIPTION_COLUMN_NAME = "description";
     private static final String DISTRIBUTION_COLUMN_NAME = "distribution";
     private static final String DISTRIBUTION_URI_COLUMN_NAME = "URI";
-    private static final String ISSUED_COLUMN_NAME = "issued";
     private static final String LINKSET_URI_COLUMN_NAME = "URI";
     private static final String OBJECT_DATATYPE_COLUMN_NAME = "objectType";
     private static final String OBJECT_COLUMN_NAME = "object";
@@ -116,7 +115,6 @@ public class ImsMapper extends SQLUriMapper{
                     + "  " + LINKSET_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
                     + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") NOT NULL, "
                     + "  " + DESCRIPTION_COLUMN_NAME + " TEXT, "
-                    + "  " + ISSUED_COLUMN_NAME + " DATETIME, "
                     + "  " + SUBJECT_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
                     + "  " + OBJECT_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
                     + "  " + SUBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL, "
@@ -128,13 +126,11 @@ public class ImsMapper extends SQLUriMapper{
                     + "  (  " + DATASET_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
                     + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") NOT NULL, "
                     + "  " + DESCRIPTION_COLUMN_NAME + " TEXT, "
-                    + "  " + ISSUED_COLUMN_NAME + " DATETIME, "
                     + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") NOT NULL, "
                     + "  " + DISTRIBUTION_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + DISTRIBUTION_TABLE_NAME
                     + "  (  " + DISTRIBUTION_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + ISSUED_COLUMN_NAME + " DATETIME, "
                     + "  " + SIZE_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + VOID_URIS_TABLE_NAME
