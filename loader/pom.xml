@@ -33,41 +33,47 @@
     <dependencies>
         <dependency>
             <groupId>org.bridgedb</groupId>
-			<artifactId>org.bridgedb.uri.loader</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
+            <artifactId>org.bridgedb.uri.loader</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>uk.ac.manchester.cs.datadesc.validator</groupId>
-			<artifactId>metadata</artifactId>
-			<version>${validator.version}</version>
-			<scope>compile</scope>
+            <artifactId>metadata</artifactId>
+            <version>${validator.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.manchester.cs.openphacts.ims</groupId>
+            <artifactId>imsMapper</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bridgedb</groupId>
-			<artifactId>org.bridgedb.sql</artifactId>
-			<version>${project.version}</version>
+            <artifactId>org.bridgedb.sql</artifactId>
+            <version>${project.version}</version>
             <type>test-jar</type>
-			<scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.bridgedb</groupId>
-			<artifactId>org.bridgedb.uri.loader</artifactId>
-			<version>${project.version}</version>
+            <artifactId>org.bridgedb.uri.loader</artifactId>
+            <version>${project.version}</version>
             <type>test-jar</type>
-			<scope>test</scope>
+            <scope>test</scope>
         </dependency>
          <dependency>
-        	<groupId>org.hamcrest</groupId>
+            <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
             <version>${hamcrest.version}</version>
-			<scope>test</scope>
+            <scope>test</scope>
         </dependency>    
         <dependency>
-        	<groupId>org.hamcrest</groupId>
+            <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>${hamcrest.version}</version>
-			<scope>test</scope>
+            <scope>test</scope>
         </dependency>    
     </dependencies>
 </project>

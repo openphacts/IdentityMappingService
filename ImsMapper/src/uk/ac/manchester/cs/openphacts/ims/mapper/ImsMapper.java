@@ -31,7 +31,7 @@ import org.bridgedb.utils.BridgeDBException;
  *
  * @author christian
  */
-public class ImsMapper extends SQLUriMapper{
+public class ImsMapper extends SQLUriMapper implements ImsListener{
     
     private static ImsMapper mapper = null;
 

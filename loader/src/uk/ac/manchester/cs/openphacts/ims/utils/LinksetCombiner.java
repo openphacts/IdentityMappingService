@@ -171,7 +171,7 @@ public class LinksetCombiner extends Loader {
         Resource subject = statement.getSubject();
         if (subject instanceof URI){
             try{
-                xref = uriListener.toXref(subject.stringValue());
+                xref = imsMapper.toXref(subject.stringValue());
             } catch (BridgeDBException e){
                 System.err.println(e.getMessage());
                 return false;
@@ -191,7 +191,7 @@ public class LinksetCombiner extends Loader {
         Value object = statement.getObject();
         if (object instanceof URI){
             try{
-                xref = uriListener.toXref(object.stringValue());
+                xref = imsMapper.toXref(object.stringValue());
             } catch (BridgeDBException e){
                 System.err.println(e.getMessage());
                 return false;
@@ -238,7 +238,7 @@ public class LinksetCombiner extends Loader {
         Xref xref;
         if (subject instanceof URI){
             try{
-                 xref = uriListener.toXref(subject.stringValue());
+                 xref = imsMapper.toXref(subject.stringValue());
             } catch (BridgeDBException e){
                 System.err.println(e.getMessage());
                 return null;
@@ -262,7 +262,7 @@ public class LinksetCombiner extends Loader {
         Xref xref;
         if (object instanceof URI){
             try{
-                 xref = uriListener.toXref(object.stringValue());
+                 xref = imsMapper.toXref(object.stringValue());
             } catch (BridgeDBException e){
                 System.err.println(e.getMessage());
                 return null;

@@ -20,11 +20,9 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
-import java.util.Set;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
-import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.sql.justification.OpsJustificationMaker;
 import org.bridgedb.uri.loader.LinksetHandler;
 import org.bridgedb.utils.BridgeDBException;
@@ -41,16 +39,18 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.RdfInterfacteHandler;
+import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
+import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 public class Loader 
 {
     private final Validator validator;
     protected final RdfReader reader;
-    protected final SQLUriMapper uriListener;
+    protected final ImsMapper imsMapper;
             
     public Loader() throws BridgeDBException {
         validator = new ValidatorImpl();
-        uriListener = SQLUriMapper.getExisting();
+        imsMapper = ImsMapper.getExisting();
         reader = RdfFactoryIMS.getReader();
         UriPattern.refreshUriPatterns();
     }
@@ -230,13 +230,13 @@ public class Loader
             String forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
             String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
             if (forwardJustification.equals(backwardJustification)){
-                linksetHandler = new LinksetHandler(uriListener, linkPredicate, rawJustification, 
+                linksetHandler = new LinksetHandler(imsMapper, linkPredicate, rawJustification, 
                         linksetId, context, true);
             } else {
-                linksetHandler = new LinksetHandler(uriListener, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
+                linksetHandler = new LinksetHandler(imsMapper, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
             }
         } else {
-            linksetHandler = new LinksetHandler(uriListener, linkPredicate, rawJustification, 
+            linksetHandler = new LinksetHandler(imsMapper, linkPredicate, rawJustification, 
                 linksetId, context, mergedSymetric.booleanValue());
         }
         RdfInterfacteHandler readerHandler = new RdfInterfacteHandler(reader, context);
@@ -279,10 +279,10 @@ public class Loader
     }
 
    void recover() throws BridgeDBException {
-        uriListener.recover();
+        imsMapper.recover();
     }
     
    void closeInput() throws BridgeDBException {
-        uriListener.closeInput();
+        imsMapper.closeInput();
     }
 }
