@@ -1,15 +1,9 @@
 <?xml version="1.0"?>
 <loadSteps>
     <clearAll/>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cs.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-cm.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cm.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-ct.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-dd.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-dt.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cs_test_lens.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cs-cm_test_lens.ttl</linkset>
-    <linkset>https://github.com/openphacts/BridgeDb/blob/Christian/org.bridgedb.uri.loader/test-data/cw-cm_test_lens.ttl</linkset>
-    <void>https://github.com/openphacts/ops-platform-setup/blob/master/void/chebi/chebi104/ChEBI104VoID.ttl</void>
-    <doTransitive/>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cs-ops.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cs-ops.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/ops-ops_lensed.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cw-cs_lensed.ttl</linkset>
+    <linkset>https://github.com/bridgedb/BridgeDb/blob/OpenPHACTS/develop/org.bridgedb.uri.loader/test-data/cs-ops_lensed.ttl</linkset>
 </loadSteps>
