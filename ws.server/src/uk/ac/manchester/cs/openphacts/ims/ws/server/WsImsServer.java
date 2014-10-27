@@ -165,13 +165,6 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
 */    
     
     @Override
-    protected void addMappingTable(StringBuilder sb, List<MappingSetInfo> mappingSetInfos, HttpServletRequest httpServletRequest) 
-            throws BridgeDBException{
-        IMSMappingSetTableMaker maker = new IMSMappingSetTableMaker(mappingSetInfos, httpServletRequest);
-        maker.tableMaker(sb);
-    }
-    
-    @Override
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path(WsValidationConstants.VALIDATE_HOME)
