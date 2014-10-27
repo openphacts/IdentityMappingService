@@ -23,8 +23,9 @@
 	</properties>
 
 	<modules>
-		<module>loader</module>
-		<module>ws.server</module>
+            <module>imsMapper</module>
+            <module>loader</module>
+            <module>ws.server</module>
 	 <module>ImsMapper</module>
 	</modules>
 
