@@ -37,10 +37,12 @@ public class ImsHandler extends LinksetHandler{
     
     private final RdfInterface rdfInterface;
     private final Resource context;
-
+    private final ImsListener imsListener;
+    
     public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String justification, Resource mappingResource, 
             Resource mappingSource, boolean symetric){
         super(imsListener, linkPredicate, justification, mappingResource, mappingSource, symetric);
+        this.imsListener = imsListener;
         this.rdfInterface = rdfInterface;
         this.context = context;
     }
@@ -48,6 +50,7 @@ public class ImsHandler extends LinksetHandler{
     public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String forwardJustification, 
             String backwardJustification, Resource mappingResource, Resource mappingSource){
         super(imsListener, linkPredicate, forwardJustification, backwardJustification, mappingResource, mappingSource);
+        this.imsListener = imsListener;
         this.rdfInterface = rdfInterface;
         this.context = context;
     }
