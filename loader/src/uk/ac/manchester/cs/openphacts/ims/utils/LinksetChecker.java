@@ -23,15 +23,8 @@ import info.aduna.lang.FileFormat;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import org.bridgedb.DataSource;
-import org.bridgedb.Xref;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
-import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.rdf.constants.VoidConstants;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
@@ -41,24 +34,15 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
-import org.openrdf.query.GraphQuery;
-import org.openrdf.query.GraphQueryResult;
-import org.openrdf.query.MalformedQueryException;
-import org.openrdf.query.Query;
-import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.QueryLanguage;
-import org.openrdf.query.QueryResult;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParserRegistry;
-import org.openrdf.rio.RDFWriter;
 import org.openrdf.sail.memory.MemoryStore;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.Reporter;
@@ -66,7 +50,7 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.ims.loader.UriFileMapper;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 
 /**
  *
@@ -125,7 +109,7 @@ public class LinksetChecker extends Loader {
 
     private void checkInfo (String uri) throws BridgeDBException, VoidValidatorException{
         RdfReader reader = RdfFactoryIMS.getReader();
-        PredicateFinderHandler finder = getPredicateFinderHandler(uri, null);
+        PreviewHandler finder = getPreviewHandler(uri, null);
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;

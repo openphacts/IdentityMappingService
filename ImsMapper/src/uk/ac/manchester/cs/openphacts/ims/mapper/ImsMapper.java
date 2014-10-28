@@ -131,6 +131,7 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + DISTRIBUTION_TABLE_NAME
                     + "  (  " + DISTRIBUTION_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
+                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") NOT NULL, "
                     + "  " + SIZE_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + VOID_URIS_TABLE_NAME

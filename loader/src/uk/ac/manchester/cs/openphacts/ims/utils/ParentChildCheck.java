@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import org.bridgedb.DataSource;
 import org.bridgedb.Xref;
@@ -55,9 +54,8 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.Reporter;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
-import uk.ac.manchester.cs.openphacts.ims.loader.RdfParserPlus;
 import uk.ac.manchester.cs.openphacts.ims.loader.UriFileMapper;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 
 /**
  *
@@ -105,7 +103,7 @@ public class ParentChildCheck extends Loader {
     }
 
     /*
-    private static PredicateFinderHandler getPredicateFinderHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
+    private static PredicateFinderHandler getPreviewHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
         PredicateFinderHandler finder = new PredicateFinderHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(baseURI, file, rdfFormatName);
@@ -115,7 +113,7 @@ public class ParentChildCheck extends Loader {
 
     private void checkInfo (String uri) throws BridgeDBException, VoidValidatorException{
         RdfReader reader = RdfFactoryIMS.getReader();
-        PredicateFinderHandler finder = getPredicateFinderHandler(uri, null);
+        PreviewHandler finder = getPreviewHandler(uri, null);
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;

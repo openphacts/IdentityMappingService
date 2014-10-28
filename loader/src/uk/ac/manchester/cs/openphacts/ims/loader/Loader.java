@@ -37,7 +37,7 @@ import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 public class Loader 
@@ -53,21 +53,21 @@ public class Loader
         UriPattern.refreshUriPatterns();
     }
     
-    protected final PredicateFinderHandler getPredicateFinderHandler(String uri, String rdfFormatName) throws BridgeDBException{
-        PredicateFinderHandler finder = new PredicateFinderHandler();
+    protected final PreviewHandler getPreviewHandler(String uri, String rdfFormatName) throws BridgeDBException{
+        PreviewHandler finder = new PreviewHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(uri, rdfFormatName);
         return finder;
     }
     
-    private PredicateFinderHandler getPredicateFinderHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
-        PredicateFinderHandler finder = new PredicateFinderHandler();
+    private PreviewHandler getPreviewHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
+        PreviewHandler finder = new PreviewHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(baseURI, file, rdfFormatName);
         return finder;
     }
 
-    protected final  URI getObject(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
+    protected final  URI getObject(PreviewHandler finder, URI predicate) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(predicate);
         if (statement != null){
             Value object = statement.getObject();
@@ -83,7 +83,7 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
     }
     
-    protected final  URI getObject(PredicateFinderHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
+    protected final  URI getObject(PreviewHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
        Statement statement =  finder.getSinglePredicateStatements(predicateMain);
         if (statement != null){
             Value object = statement.getObject();
@@ -107,7 +107,7 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicateMain);
     }
 
-    protected final Value getPossibleValue(PredicateFinderHandler finder, URI predicate) throws BridgeDBException{
+    protected final Value getPossibleValue(PreviewHandler finder, URI predicate) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(predicate);
         if (statement != null){
             return statement.getObject();
@@ -170,7 +170,7 @@ public class Loader
         return getUri(value);
     }
 
-    protected final Resource getLinksetId(PredicateFinderHandler finder) throws BridgeDBException{
+    protected final Resource getLinksetId(PreviewHandler finder) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
             return statement.getSubject();
@@ -196,7 +196,7 @@ public class Loader
     
     public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         URI context = new URIImpl(uri);
-        PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
+        PreviewHandler finder = Loader.this.getPreviewHandler(uri, rdfFormatName);
         RdfParserIMS parser = getParser(context, finder, null);
         parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
@@ -218,13 +218,13 @@ public class Loader
     
     public int load(File file, URI context, String rdfFormatName, Boolean symmetric) 
             throws VoidValidatorException, BridgeDBException{
-        PredicateFinderHandler finder = getPredicateFinderHandler(context.stringValue(), file, rdfFormatName);
+        PreviewHandler finder = getPreviewHandler(context.stringValue(), file, rdfFormatName);
         RdfParserIMS parser = getParser(context , finder, symmetric);
         parser.parse(context.stringValue(), file, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
-    public RdfParserIMS getParser(URI context, PredicateFinderHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
+    public RdfParserIMS getParser(URI context, PreviewHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
