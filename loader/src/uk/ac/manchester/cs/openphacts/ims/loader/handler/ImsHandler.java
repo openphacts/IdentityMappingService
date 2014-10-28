@@ -24,7 +24,6 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.helpers.RDFHandlerBase;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
@@ -39,17 +38,17 @@ public class ImsHandler extends LinksetHandler{
     private final Resource context;
     private final ImsListener imsListener;
     
-    public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String justification, Resource mappingResource, 
-            Resource mappingSource, boolean symetric){
-        super(imsListener, linkPredicate, justification, mappingResource, mappingSource, symetric);
+    public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String justification, 
+            URI mappingSource, boolean symetric){
+        super(imsListener, linkPredicate, justification, mappingSource, symetric);
         this.imsListener = imsListener;
         this.rdfInterface = rdfInterface;
         this.context = context;
     }
     
     public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String forwardJustification, 
-            String backwardJustification, Resource mappingResource, Resource mappingSource){
-        super(imsListener, linkPredicate, forwardJustification, backwardJustification, mappingResource, mappingSource);
+            String backwardJustification, URI mappingSource){
+        super(imsListener, linkPredicate, forwardJustification, backwardJustification, mappingSource);
         this.imsListener = imsListener;
         this.rdfInterface = rdfInterface;
         this.context = context;

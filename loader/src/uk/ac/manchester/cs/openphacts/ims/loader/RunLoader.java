@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,9 +20,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.Reporter;
-import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
-import org.openrdf.rio.RDFHandlerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -100,7 +98,7 @@ public class RunLoader {
         File file = UriFileMapper.toFile(path + URLEncoder.encode(link, "UTF-8"));
         if (file != null){
             Reporter.println("\tUsing File: " + file.getAbsolutePath());
-            Resource context = new URIImpl(uri);
+            URI context = new URIImpl(uri);
             loader.load(file, context);
         } else {
             loader.load((path + URLEncoder.encode(link, "UTF-8")), null);

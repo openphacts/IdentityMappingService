@@ -24,7 +24,6 @@ import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.sql.justification.OpsJustificationMaker;
-import org.bridgedb.uri.loader.LinksetHandler;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -39,7 +38,6 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PredicateFinderHandler;
-import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 public class Loader 
@@ -141,6 +139,26 @@ public class Loader
         }
     }
 
+    protected final URI getPossibleObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicate);
+        if (value == null){
+            return null;
+        } else {
+            return getUri(value);
+        }
+    }
+
+    protected final URI getPossibleObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicateMain);
+        if (value == null){
+            return null;
+        }
+        if (value == null){
+            throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicateMain);
+        }
+        return getUri(value);
+    }
+
     protected final URI getObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
         Value value = getPossibleValue(subject, predicateMain);
         if (value == null){
@@ -177,7 +195,7 @@ public class Loader
     }
     
     public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        Resource context = new URIImpl(uri);
+        URI context = new URIImpl(uri);
         PredicateFinderHandler finder = getPredicateFinderHandler(uri, rdfFormatName);
         RdfParserIMS parser = getParser(context, finder, null);
         parser.parse(uri, rdfFormatName);
@@ -185,20 +203,20 @@ public class Loader
     }
 
     public int load(File file) throws VoidValidatorException, BridgeDBException{
-        Resource context = UriFileMapper.getUri(file);
+        URI context = UriFileMapper.getUri(file);
         return load(file, context);
     }
     
-    public int load(File file, Resource context) throws VoidValidatorException, BridgeDBException{
+    public int load(File file, URI context) throws VoidValidatorException, BridgeDBException{
         return load (file, context, null, null);
     }
     
     public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        Resource context = UriFileMapper.getUri(file);
+        URI context = UriFileMapper.getUri(file);
         return load(file, context, rdfFormatName, null);
     }
     
-    public int load(File file, Resource context, String rdfFormatName, Boolean symmetric) 
+    public int load(File file, URI context, String rdfFormatName, Boolean symmetric) 
             throws VoidValidatorException, BridgeDBException{
         PredicateFinderHandler finder = getPredicateFinderHandler(context.stringValue(), file, rdfFormatName);
         RdfParserIMS parser = getParser(context , finder, symmetric);
@@ -206,10 +224,12 @@ public class Loader
         return parser.getMappingsetId();       
     }
 
-    public RdfParserIMS getParser(Resource context, PredicateFinderHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
+    public RdfParserIMS getParser(URI context, PredicateFinderHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
+        URI subjectTarget;
+        URI objectTarget;
         String rawJustification;
         Value isSymetric;
         if (statement != null){
@@ -217,11 +237,15 @@ public class Loader
             linkPredicate = getObject(linksetId, VoidConstants.LINK_PREDICATE);
             rawJustification = getObject(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
             isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
+            subjectTarget = getObject(linksetId, VoidConstants.SUBJECTSTARGET);
+            objectTarget = getObject(linksetId, VoidConstants.OBJECTSTARGET);
         } else {
             linksetId = getLinksetId(finder);
             linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
             rawJustification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();    
             isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
+            subjectTarget = getObject(finder, VoidConstants.SUBJECTSTARGET);
+            objectTarget = getObject(finder, VoidConstants.OBJECTSTARGET);
         }
         Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
         ImsHandler handler;
@@ -231,13 +255,14 @@ public class Loader
             String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
             if (forwardJustification.equals(backwardJustification)){
                 handler = new ImsHandler(reader, context, imsMapper, linkPredicate, rawJustification, 
-                        linksetId, context, true);
+                        context, true);
             } else {
-                handler = new ImsHandler(reader, context, imsMapper, linkPredicate, forwardJustification, backwardJustification, linksetId, context);
+                handler = new ImsHandler(reader, context, imsMapper, linkPredicate, forwardJustification, 
+                        backwardJustification, context);
             }
         } else {
             handler = new ImsHandler(reader, context, imsMapper, linkPredicate, rawJustification, 
-                linksetId, context, mergedSymetric.booleanValue());
+                context, mergedSymetric.booleanValue());
         }
         //ImsRdfHandler combinedHandler = 
         //        new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
