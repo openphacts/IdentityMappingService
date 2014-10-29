@@ -44,12 +44,46 @@ import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 public class Loader 
 {
-    private final Validator validator;
     protected final RdfReader reader;
     protected final ImsMapper imsMapper;
             
-    public Loader() throws BridgeDBException {
-        validator = new ValidatorImpl();
+    public static int load(String uri) throws VoidValidatorException, BridgeDBException{
+        return load(uri, null);
+    }
+    
+    public static int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
+        URI context = new URIImpl(uri);
+        Loader loader = new Loader();
+        PreviewHandler finder = loader.getPreviewHandler(uri, rdfFormatName);
+        RdfParserIMS parser = loader.getParser(context, finder, null);
+        parser.parse(uri, rdfFormatName);
+        return parser.getMappingsetId();       
+    }
+
+    public static int load(File file) throws VoidValidatorException, BridgeDBException{
+        URI context = UriFileMapper.getUri(file);
+        return load(file, context);
+    }
+    
+    public static int load(File file, URI context) throws VoidValidatorException, BridgeDBException{
+        return load (file, context, null, null);
+    }
+    
+    public static int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
+        URI context = UriFileMapper.getUri(file);
+        return load(file, context, rdfFormatName, null);
+    }
+    
+    public static int load(File file, URI context, String rdfFormatName, Boolean symmetric) 
+            throws VoidValidatorException, BridgeDBException{
+        Loader loader = new Loader();
+        PreviewHandler finder = loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
+        RdfParserIMS parser = loader.getParser(context , finder, symmetric);
+        parser.parse(context.stringValue(), file, rdfFormatName);
+        return parser.getMappingsetId();       
+    }
+
+    protected Loader() throws BridgeDBException {
         imsMapper = ImsMapper.getExisting();
         reader = RdfFactoryIMS.getReader();
         UriPattern.refreshUriPatterns();
@@ -192,40 +226,6 @@ public class Loader
                 + DulConstants.EXPRESSES);
     }
     
-    public int load(String uri) throws VoidValidatorException, BridgeDBException{
-        return load(uri, null);
-    }
-    
-    public int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        URI context = new URIImpl(uri);
-        PreviewHandler finder = Loader.this.getPreviewHandler(uri, rdfFormatName);
-        RdfParserIMS parser = getParser(context, finder, null);
-        parser.parse(uri, rdfFormatName);
-        return parser.getMappingsetId();       
-    }
-
-    public int load(File file) throws VoidValidatorException, BridgeDBException{
-        URI context = UriFileMapper.getUri(file);
-        return load(file, context);
-    }
-    
-    public int load(File file, URI context) throws VoidValidatorException, BridgeDBException{
-        return load (file, context, null, null);
-    }
-    
-    public int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
-        URI context = UriFileMapper.getUri(file);
-        return load(file, context, rdfFormatName, null);
-    }
-    
-    public int load(File file, URI context, String rdfFormatName, Boolean symmetric) 
-            throws VoidValidatorException, BridgeDBException{
-        PreviewHandler finder = getPreviewHandler(context.stringValue(), file, rdfFormatName);
-        RdfParserIMS parser = getParser(context , finder, symmetric);
-        parser.parse(context.stringValue(), file, rdfFormatName);
-        return parser.getMappingsetId();       
-    }
-
     public RdfParserIMS getParser(URI context, PreviewHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
@@ -302,11 +302,12 @@ public class Loader
         }
     }
 
-   void recover() throws BridgeDBException {
-        imsMapper.recover();
+    static void recover() throws BridgeDBException {
+       Loader loader = new Loader();
+       loader.imsMapper.recover();
     }
     
-   void closeInput() throws BridgeDBException {
+    void closeInput() throws BridgeDBException {
         imsMapper.closeInput();
     }
 }

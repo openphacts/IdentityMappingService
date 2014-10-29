@@ -50,7 +50,6 @@ public class RunLoader {
         System.out.println("Note: To specify a file dont forget the schema part: file://");
     }
     
-    private final Loader loader;
     private final RdfReader reader;
     private int originalCount = 0;
     private HashSet<String> loaded = new HashSet<String>(); 
@@ -61,7 +60,6 @@ public class RunLoader {
             SQLUriMapper.createNew();
             reader.clear();
         }
-        loader = new Loader();
     }
     
     public static void clean(Node node) {
@@ -99,9 +97,9 @@ public class RunLoader {
         if (file != null){
             Reporter.println("\tUsing File: " + file.getAbsolutePath());
             URI context = new URIImpl(uri);
-            loader.load(file, context);
+            Loader.load(file, context);
         } else {
-            loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
+            Loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
         }
     }
        
@@ -121,7 +119,7 @@ public class RunLoader {
     }
     
     private void recover() throws BridgeDBException {
-        loader.recover();
+        Loader.recover();
     }
  
 

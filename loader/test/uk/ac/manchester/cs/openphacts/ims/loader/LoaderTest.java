@@ -47,7 +47,6 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
  */
 public class LoaderTest {
     
-    static Loader instance;
     static SQLUriMapper uriListener;
     static RdfReader reader;
              
@@ -61,7 +60,6 @@ public class LoaderTest {
         ConfigReader.useTest();
         //TestSqlFactory.checkSQLAccess();
         uriListener = SQLUriMapper.createNew();
-        instance = new Loader();        
         reader = RdfFactory.getTestFilebase();
     }
     
@@ -86,7 +84,7 @@ public class LoaderTest {
         File file  = new File("test-data/cw-cs.ttl");
         Resource context = new URIImpl(file.toURI().toString());
         String formatName = null;
-        int result = instance.load(file, formatName);
+        int result = Loader.load(file, formatName);
         MappingSetInfo mapping = uriListener.getMappingSetInfo(result);
         int numberOfLinks = mapping.getNumberOfLinks();
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));
