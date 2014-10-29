@@ -30,8 +30,10 @@ import org.bridgedb.rdf.constants.DCatConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.utils.BridgeDBException;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.helpers.RDFHandlerBase;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
@@ -74,7 +76,6 @@ public class PreviewHandler extends RDFHandlerBase{
         predicateToStore.addAll(DISTRIBUTION_PREDICATES);
     }
     
-    
     public PreviewHandler(){
         for (URI uri:predicateToStore){
             HashSet<Statement> statements = new HashSet<Statement>();
@@ -107,6 +108,31 @@ public class PreviewHandler extends RDFHandlerBase{
             return null;
         }
         throw new  BridgeDBException ("Found " + statements.size() + " statements with predicate " + predicate);
+    }
+    
+    public final Set<Statement> getStatementList(Resource subject, URI predicate){
+        if (subject == null){
+            return getStatementList(predicate);
+        }
+        Set<Statement> statements = savedStatements.get(predicate);
+        Set<Statement> results = new HashSet<Statement>();
+        if (statements == null){
+            return results;
+        }
+        for (Statement statement:statements){
+            if (statement.getSubject().equals(subject)){
+                results.add(statement);
+            }
+        }
+        return results;
+    }
+    
+    public final Set<Statement> getStatementList(URI predicate){
+        Set<Statement> statements = savedStatements.get(predicate);
+        if (statements == null){
+            new HashSet<Statement>();
+        }
+        return new HashSet<Statement>(statements);
     }
     
     //public HashMap<URI, Integer> getPredicateCount(){

@@ -121,15 +121,12 @@ public class ParentChildCheck extends Loader {
         Value isSymetric;
         if (statement != null){
             linksetId  = getObject(statement);
-            linkPredicate = getObject(linksetId, VoidConstants.LINK_PREDICATE);
-            justification = getObject(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);  
-            isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         } else {
             linksetId = getLinksetId(finder);
-            linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
-            justification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
-            isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
         }
+        linkPredicate = getObject(finder, linksetId, VoidConstants.LINK_PREDICATE);
+        justification = getObject(finder, linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
+        isSymetric = getPossibleValue(finder, linksetId, BridgeDBConstants.IS_SYMETRIC);
         System.out.println("Found " + linksetId);
         if (this.linkPredicate == null) {
             this.linkPredicate = linkPredicate;

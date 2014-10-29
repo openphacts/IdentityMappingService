@@ -20,6 +20,8 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Set;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
@@ -67,7 +69,36 @@ public class Loader
         return finder;
     }
 
-    protected final  URI getObject(PreviewHandler finder, URI predicate) throws BridgeDBException{
+    protected final Value getPossibleValue(PreviewHandler preview, Resource subject, URI predicate) 
+            throws VoidValidatorException, BridgeDBException {
+        Set<Statement> statements = preview.getStatementList(subject, predicate);
+        if (statements.size() == 1){
+            return statements.iterator().next().getObject();
+        }
+        if (statements.size() > 1){
+            return getPossibleValue(statements);
+        }        
+        return getPossibleValue(reader.getStatementList(subject, predicate, null));
+      }
+
+    private Value getPossibleValue (Collection<Statement> statements) throws BridgeDBException{
+        if (statements == null || statements.isEmpty()){
+            return null;
+        }
+        Value result = null;
+        for (Statement statement:statements){
+            if (result == null){
+                result = statement.getObject();
+            } else if (result.stringValue().equals(statement.getObject().stringValue())){
+                //ignore dublicate
+            } else {
+                throw new BridgeDBException ("Found two (or more) objects ");
+            }
+        }
+        return result;
+    }
+
+    protected final URI getObject(PreviewHandler finder, URI predicate) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(predicate);
         if (statement != null){
             Value object = statement.getObject();
@@ -83,7 +114,7 @@ public class Loader
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
     }
     
-    protected final  URI getObject(PreviewHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
+    /*protected final  URI getObject(PreviewHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
        Statement statement =  finder.getSinglePredicateStatements(predicateMain);
         if (statement != null){
             Value object = statement.getObject();
@@ -105,71 +136,42 @@ public class Loader
             throw new BridgeDBException("No statement found with predicate "+ predicateMain);
         }
         throw new BridgeDBException("Found " + count + " statements with predicate "+ predicateMain);
-    }
+    }*/
 
-    protected final Value getPossibleValue(PreviewHandler finder, URI predicate) throws BridgeDBException{
-        Statement statement =  finder.getSinglePredicateStatements(predicate);
-        if (statement != null){
-            return statement.getObject();
-        }
-        return null;
-    }
-
-    protected final Value getPossibleValue(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
-        Value result = null;
-        for (Statement statement:reader.getStatementList(subject, predicate, null)){
-            if (result == null){
-                result = statement.getObject();
-            } else if (result.stringValue().equals(statement.getObject().stringValue())){
-                //ignore dublicate
-            } else {
-                throw new BridgeDBException ("Found two (or more) objects for subject " + subject 
-                    + " and predicate " + predicate + ". Found " + result + " and " + statement.getObject());
-            }
-        }
-        return result;
-    }
-
-    protected final URI getObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicate);
-        if (value == null){
+    protected final URI getObject(PreviewHandler finder, Resource subject, URI predicate) 
+            throws VoidValidatorException, BridgeDBException {
+        URI uri = getPossibleObject(finder, subject, predicate);
+        if (uri == null){
             throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicate);
-        } else {
-            return getUri(value);
-        }
+        } 
+        return uri;
     }
 
-    protected final URI getPossibleObject(Resource subject, URI predicate) throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicate);
-        if (value == null){
-            return null;
-        } else {
-            return getUri(value);
-        }
-    }
-
-    protected final URI getPossibleObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicateMain);
-        if (value == null){
-            return null;
-        }
-        if (value == null){
-            throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicateMain);
-        }
+    protected final URI getPossibleObject(PreviewHandler finder, Resource subject, URI predicate) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(finder, subject, predicate);
         return getUri(value);
     }
 
-    protected final URI getObject(Resource subject, URI predicateMain, URI predicateBackup) throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicateMain);
-        if (value == null){
-            value = getPossibleValue(subject, predicateBackup);
+    protected final URI getPossibleObject(PreviewHandler finder, Resource subject, URI predicateMain, URI predicateBackup) 
+            throws VoidValidatorException, BridgeDBException {
+        URI uri = getPossibleObject(finder, subject, predicateMain);
+        if (uri != null){
+            return uri;
         }
-        if (value == null){
-            throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicateMain);
-        }
-        return getUri(value);
+        return getPossibleObject(finder, subject, predicateBackup);
     }
 
+    protected final URI getObject(PreviewHandler finder, Resource subject, URI predicateMain, URI predicateBackup) 
+            throws VoidValidatorException, BridgeDBException {
+        URI uri = getPossibleObject(finder, subject, predicateMain, predicateBackup);
+        if (uri == null){
+            throw new BridgeDBException ("No statements found for subject " + subject + 
+                    " and predicate " + predicateMain + " or " + predicateBackup);
+        }  
+        return uri;
+    }
+    
     protected final Resource getLinksetId(PreviewHandler finder) throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
@@ -234,19 +236,15 @@ public class Loader
         Value isSymetric;
         if (statement != null){
             linksetId  = getObject(statement);
-            linkPredicate = getObject(linksetId, VoidConstants.LINK_PREDICATE);
-            rawJustification = getObject(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
-            isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
-            subjectTarget = getObject(linksetId, VoidConstants.SUBJECTSTARGET);
-            objectTarget = getObject(linksetId, VoidConstants.OBJECTSTARGET);
         } else {
             linksetId = getLinksetId(finder);
-            linkPredicate = getObject(finder, VoidConstants.LINK_PREDICATE);
-            rawJustification = getObject(finder, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();    
-            isSymetric = getPossibleValue(finder, BridgeDBConstants.IS_SYMETRIC);
-            subjectTarget = getObject(finder, VoidConstants.SUBJECTSTARGET);
-            objectTarget = getObject(finder, VoidConstants.OBJECTSTARGET);
+
         }
+        linkPredicate = getObject(finder, linksetId, VoidConstants.LINK_PREDICATE);
+        rawJustification = getObject(finder, linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
+        isSymetric = getPossibleValue(finder, linksetId, BridgeDBConstants.IS_SYMETRIC);
+        subjectTarget = getObject(finder, linksetId, VoidConstants.SUBJECTSTARGET);
+        objectTarget = getObject(finder, linksetId, VoidConstants.OBJECTSTARGET);
         Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
         ImsHandler handler;
         if (mergedSymetric == null){
@@ -297,6 +295,8 @@ public class Loader
    private URI getUri(Value value) throws BridgeDBException{
         if (value instanceof URI){
             return (URI)value;
+        } else if (value == null){
+            return null;
         } else {
             throw new BridgeDBException("Found " + value + " but it is not a URI.");
         }
