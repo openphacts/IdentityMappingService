@@ -20,6 +20,7 @@
 package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,95 +45,118 @@ import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
  */
 public class PreviewHandler extends RDFHandlerBase{
     
-    private static final Set<URI> predicateToStore = new HashSet<URI>();
-    public static final Set<URI> LINKSET_PREDICATES = new HashSet<URI>();
-    public static final Set<URI> DATASET_PREDICATES = new HashSet<URI>();
-    public static final Set<URI> DISTRIBUTION_PREDICATES = new HashSet<URI>();
+    private final Set<URI> predicatesToStoreMultiple = new HashSet<URI>();
     
     private final HashMap<URI, Set<Statement>> savedStatements = new HashMap<URI, Set<Statement>>();    
-    
-    static {
-        LINKSET_PREDICATES.add(DCTermsConstants.TITLE_URI);
-        LINKSET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
-        LINKSET_PREDICATES.add(VoidConstants.SUBJECTSTARGET);
-        LINKSET_PREDICATES.add(VoidConstants.OBJECTSTARGET);
-        LINKSET_PREDICATES.add(VoidConstants.LINK_PREDICATE);
-        LINKSET_PREDICATES.add(BridgeDBConstants.SUBJECTS_DATATYPE);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.OBJECTS_DATATYPE);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.SUBJECTS_SPECIES);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.OBJECTS_SPECIES);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.IS_SYMETRIC);//?
-        LINKSET_PREDICATES.add(BridgeDBConstants.LINKSET_JUSTIFICATION);
-        LINKSET_PREDICATES.add(DulConstants.EXPRESSES);
-        DATASET_PREDICATES.add(DCTermsConstants.TITLE_URI);
-        DATASET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
-        DATASET_PREDICATES.add(PavConstants.VERSION);
-        DATASET_PREDICATES.add(DCatConstants.DISTRIBUTION_URI);
-        DISTRIBUTION_PREDICATES.add(PavConstants.VERSION);
-        DISTRIBUTION_PREDICATES.add(DCatConstants.BYTE_SIZE_URI);
-        predicateToStore.add(VoidConstants.IN_DATASET);
-        predicateToStore.addAll(LINKSET_PREDICATES);
-        predicateToStore.addAll(DATASET_PREDICATES);
-        predicateToStore.addAll(DISTRIBUTION_PREDICATES);
-    }
+    private final HashMap<URI, Statement> singlePredicate = new HashMap<URI, Statement>();
+    private final HashMap<URI, Integer> predicateCount = new HashMap<URI, Integer>();
     
     public PreviewHandler(){
-        for (URI uri:predicateToStore){
-            HashSet<Statement> statements = new HashSet<Statement>();
-            savedStatements.put(uri, statements);
-        }
     }
     
-     
-    @Override
-    public void handleStatement(Statement st) throws RDFHandlerException {
-        URI predicate = st.getPredicate();
-        if (predicateToStore.contains(predicate)){
-            Set<Statement> statements = savedStatements.get(predicate);
-            statements.add(st);
-            savedStatements.put(predicate, statements);
-        }
+    public void addPredicateToStoreMultiples(Collection<URI> predicates){
+        predicatesToStoreMultiple.addAll(predicates);
     }
 
     @Override
-    public void endRDF() throws RDFHandlerException {
-        super.endRDF();
+    public void handleStatement(Statement st) throws RDFHandlerException {
+        //ystem.out.println("Handle " + st);
+        URI predicate = st.getPredicate();
+        if (predicatesToStoreMultiple.contains(predicate)){
+            Set<Statement> statements = savedStatements.get(predicate);
+            if (statements == null){
+                statements = new HashSet<Statement>();
+            }
+            statements.add(st);
+            //ystem.out.println ("Added to " + statements);
+            savedStatements.put(predicate, statements);
+        } else {
+            Integer count = predicateCount.get(st);
+            if (count != null){
+                count++;
+                //ystem.out.println ("Count " + count);
+                predicateCount.put(predicate, count);
+            } else {
+                Statement previous = singlePredicate.get(predicate);
+                if (previous == null){
+                    singlePredicate.put(predicate, st);
+                    //ystem.out.println ("Single " + st);
+                } else if (previous.equals(st)){
+                    //duplicate do nothing
+                } else {
+                    singlePredicate.remove(predicate);
+                    count = 2;
+                    //ystem.out.println ("Count " + count);
+                    predicateCount.put(predicate, count);                
+                }
+            }
+        }
     }
 
     public Statement getSinglePredicateStatements(URI predicate) throws BridgeDBException {
-        Set<Statement> statements = savedStatements.get(predicate);
-        if (statements.size() == 1){
-            return statements.iterator().next();
+        if (predicatesToStoreMultiple.contains(predicate)){
+            Set<Statement> statements = savedStatements.get(predicate);
+            if (statements.size() == 1){
+                return statements.iterator().next();
+            }
+            if (statements.isEmpty()){
+                return null;
+            }
+            throw new  BridgeDBException ("Found " + statements.size() + " statements with predicate " + predicate);
+        } else {
+            Integer count = predicateCount.get(predicate);
+            if (count == null){
+                return singlePredicate.get(predicate);
+            } else {
+                throw new  BridgeDBException ("Found " + count + " statements with predicate " + predicate);            
+            }
         }
-        if (statements.isEmpty()){
-            return null;
-        }
-        throw new  BridgeDBException ("Found " + statements.size() + " statements with predicate " + predicate);
     }
     
-    public final Set<Statement> getStatementList(Resource subject, URI predicate){
+    public final Set<Statement> getStatementList(Resource subject, URI predicate) throws BridgeDBException{
         if (subject == null){
             return getStatementList(predicate);
         }
-        Set<Statement> statements = savedStatements.get(predicate);
         Set<Statement> results = new HashSet<Statement>();
-        if (statements == null){
-            return results;
-        }
-        for (Statement statement:statements){
-            if (statement.getSubject().equals(subject)){
-                results.add(statement);
+        if (predicatesToStoreMultiple.contains(predicate)){
+            Set<Statement> statements = savedStatements.get(predicate);
+            if (statements == null){
+                return results;
             }
+            for (Statement statement:statements){
+                if (statement.getSubject().equals(subject)){
+                    results.add(statement);
+                }
+            }
+        } else {
+            Statement statement = getSinglePredicateStatements(predicate);
+            if (statement != null && statement.getSubject().equals(subject)){
+                results.add(statement);
+            }      
         }
         return results;
     }
     
-    public final Set<Statement> getStatementList(URI predicate){
-        Set<Statement> statements = savedStatements.get(predicate);
-        if (statements == null){
-            new HashSet<Statement>();
+    public final Set<Statement> getStatementList(URI predicate) throws BridgeDBException{
+        if (predicatesToStoreMultiple.contains(predicate)){
+            System.out.println(predicatesToStoreMultiple);
+            Set<Statement> statements = savedStatements.get(predicate);
+            if (statements == null){
+                return new HashSet<Statement>();
+            } else {
+                return new HashSet<Statement>(statements);
+            }
+        } else {
+            System.out.println(predicate);
+            HashSet<Statement> results = new HashSet<Statement>();
+            Statement statement = getSinglePredicateStatements(predicate);
+            System.out.println(statement);
+            if (statement != null){
+                results.add(statement);
+            }
+            System.out.println(results);
+            return results;
         }
-        return new HashSet<Statement>(statements);
     }
     
     //public HashMap<URI, Integer> getPredicateCount(){
@@ -140,7 +164,25 @@ public class PreviewHandler extends RDFHandlerBase{
     // }
     
     public Integer getPredicateCount(URI predicate){
-        Set<Statement> statements = savedStatements.get(predicate);
-        return statements.size();
+        if (predicatesToStoreMultiple.contains(predicate)){
+            Set<Statement> statements = savedStatements.get(predicate);
+            if (statements == null){
+                return 0;
+            } else {
+                return statements.size();
+            }
+        } else {
+            Integer count = predicateCount.get(predicate);
+            if (count != null){
+                return count;
+            } else {
+                Statement statement = singlePredicate.get(predicate);
+                if (statement == null){
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        }
     }
 }

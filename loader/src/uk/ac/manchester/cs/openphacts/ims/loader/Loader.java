@@ -21,10 +21,15 @@ package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
+import org.bridgedb.rdf.constants.DCTermsConstants;
+import org.bridgedb.rdf.constants.DCatConstants;
 import org.bridgedb.rdf.constants.DulConstants;
+import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.sql.justification.OpsJustificationMaker;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Literal;
@@ -47,6 +52,35 @@ public class Loader
     protected final RdfReader reader;
     protected final ImsMapper imsMapper;
             
+    public static final Set<URI> LINKSET_PREDICATES = new HashSet<URI>();
+    public static final Set<URI> DATASET_PREDICATES = new HashSet<URI>();
+    public static final Set<URI> DISTRIBUTION_PREDICATES = new HashSet<URI>();
+    
+    private final HashMap<URI, Set<Statement>> savedStatements = new HashMap<URI, Set<Statement>>();    
+    
+    static {
+        LINKSET_PREDICATES.add(DCTermsConstants.TITLE_URI);
+        LINKSET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
+        LINKSET_PREDICATES.add(VoidConstants.SUBJECTSTARGET);
+        LINKSET_PREDICATES.add(VoidConstants.OBJECTSTARGET);
+        LINKSET_PREDICATES.add(VoidConstants.LINK_PREDICATE);
+        LINKSET_PREDICATES.add(BridgeDBConstants.SUBJECTS_DATATYPE);//For future use
+        LINKSET_PREDICATES.add(BridgeDBConstants.OBJECTS_DATATYPE);//For future use
+        LINKSET_PREDICATES.add(BridgeDBConstants.SUBJECTS_SPECIES);//For future use
+        LINKSET_PREDICATES.add(BridgeDBConstants.OBJECTS_SPECIES);//For future use
+        LINKSET_PREDICATES.add(BridgeDBConstants.IS_SYMETRIC);//?
+        LINKSET_PREDICATES.add(BridgeDBConstants.LINKSET_JUSTIFICATION);
+        LINKSET_PREDICATES.add(DulConstants.EXPRESSES);
+        DATASET_PREDICATES.add(DCTermsConstants.TITLE_URI);
+        DATASET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
+        DATASET_PREDICATES.add(PavConstants.VERSION);
+        DATASET_PREDICATES.add(DCatConstants.DISTRIBUTION_URI);
+        DATASET_PREDICATES.add(VoidConstants.URI_SPACE_URI);
+        DATASET_PREDICATES.add(VoidConstants.URI_REGEX_PATTERN);
+        DISTRIBUTION_PREDICATES.add(PavConstants.VERSION);
+        DISTRIBUTION_PREDICATES.add(DCatConstants.BYTE_SIZE_URI);
+    }
+    
     public static int load(String uri) throws VoidValidatorException, BridgeDBException{
         return load(uri, null);
     }
