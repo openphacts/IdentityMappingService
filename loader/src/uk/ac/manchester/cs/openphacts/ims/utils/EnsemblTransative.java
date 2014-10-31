@@ -49,7 +49,7 @@ import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
  *
  * @author Christian
  */
-public class EnsemblTransative extends Loader {
+public class EnsemblTransative  {
     
    public static String DEFAULT_BASE_URI = "http://no/BaseURI/Set/";
    private RepositoryConnection repositoryConnection;

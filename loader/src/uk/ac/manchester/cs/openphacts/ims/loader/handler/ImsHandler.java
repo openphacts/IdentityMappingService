@@ -19,6 +19,7 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
+import org.bridgedb.uri.loader.LinkHandler;
 import org.bridgedb.uri.loader.LinksetHandler;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -32,27 +33,21 @@ import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
  *
  * @author Christian
  */
-public class ImsHandler extends LinksetHandler{
+public class ImsHandler extends LinkHandler{
     
     private final RdfInterface rdfInterface;
     private final Resource context;
     private final ImsListener imsListener;
     
-    public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String justification, 
-            URI mappingSource, boolean symetric){
-        super(imsListener, linkPredicate, justification, mappingSource, symetric);
+    public ImsHandler(ImsListener imsListener, URI linkPredicate, boolean symetric, int mappingSet, 
+            RdfInterface rdfInterface, Resource context){
+        super(imsListener, linkPredicate, symetric);
         this.imsListener = imsListener;
         this.rdfInterface = rdfInterface;
         this.context = context;
+        this.mappingSet = mappingSet;
     }
     
-    public ImsHandler(RdfInterface rdfInterface, Resource context, ImsListener imsListener, URI linkPredicate, String forwardJustification, 
-            String backwardJustification, URI mappingSource){
-        super(imsListener, linkPredicate, forwardJustification, backwardJustification, mappingSource);
-        this.imsListener = imsListener;
-        this.rdfInterface = rdfInterface;
-        this.context = context;
-    }
 
     @Override
     public void handleStatement(Statement st) throws RDFHandlerException {
@@ -75,6 +70,5 @@ public class ImsHandler extends LinksetHandler{
         } catch (VoidValidatorException ex) {
             throw new RDFHandlerException("Unable to commit", ex);
         }
-        
     }
 }

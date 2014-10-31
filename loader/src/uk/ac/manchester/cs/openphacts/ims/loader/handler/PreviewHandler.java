@@ -19,25 +19,16 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import org.bridgedb.rdf.constants.BridgeDBConstants;
-import org.bridgedb.rdf.constants.DCTermsConstants;
-import org.bridgedb.rdf.constants.DCatConstants;
-import org.bridgedb.rdf.constants.DulConstants;
-import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
-import org.openrdf.model.Value;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.helpers.RDFHandlerBase;
-import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 
 /**
  *
@@ -81,7 +72,6 @@ public class PreviewHandler extends RDFHandlerBase{
                 } else if (previous.equals(st)){
                     //duplicate do nothing
                 } else {
-                    singlePredicate.remove(predicate);
                     count = 2;
                     //ystem.out.println ("Count " + count);
                     predicateCount.put(predicate, count);                
@@ -90,6 +80,18 @@ public class PreviewHandler extends RDFHandlerBase{
         }
     }
 
+    public Statement getRandomPredicateStatements(URI predicate) throws BridgeDBException {
+        if (predicatesToStoreMultiple.contains(predicate)){
+            Set<Statement> statements = savedStatements.get(predicate);
+            if (statements.size() >= 1){
+                return statements.iterator().next();
+            }
+            return null;
+        } else {
+            return singlePredicate.get(predicate);
+        }
+    }
+    
     public Statement getSinglePredicateStatements(URI predicate) throws BridgeDBException {
         if (predicatesToStoreMultiple.contains(predicate)){
             Set<Statement> statements = savedStatements.get(predicate);

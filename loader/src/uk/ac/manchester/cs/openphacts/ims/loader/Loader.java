@@ -32,6 +32,7 @@ import org.bridgedb.rdf.constants.DCatConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.sql.justification.OpsJustificationMaker;
+import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -40,6 +41,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.CalendarLiteralImpl;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.rio.RDFHandlerException;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
@@ -59,6 +61,8 @@ public class Loader
 
     private final HashMap<URI, Set<Statement>> savedStatements = new HashMap<URI, Set<Statement>>();    
     protected PreviewHandler finder;
+
+    private final URI context;
     
     private Resource linksetId;
     private String linksetTitle;
@@ -75,6 +79,7 @@ public class Loader
     private URI linksetJustification;
     private URI linksetAssertionMethod;
     private Value linksetIsSymetric;
+    private boolean isSymetric;
     
     static {
         LINKSET_PREDICATES.add(DCTermsConstants.TITLE_URI);
@@ -108,9 +113,9 @@ public class Loader
     
     public static int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         URI context = new URIImpl(uri);
-        Loader loader = new Loader();
+        Loader loader = new Loader(context);
         loader.getPreviewHandler(uri, rdfFormatName);
-        RdfParserIMS parser = loader.getParser(context, null);
+        RdfParserIMS parser = loader.getParser(context);
         parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
     }
@@ -121,27 +126,33 @@ public class Loader
     }
     
     public static int load(File file, URI context) throws VoidValidatorException, BridgeDBException{
-        return load (file, context, null, null);
+        return load (file, context, null);
     }
     
     public static int load(File file, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         URI context = UriFileMapper.getUri(file);
-        return load(file, context, rdfFormatName, null);
+        return load(file, context, rdfFormatName);
     }
     
-    public static int load(File file, URI context, String rdfFormatName, Boolean symmetric) 
+    public static int load(File file, URI context, String rdfFormatName) 
             throws VoidValidatorException, BridgeDBException{
-        Loader loader = new Loader();
+        Loader loader = new Loader(context);
         loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
-        RdfParserIMS parser = loader.getParser(context , symmetric);
+        RdfParserIMS parser = loader.getParser(context);
         parser.parse(context.stringValue(), file, rdfFormatName);
         return parser.getMappingsetId();       
     }
 
+
     protected Loader() throws BridgeDBException {
+        this(null);
+    }
+    
+    protected Loader(URI context) throws BridgeDBException {
         imsMapper = ImsMapper.getExisting();
         reader = RdfFactoryIMS.getReader();
         UriPattern.refreshUriPatterns();
+        this.context = context;
     }
     
     protected final void getPreviewHandler(String uri, String rdfFormatName) throws BridgeDBException{
@@ -295,6 +306,15 @@ public class Loader
             linksetId = getLinksetId();
         }
         linksetIsSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
+        if (linksetIsSymetric == null){
+            isSymetric = true;
+        } else if (linksetIsSymetric instanceof Literal){
+                Literal literal = (Literal)linksetIsSymetric;
+                isSymetric = literal.booleanValue();
+        } else {
+            throw new BridgeDBException ("Reading " + context + " unexpected object " + linksetIsSymetric  
+                    + " found with predicate " + BridgeDBConstants.IS_SYMETRIC);
+        }
         linksetTitle = getPossibleString(linksetId, DCTermsConstants.TITLE_URI);
         linksetDescription = getPossibleString(linksetId, DCTermsConstants.DESCRIPTION_URI);
         linksetPublisher = getPossibleURI(linksetId,  DCTermsConstants.PUBLISHER_URI);
@@ -310,46 +330,41 @@ public class Loader
         //private URI linksetAssertionMethod;
     }
     
-    public RdfParserIMS getParser(URI context, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
-        loadLinksetData();
-        Boolean mergedSymetric = mergeSymetric(context, symmetric, linksetIsSymetric);
-        ImsHandler handler;
-        String rawJustification = linksetJustification.stringValue();
-        if (mergedSymetric == null){
-            OpsJustificationMaker opsJustificationMaker = OpsJustificationMaker.getInstance();
-            String forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
-            String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
-            if (forwardJustification.equals(backwardJustification)){
-                handler = new ImsHandler(reader, context, imsMapper, linksetPredicate, rawJustification, 
-                        context, true);
-            } else {
-                handler = new ImsHandler(reader, context, imsMapper, linksetPredicate, forwardJustification, 
-                        backwardJustification, context);
-            }
-        } else {
-            handler = new ImsHandler(reader, context, imsMapper, linksetPredicate, rawJustification, 
-                context, mergedSymetric.booleanValue());
+    private int registerLinkset() throws BridgeDBException{
+        Statement aMapping = finder.getRandomPredicateStatements(linksetPredicate);
+        Resource subject = aMapping.getSubject();
+        Value object = aMapping.getObject();
+        if (!(subject instanceof URI)){
+            throw new BridgeDBException ("None URI subject in " + aMapping);
         }
-        //ImsRdfHandler combinedHandler = 
-        //        new ImsRdfHandler(linksetHandler, readerHandler, linksetPredicate);
-        return new RdfParserIMS(handler);
+        if (!(object instanceof URI)){
+            throw new BridgeDBException ("None URI object in " + aMapping);
+        }
+        RegexUriPattern sourcePattern = imsMapper.toUriPattern(subject.stringValue());
+        if (sourcePattern == null){
+            throw new BridgeDBException("Unable to get a pattern for " + subject.stringValue());
+        }
+        RegexUriPattern targetPattern = imsMapper.toUriPattern(object.stringValue());
+        if (targetPattern == null){
+            throw new BridgeDBException("Unable to get a pattern for " + object.stringValue());
+        }
+        String rawJustification = linksetJustification.stringValue();
+        OpsJustificationMaker opsJustificationMaker = OpsJustificationMaker.getInstance();
+        String forwardJustification = forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
+        String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
+        if (forwardJustification.equals(backwardJustification)){
+            return imsMapper.registerMappingSet(sourcePattern, linksetPredicate.stringValue(), 
+                    rawJustification, targetPattern, context, isSymetric);
+        }
+        return imsMapper.registerMappingSet(sourcePattern, linksetPredicate.stringValue(), 
+                forwardJustification, backwardJustification, targetPattern, context);
     }
 
-    private Boolean mergeSymetric (Resource context, Boolean given, Value read) throws BridgeDBException{
-        if (read == null){
-            return given;
-        }
-        if (read instanceof Literal){
-            Literal literal = (Literal)read;
-            boolean saysSymetric = literal.booleanValue();
-            if (given != null && given != saysSymetric){
-                throw new BridgeDBException ("Request to load " + context + " with symetric = " + given 
-                            + " but found " + read);
-            }
-            return saysSymetric;
-        } 
-        throw new BridgeDBException ("Reading " + context + " unexpected object " + read 
-                + " found with predicate " + BridgeDBConstants.IS_SYMETRIC);
+    public RdfParserIMS getParser(URI context) throws VoidValidatorException, BridgeDBException{
+        loadLinksetData();
+        int mappingSetId = registerLinkset();
+        ImsHandler handler = new ImsHandler(imsMapper, linksetPredicate, isSymetric, mappingSetId, reader, context); 
+        return new RdfParserIMS(handler);
     }
     
     protected final URI getObject(Statement statement) throws BridgeDBException{
@@ -371,7 +386,7 @@ public class Loader
     }
 
     static void recover() throws BridgeDBException {
-       Loader loader = new Loader();
+       Loader loader = new Loader(null);
        loader.imsMapper.recover();
     }
     
