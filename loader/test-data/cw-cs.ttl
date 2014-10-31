@@ -17,7 +17,7 @@
     foaf:primaryTopic :conceptwiki_chemspider .
 
 :conceptwiki_chemspider a void:Linkset ;
-    dcterms:license "unknown" ;
+    dcterms:license <http://example.com/Who_cares_this_is_a_test> ;
     foaf:primaryTopic :conceptwiki_chemspider .
 
 :conceptwiki_chemspider a void:Linkset ;
@@ -29,14 +29,14 @@
     dcterms:creator <http://www.conceptwiki.org> .
 :conceptwiki a void:Dataset ;
 	dcterms:title "ConceptWiki"^^xsd:string ;
-    dcterms:license "unknown" ;
+    dcterms:license <http://example.com/Who_cares_this_is_a_test> ;
     pav:retrievedOn "2012-02-28"^^xsd:date ;
     void:subset :conceptwiki_chemspider ;
     void:uriSpace <http://www.conceptwiki.org/concept/> .
 :chemspider a void:Dataset ;
 	dcterms:title "ChemSpider"^^xsd:string ;
     dcterms:license "http://www.chemspider.com/Disclaimer.aspx" ;
-    dcterms:subject "unknown" ;
+    dcterms:license <http://example.com/Who_cares_this_is_a_test> ;
     pav:version "unknown" ;
     void:uriSpace <http://rdf.chemspider.com/> .
    

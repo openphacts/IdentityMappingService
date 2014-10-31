@@ -26,7 +26,7 @@
 :TestA_B a void:Linkset  ;
     void:subjectsTarget :TestDS_A ;
     void:objectsTarget :TestDS_B ;
-    dcterms:license "Who cares this is a test" ;
+    dcterms:license <http://example.com/Who_cares_this_is_a_test> ;
     void:linkPredicate <http://www.bridgedb.org/test#testPredicate> ;
     dul:expresses <http://www.bridgedb.org/test#justification1> ;
     dcterms:created "2012-02-22"^^xsd:date ;
