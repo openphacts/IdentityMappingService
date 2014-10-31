@@ -113,7 +113,7 @@ public class ParentChildCheck extends Loader {
 
     private void checkInfo (String uri) throws BridgeDBException, VoidValidatorException{
         RdfReader reader = RdfFactoryIMS.getReader();
-        PreviewHandler finder = getPreviewHandler(uri, null);
+        getPreviewHandler(uri, null);
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
         Resource linksetId;
         URI linkPredicate;
@@ -122,11 +122,11 @@ public class ParentChildCheck extends Loader {
         if (statement != null){
             linksetId  = getObject(statement);
         } else {
-            linksetId = getLinksetId(finder);
+            linksetId = getLinksetId();
         }
-        linkPredicate = getObject(finder, linksetId, VoidConstants.LINK_PREDICATE);
-        justification = getObject(finder, linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
-        isSymetric = getPossibleValue(finder, linksetId, BridgeDBConstants.IS_SYMETRIC);
+        linkPredicate = getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
+        justification = getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
+        isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         System.out.println("Found " + linksetId);
         if (this.linkPredicate == null) {
             this.linkPredicate = linkPredicate;

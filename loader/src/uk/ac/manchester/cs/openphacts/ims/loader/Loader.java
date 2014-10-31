@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
@@ -37,9 +38,8 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.CalendarLiteralImpl;
 import org.openrdf.model.impl.URIImpl;
-import uk.ac.manchester.cs.datadesc.validator.Validator;
-import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
@@ -55,8 +55,26 @@ public class Loader
     public static final Set<URI> LINKSET_PREDICATES = new HashSet<URI>();
     public static final Set<URI> DATASET_PREDICATES = new HashSet<URI>();
     public static final Set<URI> DISTRIBUTION_PREDICATES = new HashSet<URI>();
-    
+    public static final Set<URI> MULTIPLE_PREDICATES = new HashSet<URI>();
+
     private final HashMap<URI, Set<Statement>> savedStatements = new HashMap<URI, Set<Statement>>();    
+    protected PreviewHandler finder;
+    
+    private Resource linksetId;
+    private String linksetTitle;
+    private String linksetDescription;
+    private URI linksetPublisher;
+    private URI linksetLicense;
+    private CalendarLiteralImpl linksetIssued;
+    private URI linksetDataDump;
+    private URI linksetSubjectsTarget;
+    private URI linksetSubjectsDatatype;
+    private URI linksetObjectsTarget;
+    private URI linksetObjectsDatatype;
+    private URI linksetPredicate;
+    private URI linksetJustification;
+    private URI linksetAssertionMethod;
+    private Value linksetIsSymetric;
     
     static {
         LINKSET_PREDICATES.add(DCTermsConstants.TITLE_URI);
@@ -73,12 +91,15 @@ public class Loader
         LINKSET_PREDICATES.add(DulConstants.EXPRESSES);
         DATASET_PREDICATES.add(DCTermsConstants.TITLE_URI);
         DATASET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
+        DATASET_PREDICATES.add(DCTermsConstants.LICENSE_URI);
         DATASET_PREDICATES.add(PavConstants.VERSION);
         DATASET_PREDICATES.add(DCatConstants.DISTRIBUTION_URI);
         DATASET_PREDICATES.add(VoidConstants.URI_SPACE_URI);
         DATASET_PREDICATES.add(VoidConstants.URI_REGEX_PATTERN);
         DISTRIBUTION_PREDICATES.add(PavConstants.VERSION);
         DISTRIBUTION_PREDICATES.add(DCatConstants.BYTE_SIZE_URI);
+        MULTIPLE_PREDICATES.addAll(DATASET_PREDICATES);
+        MULTIPLE_PREDICATES.addAll(DISTRIBUTION_PREDICATES);
     }
     
     public static int load(String uri) throws VoidValidatorException, BridgeDBException{
@@ -88,8 +109,8 @@ public class Loader
     public static int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         URI context = new URIImpl(uri);
         Loader loader = new Loader();
-        PreviewHandler finder = loader.getPreviewHandler(uri, rdfFormatName);
-        RdfParserIMS parser = loader.getParser(context, finder, null);
+        loader.getPreviewHandler(uri, rdfFormatName);
+        RdfParserIMS parser = loader.getParser(context, null);
         parser.parse(uri, rdfFormatName);
         return parser.getMappingsetId();       
     }
@@ -111,8 +132,8 @@ public class Loader
     public static int load(File file, URI context, String rdfFormatName, Boolean symmetric) 
             throws VoidValidatorException, BridgeDBException{
         Loader loader = new Loader();
-        PreviewHandler finder = loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
-        RdfParserIMS parser = loader.getParser(context , finder, symmetric);
+        loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
+        RdfParserIMS parser = loader.getParser(context , symmetric);
         parser.parse(context.stringValue(), file, rdfFormatName);
         return parser.getMappingsetId();       
     }
@@ -123,124 +144,130 @@ public class Loader
         UriPattern.refreshUriPatterns();
     }
     
-    protected final PreviewHandler getPreviewHandler(String uri, String rdfFormatName) throws BridgeDBException{
-        PreviewHandler finder = new PreviewHandler();
+    protected final void getPreviewHandler(String uri, String rdfFormatName) throws BridgeDBException{
+        finder = new PreviewHandler(MULTIPLE_PREDICATES);
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(uri, rdfFormatName);
-        return finder;
     }
     
-    private PreviewHandler getPreviewHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
-        PreviewHandler finder = new PreviewHandler();
+    private void getPreviewHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
+        finder = new PreviewHandler(MULTIPLE_PREDICATES);
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(baseURI, file, rdfFormatName);
-        return finder;
     }
 
-    protected final Value getPossibleValue(PreviewHandler preview, Resource subject, URI predicate) 
-            throws VoidValidatorException, BridgeDBException {
-        Set<Statement> statements = preview.getStatementList(subject, predicate);
+    protected final Collection<Statement> getStatements(Resource subject, URI... predicates) 
+            throws BridgeDBException, VoidValidatorException{
+        for (URI predicate:predicates){
+            Collection<Statement> statements = finder.getStatementList(subject, predicate);
+            if (!statements.isEmpty()){
+                return statements;
+            }
+        }
+        for (URI predicate:predicates){
+            Collection<Statement> statements = reader.getStatementList(subject, predicate, null);
+            if (!statements.isEmpty()){
+                return statements;
+            }
+        }
+        return new HashSet<Statement>();
+    }
+    
+    protected final Value getSingleValue(Resource subject, URI... predicates) throws BridgeDBException, VoidValidatorException{
+        Collection<Statement> statements = getStatements(subject, predicates);
+        if (statements == null || statements.isEmpty()){
+            throw new BridgeDBException("No statements found " + withInfo(subject, predicates));
+        }
         if (statements.size() == 1){
             return statements.iterator().next().getObject();
         }
-        if (statements.size() > 1){
-            return getPossibleValue(statements);
-        }        
-        return getPossibleValue(reader.getStatementList(subject, predicate, null));
-      }
-
-    private Value getPossibleValue (Collection<Statement> statements) throws BridgeDBException{
+        Statement first = null;
+        for (Statement statement:statements){
+            if (first == null){
+                first = statement;
+            } else {
+                if (first.equals(statement)){
+                    //ignore duplicates
+                } else {
+                    throw new BridgeDBException(statements.size() + " statements found " + withInfo(subject, predicates));
+                }
+            }
+        }
+        //All Statements the same so retirn 1;
+        return first.getObject();
+    }
+    
+    protected final Value getPossibleValue(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Collection<Statement> statements = getStatements(subject, predicates);
         if (statements == null || statements.isEmpty()){
             return null;
         }
-        Value result = null;
-        for (Statement statement:statements){
-            if (result == null){
-                result = statement.getObject();
-            } else if (result.stringValue().equals(statement.getObject().stringValue())){
-                //ignore dublicate
-            } else {
-                throw new BridgeDBException ("Found two (or more) objects ");
-            }
-        }
-        return result;
+        return statements.iterator().next().getObject();
     }
 
-    protected final URI getObject(PreviewHandler finder, URI predicate) throws BridgeDBException{
-        Statement statement =  finder.getSinglePredicateStatements(predicate);
-        if (statement != null){
-            Value object = statement.getObject();
-            if (object instanceof URI){
-                return (URI)object;
-            }
-            throw new BridgeDBException ("Unexpected Object in " + statement);
+    protected final URI getSingleURI(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getSingleValue(subject, predicates);
+        if (value instanceof URI){
+            return (URI)value;
         }
-        Integer count = finder.getPredicateCount(predicate);
-        if (count == 0){
-            throw new BridgeDBException("No statement found with predicate "+ predicate);
+        throw new BridgeDBException("Founnd none URI " + value + " object " + withInfo(subject, predicates));
+    }
+
+    protected final URI getPossibleURI(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicates);
+        if (value == null){
+            return null;
         }
-        throw new BridgeDBException("Found " + count + " statements with predicate "+ predicate);
+        if (value instanceof URI){
+            return (URI)value;
+        }
+        throw new BridgeDBException("Founnd none URI " + value + " object " + withInfo(subject, predicates));
+    }
+
+    protected final CalendarLiteralImpl getPossibleCalendar(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicates);
+        if (value == null){
+            return null;
+        }
+        if (value instanceof CalendarLiteralImpl){
+            return (CalendarLiteralImpl)value;
+        }
+        throw new BridgeDBException("Founnd none CalendarLiteralImpl " + value + " object " + withInfo(subject, predicates));
     }
     
-    /*protected final  URI getObject(PreviewHandler finder, URI predicateMain, URI predicateBackup) throws BridgeDBException{
-       Statement statement =  finder.getSinglePredicateStatements(predicateMain);
-        if (statement != null){
-            Value object = statement.getObject();
-            if (object instanceof URI){
-                return (URI)object;
-            }
-            throw new BridgeDBException ("Unexpected Object in " + statement);
-        }
-        statement =  finder.getSinglePredicateStatements(predicateBackup);
-        if (statement != null){
-            Value object = statement.getObject();
-            if (object instanceof URI){
-                return (URI)object;
-            }
-            throw new BridgeDBException ("Unexpected Object in " + statement);
-        }
-        Integer count = finder.getPredicateCount(predicateMain);
-        if (count == 0){
-            throw new BridgeDBException("No statement found with predicate "+ predicateMain);
-        }
-        throw new BridgeDBException("Found " + count + " statements with predicate "+ predicateMain);
-    }*/
-
-    protected final URI getObject(PreviewHandler finder, Resource subject, URI predicate) 
+    protected final String getPossibleString(Resource subject, URI predicate) 
             throws VoidValidatorException, BridgeDBException {
-        URI uri = getPossibleObject(finder, subject, predicate);
-        if (uri == null){
-            throw new BridgeDBException ("No statements found for subject " + subject + " and predicate " + predicate);
-        } 
-        return uri;
+        Value value = getPossibleValue(subject, predicate);
+        if (value == null){
+            return null;
+        }
+        return value.stringValue();
     }
 
-    protected final URI getPossibleObject(PreviewHandler finder, Resource subject, URI predicate) 
+ /*   protected final URI getPossibleObject(Resource subject, URI predicateMain, URI predicateBackup) 
             throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(finder, subject, predicate);
-        return getUri(value);
-    }
-
-    protected final URI getPossibleObject(PreviewHandler finder, Resource subject, URI predicateMain, URI predicateBackup) 
-            throws VoidValidatorException, BridgeDBException {
-        URI uri = getPossibleObject(finder, subject, predicateMain);
+        URI uri = getPossibleObject(subject, predicateMain);
         if (uri != null){
             return uri;
         }
-        return getPossibleObject(finder, subject, predicateBackup);
+        return getPossibleObject(subject, predicateBackup);
     }
 
-    protected final URI getObject(PreviewHandler finder, Resource subject, URI predicateMain, URI predicateBackup) 
+    protected final URI getObject(Resource subject, URI predicateMain, URI predicateBackup) 
             throws VoidValidatorException, BridgeDBException {
-        URI uri = getPossibleObject(finder, subject, predicateMain, predicateBackup);
+        URI uri = getPossibleObject(subject, predicateMain, predicateBackup);
         if (uri == null){
             throw new BridgeDBException ("No statements found for subject " + subject + 
                     " and predicate " + predicateMain + " or " + predicateBackup);
         }  
         return uri;
     }
-    
-    protected final Resource getLinksetId(PreviewHandler finder) throws BridgeDBException{
+   */ 
+    protected final Resource getLinksetId() throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
             return statement.getSubject();
@@ -260,44 +287,51 @@ public class Loader
                 + DulConstants.EXPRESSES);
     }
     
-    public RdfParserIMS getParser(URI context, PreviewHandler finder, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
+    private void loadLinksetData() throws BridgeDBException, VoidValidatorException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
-        Resource linksetId;
-        URI linkPredicate;
-        URI subjectTarget;
-        URI objectTarget;
-        String rawJustification;
-        Value isSymetric;
         if (statement != null){
             linksetId  = getObject(statement);
         } else {
-            linksetId = getLinksetId(finder);
-
+            linksetId = getLinksetId();
         }
-        linkPredicate = getObject(finder, linksetId, VoidConstants.LINK_PREDICATE);
-        rawJustification = getObject(finder, linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES).stringValue();  
-        isSymetric = getPossibleValue(finder, linksetId, BridgeDBConstants.IS_SYMETRIC);
-        subjectTarget = getObject(finder, linksetId, VoidConstants.SUBJECTSTARGET);
-        objectTarget = getObject(finder, linksetId, VoidConstants.OBJECTSTARGET);
-        Boolean mergedSymetric = mergeSymetric(context, symmetric, isSymetric);
+        linksetIsSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
+        linksetTitle = getPossibleString(linksetId, DCTermsConstants.TITLE_URI);
+        linksetDescription = getPossibleString(linksetId, DCTermsConstants.DESCRIPTION_URI);
+        linksetPublisher = getPossibleURI(linksetId,  DCTermsConstants.PUBLISHER_URI);
+        linksetLicense = getPossibleURI(linksetId, DCTermsConstants.LICENSE_URI);
+        linksetIssued = this.getPossibleCalendar(linksetId, DCTermsConstants.ISSUED_URI);
+        linksetDataDump = getPossibleURI(linksetId, VoidConstants.DATA_DUMP);
+        linksetSubjectsTarget = getSingleURI(linksetId, VoidConstants.SUBJECTSTARGET);
+        //private URI linksetSubjectsDatatype;
+        linksetObjectsTarget = getSingleURI(linksetId, VoidConstants.OBJECTSTARGET);
+        //private URI linksetObjectsDatatype;
+        linksetPredicate = getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
+        linksetJustification = getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);
+        //private URI linksetAssertionMethod;
+    }
+    
+    public RdfParserIMS getParser(URI context, Boolean symmetric) throws VoidValidatorException, BridgeDBException{
+        loadLinksetData();
+        Boolean mergedSymetric = mergeSymetric(context, symmetric, linksetIsSymetric);
         ImsHandler handler;
+        String rawJustification = linksetJustification.stringValue();
         if (mergedSymetric == null){
             OpsJustificationMaker opsJustificationMaker = OpsJustificationMaker.getInstance();
             String forwardJustification = opsJustificationMaker.getForward(rawJustification); //getInverseJustification(justification);  
             String backwardJustification = opsJustificationMaker.getInverse(rawJustification); //getInverseJustification(justification);  
             if (forwardJustification.equals(backwardJustification)){
-                handler = new ImsHandler(reader, context, imsMapper, linkPredicate, rawJustification, 
+                handler = new ImsHandler(reader, context, imsMapper, linksetPredicate, rawJustification, 
                         context, true);
             } else {
-                handler = new ImsHandler(reader, context, imsMapper, linkPredicate, forwardJustification, 
+                handler = new ImsHandler(reader, context, imsMapper, linksetPredicate, forwardJustification, 
                         backwardJustification, context);
             }
         } else {
-            handler = new ImsHandler(reader, context, imsMapper, linkPredicate, rawJustification, 
+            handler = new ImsHandler(reader, context, imsMapper, linksetPredicate, rawJustification, 
                 context, mergedSymetric.booleanValue());
         }
         //ImsRdfHandler combinedHandler = 
-        //        new ImsRdfHandler(linksetHandler, readerHandler, linkPredicate);
+        //        new ImsRdfHandler(linksetHandler, readerHandler, linksetPredicate);
         return new RdfParserIMS(handler);
     }
 
@@ -343,5 +377,18 @@ public class Loader
     
     void closeInput() throws BridgeDBException {
         imsMapper.closeInput();
+    }
+
+    private String withInfo(Resource subject, URI[] predicates) {
+        if (predicates.length == 1){
+            return "with Subject " + subject + " and predicate " + predicates[0].stringValue();
+        } else {
+            String message = "with Subject " + subject + " and predicates ";
+            for (int i = 0; i < predicates.length - 1; i++){
+                message = message + predicates[i] + ", ";
+            }
+            message = message + predicates[predicates.length - 1];            
+            return message;
+        }
     }
 }

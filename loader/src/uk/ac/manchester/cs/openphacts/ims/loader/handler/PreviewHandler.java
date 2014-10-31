@@ -45,19 +45,16 @@ import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
  */
 public class PreviewHandler extends RDFHandlerBase{
     
-    private final Set<URI> predicatesToStoreMultiple = new HashSet<URI>();
+    private final Collection<URI> predicatesToStoreMultiple;
     
     private final HashMap<URI, Set<Statement>> savedStatements = new HashMap<URI, Set<Statement>>();    
     private final HashMap<URI, Statement> singlePredicate = new HashMap<URI, Statement>();
     private final HashMap<URI, Integer> predicateCount = new HashMap<URI, Integer>();
     
-    public PreviewHandler(){
+    public PreviewHandler(Collection<URI> predicates){
+        predicatesToStoreMultiple = predicates;
     }
     
-    public void addPredicateToStoreMultiples(Collection<URI> predicates){
-        predicatesToStoreMultiple.addAll(predicates);
-    }
-
     @Override
     public void handleStatement(Statement st) throws RDFHandlerException {
         //ystem.out.println("Handle " + st);
@@ -102,13 +99,15 @@ public class PreviewHandler extends RDFHandlerBase{
             if (statements.isEmpty()){
                 return null;
             }
-            throw new  BridgeDBException ("Found " + statements.size() + " statements with predicate " + predicate);
+            throw new  BridgeDBException ("Found " + statements.size() + " statements with predicate " + predicate 
+                    + " while previewer only expected 1");
         } else {
             Integer count = predicateCount.get(predicate);
             if (count == null){
                 return singlePredicate.get(predicate);
             } else {
-                throw new  BridgeDBException ("Found " + count + " statements with predicate " + predicate);            
+                throw new  BridgeDBException ("Found " + count + " statements with predicate " + predicate
+                        + " while previewer only expected 1");
             }
         }
     }
