@@ -124,9 +124,9 @@ public class ParentChildCheck extends Loader {
         } else {
             linksetId = getLinksetId();
         }
-        linkPredicate = getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
-        justification = getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
-        isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
+        linkPredicate = finder.getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
+        justification = finder.getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
+        isSymetric = finder.getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         System.out.println("Found " + linksetId);
         if (this.linkPredicate == null) {
             this.linkPredicate = linkPredicate;

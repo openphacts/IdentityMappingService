@@ -21,12 +21,14 @@ package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
 import org.bridgedb.uri.loader.LinkHandler;
 import org.bridgedb.uri.loader.LinksetHandler;
+import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
 
 /**
@@ -39,11 +41,11 @@ public class ImsHandler extends LinkHandler{
     private final Resource context;
     private final ImsListener imsListener;
     
-    public ImsHandler(ImsListener imsListener, URI linkPredicate, boolean symetric, int mappingSet, 
-            RdfInterface rdfInterface, Resource context){
+    public ImsHandler(ImsListener imsListener, URI linkPredicate, boolean symetric, int mappingSet, Resource context) 
+            throws BridgeDBException{
         super(imsListener, linkPredicate, symetric);
         this.imsListener = imsListener;
-        this.rdfInterface = rdfInterface;
+        this.rdfInterface = RdfFactoryIMS.getReader();
         this.context = context;
         this.mappingSet = mappingSet;
     }

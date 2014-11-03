@@ -27,8 +27,13 @@ import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.impl.CalendarLiteralImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.helpers.RDFHandlerBase;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
+import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 
 /**
  *
@@ -42,8 +47,11 @@ public class PreviewHandler extends RDFHandlerBase{
     private final HashMap<URI, Statement> singlePredicate = new HashMap<URI, Statement>();
     private final HashMap<URI, Integer> predicateCount = new HashMap<URI, Integer>();
     
-    public PreviewHandler(Collection<URI> predicates){
+    private final RdfReader reader;
+
+    public PreviewHandler(Collection<URI> predicates) throws BridgeDBException{
         predicatesToStoreMultiple = predicates;
+        this.reader = RdfFactoryIMS.getReader();
     }
     
     @Override
@@ -186,4 +194,110 @@ public class PreviewHandler extends RDFHandlerBase{
             }
         }
     }
+    
+    private Collection<Statement> getStatements(Resource subject, URI... predicates) 
+            throws BridgeDBException, VoidValidatorException{
+        for (URI predicate:predicates){
+            Collection<Statement> statements = getStatementList(subject, predicate);
+            if (!statements.isEmpty()){
+                return statements;
+            }
+        }
+        for (URI predicate:predicates){
+            Collection<Statement> statements = reader.getStatementList(subject, predicate, null);
+            if (!statements.isEmpty()){
+                return statements;
+            }
+        }
+        return new HashSet<Statement>();
+    }
+    
+    public final Value getSingleValue(Resource subject, URI... predicates) throws BridgeDBException, VoidValidatorException{
+        Collection<Statement> statements = getStatements(subject, predicates);
+        if (statements == null || statements.isEmpty()){
+            throw new BridgeDBException("No statements found " + withInfo(subject, predicates));
+        }
+        if (statements.size() == 1){
+            return statements.iterator().next().getObject();
+        }
+        Statement first = null;
+        for (Statement statement:statements){
+            if (first == null){
+                first = statement;
+            } else {
+                if (first.equals(statement)){
+                    //ignore duplicates
+                } else {
+                    throw new BridgeDBException(statements.size() + " statements found " + withInfo(subject, predicates));
+                }
+            }
+        }
+        //All Statements the same so retirn 1;
+        return first.getObject();
+    }
+    
+    public final Value getPossibleValue(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Collection<Statement> statements = getStatements(subject, predicates);
+        if (statements == null || statements.isEmpty()){
+            return null;
+        }
+        return statements.iterator().next().getObject();
+    }
+
+    public final URI getSingleURI(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getSingleValue(subject, predicates);
+        if (value instanceof URI){
+            return (URI)value;
+        }
+        throw new BridgeDBException("Founnd none URI " + value + " object " + withInfo(subject, predicates));
+    }
+
+    public final URI getPossibleURI(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicates);
+        if (value == null){
+            return null;
+        }
+        if (value instanceof URI){
+            return (URI)value;
+        }
+        throw new BridgeDBException("Founnd none URI " + value + " object " + withInfo(subject, predicates));
+    }
+
+    public final CalendarLiteralImpl getPossibleCalendar(Resource subject, URI... predicates) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicates);
+        if (value == null){
+            return null;
+        }
+        if (value instanceof CalendarLiteralImpl){
+            return (CalendarLiteralImpl)value;
+        }
+        throw new BridgeDBException("Founnd none CalendarLiteralImpl " + value + " object " + withInfo(subject, predicates));
+    }
+    
+    public final String getPossibleString(Resource subject, URI predicate) 
+            throws VoidValidatorException, BridgeDBException {
+        Value value = getPossibleValue(subject, predicate);
+        if (value == null){
+            return null;
+        }
+        return value.stringValue();
+    }
+
+    public String withInfo(Resource subject, URI[] predicates) {
+        if (predicates.length == 1){
+            return "with Subject " + subject + " and predicate " + predicates[0].stringValue();
+        } else {
+            String message = "with Subject " + subject + " and predicates ";
+            for (int i = 0; i < predicates.length - 1; i++){
+                message = message + predicates[i] + ", ";
+            }
+            message = message + predicates[predicates.length - 1];            
+            return message;
+        }
+    }
+
 }

@@ -20,6 +20,8 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.sql.TestSqlFactory;
@@ -36,6 +38,7 @@ import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.impl.URIImpl;
+import org.openrdf.rio.RDFHandlerException;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.Reporter;
@@ -94,5 +97,13 @@ public class LoaderTest {
         assertThat(statements.size(), greaterThanOrEqualTo(3));
     }
 
-   
+    @Test
+    public void testLoadtestData() throws Exception {
+        File file = new File("test-data/load.xml");
+        URI uri = file.toURI();
+        String[] loadArgs = new String[1];
+        loadArgs[0] = uri.toString();
+        RunLoader.main(loadArgs);
+    }
+
 }

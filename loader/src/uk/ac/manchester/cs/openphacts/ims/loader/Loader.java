@@ -24,13 +24,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DCTermsConstants;
 import org.bridgedb.rdf.constants.DCatConstants;
 import org.bridgedb.rdf.constants.DulConstants;
 import org.bridgedb.rdf.constants.PavConstants;
+import org.bridgedb.rdf.constants.XMLSchemaConstants;
 import org.bridgedb.sql.justification.OpsJustificationMaker;
 import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
@@ -51,10 +54,11 @@ import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 public class Loader 
 {
-    protected final RdfReader reader;
     protected final ImsMapper imsMapper;
             
-    public static final Set<URI> LINKSET_PREDICATES = new HashSet<URI>();
+    public static final Map<URI, URI> LINKSET_MUST = new HashMap<URI, URI>();
+    public static final Map<URI, URI> LINKSET_SHOULD = new HashMap<URI, URI>();
+    public static final Map<URI, URI> LINKSET_MAY = new HashMap<URI, URI>();
     public static final Set<URI> DATASET_PREDICATES = new HashSet<URI>();
     public static final Set<URI> DISTRIBUTION_PREDICATES = new HashSet<URI>();
     public static final Set<URI> MULTIPLE_PREDICATES = new HashSet<URI>();
@@ -64,36 +68,33 @@ public class Loader
 
     private final URI context;
     
-    private Resource linksetId;
-    private String linksetTitle;
-    private String linksetDescription;
-    private URI linksetPublisher;
-    private URI linksetLicense;
-    private CalendarLiteralImpl linksetIssued;
-    private URI linksetDataDump;
-    private URI linksetSubjectsTarget;
-    private URI linksetSubjectsDatatype;
-    private URI linksetObjectsTarget;
-    private URI linksetObjectsDatatype;
     private URI linksetPredicate;
-    private URI linksetJustification;
-    private URI linksetAssertionMethod;
-    private Value linksetIsSymetric;
     private boolean isSymetric;
     
+           //linksetPublisher = finder.getPossibleURI(linksetId,  DCTermsConstants.PUBLISHER_URI);
+        //linksetLicense = finder.getPossibleURI(linksetId, DCTermsConstants.LICENSE_URI);
+        //linksetIssued = finder.getPossibleCalendar(linksetId, DCTermsConstants.ISSUED_URI);
+        //linksetDataDump = finder.getPossibleURI(linksetId, VoidConstants.DATA_DUMP);
+        //private URI linksetAssertionMethod;
+
+    
     static {
-        LINKSET_PREDICATES.add(DCTermsConstants.TITLE_URI);
-        LINKSET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
-        LINKSET_PREDICATES.add(VoidConstants.SUBJECTSTARGET);
-        LINKSET_PREDICATES.add(VoidConstants.OBJECTSTARGET);
-        LINKSET_PREDICATES.add(VoidConstants.LINK_PREDICATE);
-        LINKSET_PREDICATES.add(BridgeDBConstants.SUBJECTS_DATATYPE);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.OBJECTS_DATATYPE);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.SUBJECTS_SPECIES);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.OBJECTS_SPECIES);//For future use
-        LINKSET_PREDICATES.add(BridgeDBConstants.IS_SYMETRIC);//?
-        LINKSET_PREDICATES.add(BridgeDBConstants.LINKSET_JUSTIFICATION);
-        LINKSET_PREDICATES.add(DulConstants.EXPRESSES);
+        //These are ones where there may be more than one values so not stored directly
+        LINKSET_MUST.put(DCTermsConstants.PUBLISHER_URI, XMLSchemaConstants.ANY_URI);
+        LINKSET_MUST.put(DCTermsConstants.LICENSE_URI, XMLSchemaConstants.ANY_URI);
+        LINKSET_MUST.put(DCTermsConstants.ISSUED_URI, XMLSchemaConstants.DATE_TIME);
+        LINKSET_MUST.put(VoidConstants.DATA_DUMP, XMLSchemaConstants.ANY_URI);
+        LINKSET_MUST.put(BridgeDBConstants.ASSERTION_METHOD, XMLSchemaConstants.ANY_URI);
+        
+        //Currently only should values are subset which is used to get other values not stored 
+        //And species which are stored directly
+        
+        LINKSET_MAY.put(PavConstants.AUTHORED_BY, XMLSchemaConstants.ANY_URI);
+        LINKSET_MAY.put(PavConstants.AUTHORED_ON, XMLSchemaConstants.DATE_TIME);
+        LINKSET_MAY.put(PavConstants.CREATED_BY, XMLSchemaConstants.ANY_URI);
+        LINKSET_MAY.put(PavConstants.CREATED_ON, XMLSchemaConstants.DATE_TIME);
+        LINKSET_MAY.put(PavConstants.CREATED_WITH, XMLSchemaConstants.ANY_URI);
+
         DATASET_PREDICATES.add(DCTermsConstants.TITLE_URI);
         DATASET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
         DATASET_PREDICATES.add(DCTermsConstants.LICENSE_URI);
@@ -103,6 +104,10 @@ public class Loader
         DATASET_PREDICATES.add(VoidConstants.URI_REGEX_PATTERN);
         DISTRIBUTION_PREDICATES.add(PavConstants.VERSION);
         DISTRIBUTION_PREDICATES.add(DCatConstants.BYTE_SIZE_URI);
+        
+        MULTIPLE_PREDICATES.addAll(LINKSET_MUST.keySet());
+        MULTIPLE_PREDICATES.addAll(LINKSET_SHOULD.keySet());
+        MULTIPLE_PREDICATES.addAll(LINKSET_MAY.keySet());
         MULTIPLE_PREDICATES.addAll(DATASET_PREDICATES);
         MULTIPLE_PREDICATES.addAll(DISTRIBUTION_PREDICATES);
     }
@@ -150,7 +155,6 @@ public class Loader
     
     protected Loader(URI context) throws BridgeDBException {
         imsMapper = ImsMapper.getExisting();
-        reader = RdfFactoryIMS.getReader();
         UriPattern.refreshUriPatterns();
         this.context = context;
     }
@@ -167,117 +171,6 @@ public class Loader
         parser.parse(baseURI, file, rdfFormatName);
     }
 
-    protected final Collection<Statement> getStatements(Resource subject, URI... predicates) 
-            throws BridgeDBException, VoidValidatorException{
-        for (URI predicate:predicates){
-            Collection<Statement> statements = finder.getStatementList(subject, predicate);
-            if (!statements.isEmpty()){
-                return statements;
-            }
-        }
-        for (URI predicate:predicates){
-            Collection<Statement> statements = reader.getStatementList(subject, predicate, null);
-            if (!statements.isEmpty()){
-                return statements;
-            }
-        }
-        return new HashSet<Statement>();
-    }
-    
-    protected final Value getSingleValue(Resource subject, URI... predicates) throws BridgeDBException, VoidValidatorException{
-        Collection<Statement> statements = getStatements(subject, predicates);
-        if (statements == null || statements.isEmpty()){
-            throw new BridgeDBException("No statements found " + withInfo(subject, predicates));
-        }
-        if (statements.size() == 1){
-            return statements.iterator().next().getObject();
-        }
-        Statement first = null;
-        for (Statement statement:statements){
-            if (first == null){
-                first = statement;
-            } else {
-                if (first.equals(statement)){
-                    //ignore duplicates
-                } else {
-                    throw new BridgeDBException(statements.size() + " statements found " + withInfo(subject, predicates));
-                }
-            }
-        }
-        //All Statements the same so retirn 1;
-        return first.getObject();
-    }
-    
-    protected final Value getPossibleValue(Resource subject, URI... predicates) 
-            throws VoidValidatorException, BridgeDBException {
-        Collection<Statement> statements = getStatements(subject, predicates);
-        if (statements == null || statements.isEmpty()){
-            return null;
-        }
-        return statements.iterator().next().getObject();
-    }
-
-    protected final URI getSingleURI(Resource subject, URI... predicates) 
-            throws VoidValidatorException, BridgeDBException {
-        Value value = getSingleValue(subject, predicates);
-        if (value instanceof URI){
-            return (URI)value;
-        }
-        throw new BridgeDBException("Founnd none URI " + value + " object " + withInfo(subject, predicates));
-    }
-
-    protected final URI getPossibleURI(Resource subject, URI... predicates) 
-            throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicates);
-        if (value == null){
-            return null;
-        }
-        if (value instanceof URI){
-            return (URI)value;
-        }
-        throw new BridgeDBException("Founnd none URI " + value + " object " + withInfo(subject, predicates));
-    }
-
-    protected final CalendarLiteralImpl getPossibleCalendar(Resource subject, URI... predicates) 
-            throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicates);
-        if (value == null){
-            return null;
-        }
-        if (value instanceof CalendarLiteralImpl){
-            return (CalendarLiteralImpl)value;
-        }
-        throw new BridgeDBException("Founnd none CalendarLiteralImpl " + value + " object " + withInfo(subject, predicates));
-    }
-    
-    protected final String getPossibleString(Resource subject, URI predicate) 
-            throws VoidValidatorException, BridgeDBException {
-        Value value = getPossibleValue(subject, predicate);
-        if (value == null){
-            return null;
-        }
-        return value.stringValue();
-    }
-
- /*   protected final URI getPossibleObject(Resource subject, URI predicateMain, URI predicateBackup) 
-            throws VoidValidatorException, BridgeDBException {
-        URI uri = getPossibleObject(subject, predicateMain);
-        if (uri != null){
-            return uri;
-        }
-        return getPossibleObject(subject, predicateBackup);
-    }
-
-    protected final URI getObject(Resource subject, URI predicateMain, URI predicateBackup) 
-            throws VoidValidatorException, BridgeDBException {
-        URI uri = getPossibleObject(subject, predicateMain, predicateBackup);
-        if (uri == null){
-            throw new BridgeDBException ("No statements found for subject " + subject + 
-                    " and predicate " + predicateMain + " or " + predicateBackup);
-        }  
-        return uri;
-    }
-   */ 
     protected final Resource getLinksetId() throws BridgeDBException{
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
         if (statement != null){
@@ -298,14 +191,26 @@ public class Loader
                 + DulConstants.EXPRESSES);
     }
     
-    private void loadLinksetData() throws BridgeDBException, VoidValidatorException{
+    private int loadLinksetData() throws BridgeDBException, VoidValidatorException{
+        //Get the LinksetID
         Statement statement =  finder.getSinglePredicateStatements(VoidConstants.IN_DATASET);
+        URI linksetId;
         if (statement != null){
             linksetId  = getObject(statement);
         } else {
-            linksetId = getLinksetId();
+            statement =  finder.getSinglePredicateStatements(VoidConstants.LINK_PREDICATE);
+            if (statement == null){
+                throw new BridgeDBException ("No statement found with either " + VoidConstants.IN_DATASET +
+                        " or " + VoidConstants.LINK_PREDICATE);
+            } else { 
+                linksetId = (URI)statement.getSubject();
+            }
         }
-        linksetIsSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
+       
+        //Get the data needed to register the linkset
+        linksetPredicate = finder.getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
+        URI linksetJustification = finder.getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);
+        Value linksetIsSymetric = finder.getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         if (linksetIsSymetric == null){
             isSymetric = true;
         } else if (linksetIsSymetric instanceof Literal){
@@ -315,22 +220,51 @@ public class Loader
             throw new BridgeDBException ("Reading " + context + " unexpected object " + linksetIsSymetric  
                     + " found with predicate " + BridgeDBConstants.IS_SYMETRIC);
         }
-        linksetTitle = getPossibleString(linksetId, DCTermsConstants.TITLE_URI);
-        linksetDescription = getPossibleString(linksetId, DCTermsConstants.DESCRIPTION_URI);
-        linksetPublisher = getPossibleURI(linksetId,  DCTermsConstants.PUBLISHER_URI);
-        linksetLicense = getPossibleURI(linksetId, DCTermsConstants.LICENSE_URI);
-        linksetIssued = this.getPossibleCalendar(linksetId, DCTermsConstants.ISSUED_URI);
-        linksetDataDump = getPossibleURI(linksetId, VoidConstants.DATA_DUMP);
-        linksetSubjectsTarget = getSingleURI(linksetId, VoidConstants.SUBJECTSTARGET);
-        //private URI linksetSubjectsDatatype;
-        linksetObjectsTarget = getSingleURI(linksetId, VoidConstants.OBJECTSTARGET);
-        //private URI linksetObjectsDatatype;
-        linksetPredicate = getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
-        linksetJustification = getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);
-        //private URI linksetAssertionMethod;
+        //When used void:uriSpace or void:uriRegexPattern should be obtained here
+        int mappingSetId = registerLinkset(linksetPredicate, linksetJustification, isSymetric);
+
+        //Get the data specifically stroed with the linkset
+        //Either because there can be only one or because it is a String
+        String linksetTitle = finder.getPossibleString(linksetId, DCTermsConstants.TITLE_URI);
+        String linksetDescription = finder.getPossibleString(linksetId, DCTermsConstants.DESCRIPTION_URI);
+        URI linksetSubjectsTarget = finder.getSingleURI(linksetId, VoidConstants.SUBJECTSTARGET);
+        URI linksetSubjectsType = finder.getPossibleURI(linksetId, BridgeDBConstants.SUBJECTS_DATATYPE);
+        URI linksetObjectsTarget = finder.getSingleURI(linksetId, VoidConstants.OBJECTSTARGET);
+        URI linksetObjectsType = finder.getPossibleURI(linksetId, BridgeDBConstants.OBJECTS_DATATYPE);
+        URI linksetSubjectSpecies = finder.getPossibleURI(linksetId, BridgeDBConstants.SUBJECTS_SPECIES);
+        URI linksetObjectsSpecies = finder.getPossibleURI(linksetId, BridgeDBConstants.OBJECTS_SPECIES);
+        proecessLinksetVoid(mappingSetId, linksetId, linksetTitle, linksetDescription, linksetSubjectsTarget, 
+                linksetSubjectsType, linksetObjectsTarget, linksetObjectsType, linksetSubjectSpecies, 
+                linksetObjectsSpecies, isSymetric);
+        
+        for (URI predicate:LINKSET_MUST.keySet()){
+            Set<Statement> statements = finder.getStatementList(linksetId, predicate);
+            for (Statement aStatement:statements){
+                processLinkSetMust(linksetId, predicate, aStatement.getObject(), LINKSET_MUST.get(predicate));
+            }
+        }
+
+        for (URI predicate:LINKSET_SHOULD.keySet()){
+            Set<Statement> statements = finder.getStatementList(linksetId, predicate);
+            for (Statement aStatement:statements){
+                processLinkSetShould(linksetId, predicate, aStatement.getObject(), LINKSET_SHOULD.get(predicate));
+            }
+        }
+
+        for (URI predicate:LINKSET_MAY.keySet()){
+            Set<Statement> statements = finder.getStatementList(linksetId, predicate);
+            for (Statement aStatement:statements){
+                System.out.println(aStatement);
+                processLinkSetMay(linksetId, predicate, aStatement.getObject(), LINKSET_MAY.get(predicate));
+            }
+        }
+
+        return mappingSetId;
     }
     
-    private int registerLinkset() throws BridgeDBException{
+    private int registerLinkset(URI linksetPredicate, URI linksetJustification, boolean isSymetric) throws BridgeDBException{
+        //When required get species and type here too
+        //When used void:uriSpace or void:uriRegexPattern should be checked here
         Statement aMapping = finder.getRandomPredicateStatements(linksetPredicate);
         Resource subject = aMapping.getSubject();
         Value object = aMapping.getObject();
@@ -359,11 +293,81 @@ public class Loader
         return imsMapper.registerMappingSet(sourcePattern, linksetPredicate.stringValue(), 
                 forwardJustification, backwardJustification, targetPattern, context);
     }
+    
+    /**
+     * Pass through method to handle the basic linkset information.
+     * 
+     * This version just send the info to the mapper for loading.
+     * 
+     * Could be overwritten by a validator ski
+     * @param mappingSetId
+     * @param linksetId
+     * @param linksetTitle
+     * @param linksetDescription
+     * @param linksetSubjectsTarget
+     * @param linksetSubjectsType
+     * @param linksetObjectsTarget
+     * @param linksetObjectsType
+     * @param linksetSubjectSpecies
+     * @param linksetObjectsSpecies 
+     */
+    protected void proecessLinksetVoid(int mappingSetId, URI linksetId, String linksetTitle, String linksetDescription, 
+            URI linksetSubjectsTarget, URI linksetSubjectsType, URI linksetObjectsTarget, URI linksetObjectsType, 
+            URI linksetSubjectSpecies, URI linksetObjectsSpecies, boolean isSymetric) throws BridgeDBException{
+        imsMapper.addLinksetVoid(mappingSetId, linksetId, linksetTitle, linksetDescription, 
+                linksetSubjectsTarget, linksetSubjectsType, linksetObjectsTarget, linksetObjectsType, 
+                linksetSubjectSpecies, linksetObjectsSpecies);
+        if (isSymetric){
+            imsMapper.addLinksetVoid(mappingSetId + 1, linksetId, linksetTitle, linksetDescription, 
+                    linksetSubjectsTarget, linksetSubjectsType, linksetObjectsTarget, linksetObjectsType, 
+                    linksetSubjectSpecies, linksetObjectsSpecies);
+        }
+    }
+    
+    protected void processLinkSetMust(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        loadStatement(linksetId, predicate, object, type);
+    }
 
+    protected void processLinkSetShould(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        loadStatement(linksetId, predicate, object, type);
+    }
+
+    protected void processLinkSetMay(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        loadStatement(linksetId, predicate, object, type);
+    }
+
+    private void loadStatement(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        if (type.equals(XMLSchemaConstants.ANY_URI)){
+            if (object instanceof URI){
+                URI uri = (URI)object;
+                imsMapper.loadStatement(linksetId, predicate, uri);
+            } else {
+                throw new BridgeDBException("None URI type found for " + linksetId + " " + predicate + " " 
+                    + object + ". Found " + object.getClass());            
+            }
+        } else if (type.equals(XMLSchemaConstants.DATE_TIME)){
+            if (object instanceof Literal){
+                Literal literal = (Literal)object;
+                XMLGregorianCalendar dataTime = literal.calendarValue();
+                if (dataTime != null){
+                    imsMapper.loadStatement(linksetId, predicate, dataTime);
+                } else {
+                    throw new BridgeDBException("No DateTime value obtained form " + linksetId + " " + predicate + " " 
+                        + object + ". Found " + object.getClass());            
+                }
+            } else {
+                throw new BridgeDBException("None Literal type found for " + linksetId + " " + predicate + " " 
+                    + object + ". Found " + object.getClass());            
+            }
+        } else {
+            throw new BridgeDBException("Incorrect type found for " + linksetId + " " + predicate + " " 
+                    + object + ". Expected type " + type + " found " + object.getClass());
+        }
+    }
+    
     public RdfParserIMS getParser(URI context) throws VoidValidatorException, BridgeDBException{
-        loadLinksetData();
-        int mappingSetId = registerLinkset();
-        ImsHandler handler = new ImsHandler(imsMapper, linksetPredicate, isSymetric, mappingSetId, reader, context); 
+        int mappingSetId = loadLinksetData();
+        ImsHandler handler = new ImsHandler(imsMapper, linksetPredicate, isSymetric, mappingSetId, context); 
         return new RdfParserIMS(handler);
     }
     
@@ -394,16 +398,4 @@ public class Loader
         imsMapper.closeInput();
     }
 
-    private String withInfo(Resource subject, URI[] predicates) {
-        if (predicates.length == 1){
-            return "with Subject " + subject + " and predicate " + predicates[0].stringValue();
-        } else {
-            String message = "with Subject " + subject + " and predicates ";
-            for (int i = 0; i < predicates.length - 1; i++){
-                message = message + predicates[i] + ", ";
-            }
-            message = message + predicates[predicates.length - 1];            
-            return message;
-        }
-    }
 }

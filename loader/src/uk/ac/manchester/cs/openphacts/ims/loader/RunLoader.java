@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
+import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 /**
  *
@@ -57,7 +58,7 @@ public class RunLoader {
     public RunLoader(boolean clear) throws BridgeDBException, VoidValidatorException {
         reader = RdfFactoryIMS.getReader();
         if (clear){
-            SQLUriMapper.createNew();
+            ImsMapper.createNew();
             reader.clear();
         }
     }

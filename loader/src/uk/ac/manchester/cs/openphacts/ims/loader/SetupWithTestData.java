@@ -7,8 +7,6 @@ package uk.ac.manchester.cs.openphacts.ims.loader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
 import org.openrdf.rio.RDFHandlerException;

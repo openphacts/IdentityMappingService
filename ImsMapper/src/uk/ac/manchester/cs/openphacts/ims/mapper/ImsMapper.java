@@ -19,13 +19,21 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.mapper;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.bridgedb.pairs.CodeMapper;
 import org.bridgedb.rdf.pairs.RdfBasedCodeMapper;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.sql.SqlFactory;
+import org.bridgedb.sql.transative.DirectMapping;
 import org.bridgedb.utils.BridgeDBException;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 /**
  *
@@ -34,6 +42,10 @@ import org.bridgedb.utils.BridgeDBException;
 public class ImsMapper extends SQLUriMapper implements ImsListener{
     
     private static ImsMapper mapper = null;
+
+    private String addLinksetVoidQuery = null;
+    private String addLinksetURIQuery = null;
+    private String addLinksetDateQuery = null;
 
     //Table names
     private static final String LINKSET_TABLE_NAME = "linkset";
@@ -113,25 +125,25 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
             sh.execute("CREATE TABLE " + LINKSET_TABLE_NAME
                     + "( " + MAPPING_SET_ID_COLUMN_NAME + " INT, "
                     + "  " + LINKSET_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") NOT NULL, "
+                    + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") , "
                     + "  " + DESCRIPTION_COLUMN_NAME + " TEXT, "
                     + "  " + SUBJECT_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
+                    + "  " + SUBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") , "
                     + "  " + OBJECT_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + SUBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL, "
-                    + "  " + OBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL, "
-                    + "  " + SUBJECT_SPECIES_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL, "
-                    + "  " + OBJECT_SPECIES_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL "
+                    + "  " + OBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") , "
+                    + "  " + SUBJECT_SPECIES_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") , "
+                    + "  " + OBJECT_SPECIES_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + DATASET_TABLE_NAME
                     + "  (  " + DATASET_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") NOT NULL, "
+                    + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") , "
                     + "  " + DESCRIPTION_COLUMN_NAME + " TEXT, "
-                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") NOT NULL, "
-                    + "  " + DISTRIBUTION_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL "
+                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") , "
+                    + "  " + DISTRIBUTION_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + DISTRIBUTION_TABLE_NAME
                     + "  (  " + DISTRIBUTION_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") NOT NULL, "
+                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") , "
                     + "  " + SIZE_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + VOID_URIS_TABLE_NAME
@@ -152,4 +164,98 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
         }
     }
 
+    public void addLinksetVoid(int mappingSetId, URI linksetId, String linksetTitle, String linksetDescription, 
+            URI linksetSubjectsTarget, URI linksetSubjectsType, URI linksetObjectsTarget, URI linksetObjectsType, 
+            URI linksetSubjectSpecies, URI linksetObjectsSpecies) throws BridgeDBException{
+        PreparedStatement statement = null;
+        if (addLinksetVoidQuery == null){
+           addLinksetVoidQuery = "INSERT INTO " + LINKSET_TABLE_NAME
+                    + " ( " + MAPPING_SET_ID_COLUMN_NAME + " , " //1
+                    + LINKSET_URI_COLUMN_NAME + " , "  //2
+                    + TITLE_COLUMN_NAME + " , "  //3
+                    + DESCRIPTION_COLUMN_NAME + " , " //4
+                    + SUBJECT_URI_COLUMN_NAME + " , " //5
+                    + SUBJECT_DATATYPE_COLUMN_NAME + " , "  //6
+                    + OBJECT_URI_COLUMN_NAME + " , "  //7
+                    + OBJECT_DATATYPE_COLUMN_NAME + " , "  //8
+                    + SUBJECT_SPECIES_COLUMN_NAME + " , "  //9
+                    + OBJECT_SPECIES_COLUMN_NAME + " ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ?) "; //10
+        }
+        try {
+            statement = createPreparedStatement(addLinksetVoidQuery);   
+            statement.setInt(1, mappingSetId);
+            statement.setString(2, toString(linksetId));
+            statement.setString(3, linksetTitle);
+            statement.setString(4, linksetDescription);
+            statement.setString(5, toString(linksetSubjectsTarget));
+            statement.setString(6, toString(linksetSubjectsType));
+            statement.setString(7, toString(linksetObjectsTarget));
+            statement.setString(8, toString(linksetObjectsType));
+            statement.setString(9, toString(linksetSubjectSpecies));
+            statement.setString(10, toString(linksetObjectsSpecies));
+            statement.executeUpdate();
+        } catch (BridgeDBException ex) {
+            throw ex;
+        } catch (SQLException ex) {
+            throw new BridgeDBException ("Error updating using " + statement, ex);
+        } finally {
+            close(statement, null);
+        }
+    }
+    
+    private String toString(URI uri){
+        if (uri == null){
+            return null;
+        } else {
+            return uri.stringValue();
+        }
+    }
+    
+    public void loadStatement(URI linksetId, URI predicate, URI object) throws BridgeDBException {
+        if (addLinksetURIQuery == null){
+            addLinksetURIQuery = "INSERT INTO " + VOID_URIS_TABLE_NAME
+                    + "  (  " + SUBJECT_COLUMN_NAME + " , "
+                    + PREDICATE_COLUMN_NAME + " , "
+                    + OBJECT_COLUMN_NAME + ") VALUES ( ?, ?, ?)";
+        } 
+        PreparedStatement statement = null;
+        try {
+            statement = createPreparedStatement(addLinksetURIQuery);   
+            statement.setString(1, toString(linksetId));
+            statement.setString(2, toString(predicate));
+            statement.setString(3, toString(object));
+            statement.executeUpdate();
+        } catch (BridgeDBException ex) {
+            throw ex;
+        } catch (SQLException ex) {
+            throw new BridgeDBException ("Error updating using " + statement, ex);
+        } finally {
+            close(statement, null);
+        }    
+    }
+
+    public void loadStatement(URI linksetId, URI predicate, XMLGregorianCalendar xmlDate) throws BridgeDBException {
+        if (addLinksetDateQuery == null){
+            addLinksetDateQuery = "INSERT INTO " + VOID_DATES_TABLE_NAME
+                    + "  (  " + SUBJECT_COLUMN_NAME + " , "
+                    + PREDICATE_COLUMN_NAME + " , "
+                    + OBJECT_COLUMN_NAME + ") VALUES ( ?, ?, ?)";
+        } 
+        PreparedStatement statement = null;
+        try {
+            statement = createPreparedStatement(addLinksetDateQuery);   
+            statement.setString(1, toString(linksetId));
+            statement.setString(2, toString(predicate));
+            java.util.Date date = xmlDate.toGregorianCalendar().getTime();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime()); 
+            statement.setDate(3, sqlDate);
+            statement.executeUpdate();
+        } catch (BridgeDBException ex) {
+            throw ex;
+        } catch (SQLException ex) {
+            throw new BridgeDBException ("Error updating using " + statement, ex);
+        } finally {
+            close(statement, null);
+        }    
+    }
 }

@@ -25,6 +25,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bridgedb.DataSource;
 import org.bridgedb.Xref;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
@@ -72,6 +74,15 @@ public class LinksetCombiner extends Loader {
    private DataSource targetDataSource;
    private boolean convert = false;
    
+   public static RdfReader reader = null;
+   
+   static {
+       try {
+           reader = RdfFactoryIMS.getReader();
+        } catch (BridgeDBException ex) {
+           Logger.getLogger(LinksetCombiner.class.getName()).log(Level.SEVERE, null, ex);
+       }
+   }
    private LinksetCombiner() throws BridgeDBException{
        linkPredicate = null;
        justification = null;
@@ -124,9 +135,9 @@ public class LinksetCombiner extends Loader {
         } else {
             linksetId = getLinksetId();
         }
-        linkPredicate = getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
-        justification = getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
-        isSymetric = getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
+        linkPredicate = finder.getSingleURI(linksetId, VoidConstants.LINK_PREDICATE);
+        justification = finder.getSingleURI(linksetId, BridgeDBConstants.LINKSET_JUSTIFICATION, DulConstants.EXPRESSES);    
+        isSymetric = finder.getPossibleValue(linksetId, BridgeDBConstants.IS_SYMETRIC);
         System.out.println("Found " + linksetId);
         if (this.linkPredicate == null) {
             this.linkPredicate = linkPredicate;
@@ -350,8 +361,8 @@ public class LinksetCombiner extends Loader {
 
     public static void CHARGE_UNSENSITIVE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_CHARGE_UNSENSITIVE_PARENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_CHARGE_UNSENSITIVE_PARENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_CHARGE_UNSENSITIVE_PARENT_DRUGBANK20131111.ttl");
@@ -363,8 +374,8 @@ public class LinksetCombiner extends Loader {
 
     public static void FRAGMENT_UNSENSITIVE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_FRAGMENT_UNSENSITIVE_PARENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_FRAGMENT_UNSENSITIVE_PARENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_FRAGMENT_UNSENSITIVE_PARENT_DRUGBANK20131111.ttl");
@@ -376,8 +387,8 @@ public class LinksetCombiner extends Loader {
 
     public static void ISOTOPE_UNSENSITIVE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_ISOTOPE_UNSENSITIVE_PARENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_ISOTOPE_UNSENSITIVE_PARENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_ISOTOPE_UNSENSITIVE_PARENT_DRUGBANK20131111.ttl");
@@ -389,8 +400,8 @@ public class LinksetCombiner extends Loader {
     
     public static void STEREO_UNSENSITIVE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_STEREO_UNSENSITIVE_PARENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_STEREO_UNSENSITIVE_PARENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_STEREO_UNSENSITIVE_PARENT_DRUGBANK20131111.ttl");
@@ -402,8 +413,8 @@ public class LinksetCombiner extends Loader {
 
     public static void SUPER_UNSENSITIVE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_SUPER_UNSENSITIVE_PARENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_SUPER_UNSENSITIVE_PARENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_SUPER_UNSENSITIVE_PARENT_DRUGBANK20131111.ttl");
@@ -415,8 +426,8 @@ public class LinksetCombiner extends Loader {
     
     public static void TAUTOMER_UNSENSITIVEAT_7_4_PH() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_TAUTOMER_UNSENSITIVE_PARENT_AT_7_4_PH_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_TAUTOMER_UNSENSITIVE_PARENT_AT_7_4_PH_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_TAUTOMER_UNSENSITIVE_PARENT_AT_7_4_PH_DRUGBANK20131111.ttl");
@@ -428,8 +439,8 @@ public class LinksetCombiner extends Loader {
 
     public static void TAUTOMER_UNSENSITIVE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_CLOSE_PARENT_CHILD_TAUTOMER_UNSENSITIVE_PARENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_CLOSE_PARENT_CHILD_TAUTOMER_UNSENSITIVE_PARENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_CLOSE_PARENT_CHILD_TAUTOMER_UNSENSITIVE_PARENT_DRUGBANK20131111.ttl");
@@ -442,8 +453,8 @@ public class LinksetCombiner extends Loader {
 
     public static void OPS_CHEMSPIDER() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_EXACT_OPS_CHEMSPIDER_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_EXACT_OPS_CHEMSPIDER_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_EXACT_OPS_CHEMSPIDER_DRUGBANK20131111.ttl");
@@ -456,8 +467,8 @@ public class LinksetCombiner extends Loader {
         
     public static void FRAGMENT() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-11.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/CRS/void_2013-11-12.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEBI/LINKSET_RELATED_PARENT_CHILD_FRAGMENT_CHEBI20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/CHEMBL/LINKSET_RELATED_PARENT_CHILD_FRAGMENT_CHEMBL20131111.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/RSC_2013-11-11/DRUGBANK/LINKSET_RELATED_PARENT_CHILD_FRAGMENT_DRUGBANK20131111.ttl");
@@ -469,7 +480,7 @@ public class LinksetCombiner extends Loader {
        
     public static void ArrayExpress() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_ArrayExpressLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_ArrayExpressLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_ArrayExpressLinkSets.ttl");
@@ -484,14 +495,14 @@ public class LinksetCombiner extends Loader {
     
     public static void BioGRID() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_BioGRIDLinkSets.ttl");
         combiner.writeFile("ensembl/BioGRID");
     }
 
     public static void EC_NUMBER() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/saccharomyces_cerevisiae_core_71_4_ensembl_EC_NUMBERLinkSets.ttl");
         combiner.writeFile("ensembl/EC_NUMBER");
     }
@@ -501,7 +512,7 @@ public class LinksetCombiner extends Loader {
     
     public static void EMBL() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_EMBLLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_EMBLLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_EMBLLinkSets.ttl");
@@ -517,14 +528,14 @@ public class LinksetCombiner extends Loader {
 
     public static void ENS_LRG_gene() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_ENS_LRG_geneLinkSets.ttl");
         combiner.writeFile("ensembl/ENS_LRG_gene");
     }
 
     public static void EntrezGene() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_EntrezGeneLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_EntrezGeneLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_EntrezGeneLinkSets.ttl");
@@ -542,7 +553,7 @@ public class LinksetCombiner extends Loader {
 
     public static void flybase() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_annotation_idLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_gene_idLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_flybase_transcript_idLinkSets.ttl");
@@ -552,14 +563,14 @@ public class LinksetCombiner extends Loader {
     
  /*  public static void GO_to_gene() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_GO_to_geneLinkSets.ttl");
         combiner.writeFile("ensembl/GO_to_gene");
     }
 
    public static void GO() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_GOLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_GOLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_GOLinkSets.ttl");
@@ -575,7 +586,7 @@ public class LinksetCombiner extends Loader {
 
     public static void goslim_goa() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_goslim_goaLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_goslim_goaLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_goslim_goaLinkSets.ttl");
@@ -591,7 +602,7 @@ public class LinksetCombiner extends Loader {
 */
     public static void HGNC() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_HGNCLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_HGNCLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_HGNCLinkSets.ttl");
@@ -604,14 +615,14 @@ public class LinksetCombiner extends Loader {
 
     public static void Interpro() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/drosophila_melanogaster_core_71_546_ensembl_InterproLinkSets.ttl");
         combiner.writeFile("ensembl/Interpro");
     }
 
     public static void IPI() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_IPILinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_IPILinkSets.ttl");        
         combiner.writeFile("ensembl/IPI");
@@ -619,14 +630,14 @@ public class LinksetCombiner extends Loader {
     
     public static void LRG() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_LRGLinkSets.ttl");
         combiner.writeFile("ensembl/LRG");
     }
 
     public static void MEROPS() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_MEROPSLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_MEROPSLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_MEROPSLinkSets.ttl");
@@ -642,7 +653,7 @@ public class LinksetCombiner extends Loader {
      
     public static void MGI() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_MGILinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_MGILinkSets.ttl");
        combiner.writeFile("ensembl/MGI");
@@ -650,7 +661,7 @@ public class LinksetCombiner extends Loader {
     
     public static void MIM_GENE() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_MIM_GENELinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_MIM_MORBIDLinkSets.ttl");
         combiner.writeFile("ensembl/MIM_GENE");
@@ -658,7 +669,7 @@ public class LinksetCombiner extends Loader {
 
     public static void miRBase() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_miRBaseLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_miRBaseLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_miRBaseLinkSets.ttl");
@@ -673,14 +684,14 @@ public class LinksetCombiner extends Loader {
     
     public static void Orphanet() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_OrphanetLinkSets.ttl");
         combiner.writeFile("ensembl/Orphanet");
     }
     
     public static void OTTG() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_OTTGLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/homo_sapiens_core_71_37_ensembl_OTTGLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/mus_musculus_core_71_38_ensembl_OTTGLinkSets.ttl");
@@ -689,7 +700,7 @@ public class LinksetCombiner extends Loader {
     
      public static void PDB() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_PDBLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_PDBLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_PDBLinkSets.ttl");
@@ -705,7 +716,7 @@ public class LinksetCombiner extends Loader {
         
      public static void protein_id() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_protein_idLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_protein_idLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_protein_idLinkSets.ttl");
@@ -721,7 +732,7 @@ public class LinksetCombiner extends Loader {
         
      public static void RefSeq() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/equus_caballus_core_71_2_ensembl_RefSeq_mRNA_predictedLinkSets.ttl");
@@ -773,7 +784,7 @@ public class LinksetCombiner extends Loader {
         
      public static void RFAM() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_RFAMLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_RFAMLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_RFAMLinkSets.ttl");
@@ -789,14 +800,14 @@ public class LinksetCombiner extends Loader {
         
      public static void RGD() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/rattus_norvegicus_core_71_5_ensembl_RGDLinkSets.ttl");
         combiner.writeFile("ensembl/RGD");
     }
         
      public static void UniGene() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ensembl/Ensembl_71.ttl");       
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ensembl/Ensembl_71.ttl");       
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_UniGeneLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_UniGeneLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_UniGeneLinkSets.ttl");
@@ -811,7 +822,7 @@ public class LinksetCombiner extends Loader {
         
      public static void UniParc() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_UniParcLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_UniParcLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_UniParcLinkSets.ttl");
@@ -824,7 +835,7 @@ public class LinksetCombiner extends Loader {
      public static void uniprot() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
         combiner.convert = true;
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/bos_taurus_core_71_31_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/caenorhabditis_elegans_core_71_235_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/canis_familiaris_core_71_31_ensembl_Uniprot%252FSPTREMBLLinkSets.ttl");
@@ -851,14 +862,14 @@ public class LinksetCombiner extends Loader {
         
      public static void ZFIN_ID() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.3.1.alpha1/ensembl/Ensembl_71.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ensembl_2013-07-22/danio_rerio_core_71_9_ensembl_ZFIN_IDLinkSets.ttl");
         combiner.writeFile("ensembl/ZFIN_ID");
     }    
     
      public static void enzyme_expasy_org() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ConceptWiki/CW-Void_v13.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ConceptWiki/CW-Void_v13.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/enzyme_expasy_org_EC-compound.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/enzyme_expasy_org_EC-protein.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/enzyme_expasy_org_EC-rest.ttl");
@@ -868,8 +879,8 @@ public class LinksetCombiner extends Loader {
     public static void chemspider() throws Exception {
         LinksetCombiner combiner = new LinksetCombiner();
         combiner.convert = true;
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ConceptWiki/CW-Void_v13.ttl");
-        combiner.reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.4.alpha1/ConceptWiki-extra/hack.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/linkset/version1.4.1/ConceptWiki/CW-Void_v13.ttl");
+        reader.loadURI("http://openphacts.cs.man.ac.uk/ims/dev/version1.4.alpha1/ConceptWiki-extra/hack.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/www_chemspider_com-compound.ttl");
         combiner.addUri("http://openphacts.cs.man.ac.uk/ims/originals/ConceptWiki_2014_03_28/rdf_chemspider_com-compound.ttl");
         combiner.writeFile("ConceptWiki/chemspider");

@@ -82,7 +82,7 @@ public class BugTest extends TransativeTestBase{
         loadFile("test-data/doubleB.ttl");
     }
 
-   @Test
+    @Test
     public void testBugDrugbank() throws Exception {
         Reporter.println("BugDrugbank");
         SQLUriMapper sqlUriMapper = SQLUriMapper.createNew();
