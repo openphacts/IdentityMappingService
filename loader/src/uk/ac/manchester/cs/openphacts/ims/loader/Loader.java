@@ -29,9 +29,11 @@ import java.util.Set;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
+import org.bridgedb.rdf.constants.CitoConstants;
 import org.bridgedb.rdf.constants.DCTermsConstants;
 import org.bridgedb.rdf.constants.DCatConstants;
 import org.bridgedb.rdf.constants.DulConstants;
+import org.bridgedb.rdf.constants.FoafConstants;
 import org.bridgedb.rdf.constants.PavConstants;
 import org.bridgedb.rdf.constants.XMLSchemaConstants;
 import org.bridgedb.sql.justification.OpsJustificationMaker;
@@ -59,6 +61,13 @@ public class Loader
     public static final Map<URI, URI> LINKSET_MUST = new HashMap<URI, URI>();
     public static final Map<URI, URI> LINKSET_SHOULD = new HashMap<URI, URI>();
     public static final Map<URI, URI> LINKSET_MAY = new HashMap<URI, URI>();
+    public static final Map<URI, URI> DATASET_MUST = new HashMap<URI, URI>();
+    public static final Map<URI, URI> DATASET_SHOULD = new HashMap<URI, URI>();
+    public static final Map<URI, URI> DATASET_MAY = new HashMap<URI, URI>();
+    public static final Map<URI, URI> DISTRIBUTION_MUST = new HashMap<URI, URI>();
+    public static final Map<URI, URI> DISTRIBUTION_SHOULD = new HashMap<URI, URI>();
+    public static final Map<URI, URI> DISTRIBUTION_MAY = new HashMap<URI, URI>();
+
     public static final Set<URI> DATASET_PREDICATES = new HashSet<URI>();
     public static final Set<URI> DISTRIBUTION_PREDICATES = new HashSet<URI>();
     public static final Set<URI> MULTIPLE_PREDICATES = new HashSet<URI>();
@@ -97,19 +106,58 @@ public class Loader
 
         DATASET_PREDICATES.add(DCTermsConstants.TITLE_URI);
         DATASET_PREDICATES.add(DCTermsConstants.DESCRIPTION_URI);
-        DATASET_PREDICATES.add(DCTermsConstants.LICENSE_URI);
         DATASET_PREDICATES.add(PavConstants.VERSION);
         DATASET_PREDICATES.add(DCatConstants.DISTRIBUTION_URI);
-        DATASET_PREDICATES.add(VoidConstants.URI_SPACE_URI);
-        DATASET_PREDICATES.add(VoidConstants.URI_REGEX_PATTERN);
+        
+        DATASET_MUST.put(DCTermsConstants.PUBLISHER_URI, XMLSchemaConstants.ANY_URI);
+        DATASET_MUST.put(DCatConstants.LANDING_PAGE_URI, XMLSchemaConstants.ANY_URI);
+        DATASET_MUST.put(DCTermsConstants.LICENSE_URI, XMLSchemaConstants.ANY_URI);
+        DATASET_MUST.put(DCTermsConstants.ISSUED_URI, XMLSchemaConstants.DATE_TIME);
+        //While listed in the MUST section it is only must if RDF Data
+        DATASET_MAY.put(VoidConstants.DATA_DUMP, XMLSchemaConstants.DATE_TIME);
+        
+        DATASET_SHOULD.put(PavConstants.PREVIOUS_VERSION, XMLSchemaConstants.ANY_URI);
+        DATASET_SHOULD.put(DCTermsConstants.ACCRUAL_PERIODICITY_URI, XMLSchemaConstants.ANY_URI);
+        //While listed in the SHOULD section it is only must if RDF conversions
+            DATASET_MAY.put(PavConstants.IMPORTED_FROM, XMLSchemaConstants.ANY_URI);
+            DATASET_MAY.put(PavConstants.IMPORTED_BY, XMLSchemaConstants.ANY_URI);
+            DATASET_MAY.put(PavConstants.LAST_REFERSHED_ON, XMLSchemaConstants.DATE_TIME);
+            DATASET_MAY.put(PavConstants.CREATED_WITH, XMLSchemaConstants.ANY_URI);
+            DATASET_MAY.put(PavConstants.DERIVED_FROM, XMLSchemaConstants.ANY_URI);
+        DATASET_SHOULD.put(VoidConstants.EXAMPLE_RESOURCE, XMLSchemaConstants.ANY_URI);
+        
+        DATASET_MAY.put(VoidConstants.SPARQL_ENDPOINT, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(VoidConstants.URI_SPACE_URI, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(VoidConstants.URI_REGEX_PATTERN, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(VoidConstants.VOCABULARY, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(PavConstants.AUTHORED_BY, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(PavConstants.AUTHORED_ON, XMLSchemaConstants.DATE_TIME);
+        DATASET_MAY.put(PavConstants.CREATED_BY, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(PavConstants.CREATED_ON, XMLSchemaConstants.DATE_TIME);
+        DATASET_MAY.put(DCatConstants.THEME_URI, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(CitoConstants.CITE_AS_AUTHORITY_URI, XMLSchemaConstants.ANY_URI);
+        DATASET_MAY.put(FoafConstants.PAGE_URI, XMLSchemaConstants.ANY_URI);
+        
         DISTRIBUTION_PREDICATES.add(PavConstants.VERSION);
         DISTRIBUTION_PREDICATES.add(DCatConstants.BYTE_SIZE_URI);
         
+        DISTRIBUTION_MUST.put(DCatConstants.MEDIA_TYPE_URI, XMLSchemaConstants.ANY_URI);
+        DISTRIBUTION_MUST.put(DCatConstants.DOWNLOAD_URI, XMLSchemaConstants.ANY_URI);
+
+        DISTRIBUTION_SHOULD.put(DCTermsConstants.ISSUED_URI, XMLSchemaConstants.DATE_TIME);
+        DISTRIBUTION_SHOULD.put(PavConstants.PREVIOUS_VERSION, XMLSchemaConstants.ANY_URI);
+              
         MULTIPLE_PREDICATES.addAll(LINKSET_MUST.keySet());
         MULTIPLE_PREDICATES.addAll(LINKSET_SHOULD.keySet());
         MULTIPLE_PREDICATES.addAll(LINKSET_MAY.keySet());
         MULTIPLE_PREDICATES.addAll(DATASET_PREDICATES);
+        MULTIPLE_PREDICATES.addAll(DATASET_MUST.keySet());
+        MULTIPLE_PREDICATES.addAll(DATASET_SHOULD.keySet());
+        MULTIPLE_PREDICATES.addAll(DATASET_MAY.keySet());
         MULTIPLE_PREDICATES.addAll(DISTRIBUTION_PREDICATES);
+        MULTIPLE_PREDICATES.addAll(DISTRIBUTION_MUST.keySet());
+        MULTIPLE_PREDICATES.addAll(DISTRIBUTION_SHOULD.keySet());
+        MULTIPLE_PREDICATES.addAll(DISTRIBUTION_MAY.keySet());
     }
     
     public static int load(String uri) throws VoidValidatorException, BridgeDBException{
@@ -262,6 +310,39 @@ public class Loader
         return mappingSetId;
     }
     
+    private void loadDatasetData(URI dataSetId) throws BridgeDBException, VoidValidatorException{
+         
+        //Get the data specifically stroed with the linkset
+        //Either because there can be only one or because it is a String
+        String datasetTitle = finder.getPossibleString(dataSetId, DCTermsConstants.TITLE_URI);
+        String datasetDescription = finder.getPossibleString(dataSetId, DCTermsConstants.DESCRIPTION_URI);
+        String datasetVersion = finder.getPossibleString(dataSetId, PavConstants.VERSION);
+        URI datasetDistribution = finder.getSingleURI(dataSetId, DCatConstants.DESCRIPTION_URI);
+        processDatasetVoid(dataSetId, datasetTitle, datasetDescription, datasetVersion, datasetDistribution);  
+        
+        for (URI predicate:DATASET_MUST.keySet()){
+            Set<Statement> statements = finder.getStatementList(dataSetId, predicate);
+            for (Statement aStatement:statements){
+                processDataSetMust(dataSetId, predicate, aStatement.getObject(), DATASET_MUST.get(predicate));
+            }
+        }
+
+        for (URI predicate:DATASET_SHOULD.keySet()){
+            Set<Statement> statements = finder.getStatementList(dataSetId, predicate);
+            for (Statement aStatement:statements){
+                processDataSetShould(dataSetId, predicate, aStatement.getObject(), DATASET_SHOULD.get(predicate));
+            }
+        }
+
+        for (URI predicate:DATASET_MAY.keySet()){
+            Set<Statement> statements = finder.getStatementList(dataSetId, predicate);
+            for (Statement aStatement:statements){
+                System.out.println(aStatement);
+                processDataSetMay(dataSetId, predicate, aStatement.getObject(), DATASET_MAY.get(predicate));
+            }
+        }
+    }
+
     private int registerLinkset(URI linksetPredicate, URI linksetJustification, boolean isSymetric) throws BridgeDBException{
         //When required get species and type here too
         //When used void:uriSpace or void:uriRegexPattern should be checked here
@@ -324,6 +405,11 @@ public class Loader
         }
     }
     
+    private void processDatasetVoid(URI dataSetId, String datasetTitle, String datasetDescription, String datasetVersion, 
+            URI datasetDistribution) throws BridgeDBException {
+        imsMapper.addDatasetVoid(dataSetId, datasetTitle, datasetDescription, datasetVersion, datasetDistribution);
+    }
+
     protected void processLinkSetMust(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
         loadStatement(linksetId, predicate, object, type);
     }
@@ -333,6 +419,18 @@ public class Loader
     }
 
     protected void processLinkSetMay(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        loadStatement(linksetId, predicate, object, type);
+    }
+
+    protected void processDataSetMust(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        loadStatement(linksetId, predicate, object, type);
+    }
+
+    protected void processDataSetShould(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
+        loadStatement(linksetId, predicate, object, type);
+    }
+
+    protected void processDataSetMay(URI linksetId, URI predicate, Value object, URI type) throws BridgeDBException {
         loadStatement(linksetId, predicate, object, type);
     }
 
@@ -397,5 +495,6 @@ public class Loader
     void closeInput() throws BridgeDBException {
         imsMapper.closeInput();
     }
+
 
 }

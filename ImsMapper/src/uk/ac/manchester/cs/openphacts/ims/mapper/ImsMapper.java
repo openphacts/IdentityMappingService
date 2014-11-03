@@ -22,18 +22,13 @@ package uk.ac.manchester.cs.openphacts.ims.mapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.bridgedb.pairs.CodeMapper;
 import org.bridgedb.rdf.pairs.RdfBasedCodeMapper;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.sql.SqlFactory;
-import org.bridgedb.sql.transative.DirectMapping;
 import org.bridgedb.utils.BridgeDBException;
 import org.openrdf.model.URI;
-import org.openrdf.model.Value;
 
 /**
  *
@@ -44,6 +39,8 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
     private static ImsMapper mapper = null;
 
     private String addLinksetVoidQuery = null;
+    private String addDatasetVoidQuery = null;
+    private String addDistributionVoidQuery = null;
     private String addLinksetURIQuery = null;
     private String addLinksetDateQuery = null;
 
@@ -144,7 +141,7 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
             sh.execute("CREATE TABLE " + DISTRIBUTION_TABLE_NAME
                     + "  (  " + DISTRIBUTION_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
                     + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") , "
-                    + "  " + SIZE_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") "
+                    + "  " + SIZE_COLUMN_NAME + " INT "
                     + "  ) " + SqlFactory.engineSetting());
             sh.execute("CREATE TABLE " + VOID_URIS_TABLE_NAME
                     + "  (  " + SUBJECT_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
@@ -193,6 +190,33 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
             statement.setString(8, toString(linksetObjectsType));
             statement.setString(9, toString(linksetSubjectSpecies));
             statement.setString(10, toString(linksetObjectsSpecies));
+            statement.executeUpdate();
+        } catch (BridgeDBException ex) {
+            throw ex;
+        } catch (SQLException ex) {
+            throw new BridgeDBException ("Error updating using " + statement, ex);
+        } finally {
+            close(statement, null);
+        }
+    }
+    
+    public void addDatasetVoid(URI dataSetId, String title, String description, String version, URI distribution) throws BridgeDBException {
+        PreparedStatement statement = null;
+        if (addDatasetVoidQuery == null){
+           addDatasetVoidQuery = "INSERT INTO " + DATASET_TABLE_NAME
+                    + " ( " + DATASET_URI_COLUMN_NAME + " , " //1
+                    + TITLE_COLUMN_NAME + " , "  //2
+                    + DESCRIPTION_COLUMN_NAME + " , " //3
+                    + VERSION_COLUMN_NAME + " , " //4
+                    + DISTRIBUTION_COLUMN_NAME + " ) VALUES ( ? , ? , ? , ?, ?) "; //5
+        } 
+        try {
+            statement = createPreparedStatement(addDatasetVoidQuery);   
+            statement.setString(1, toString(dataSetId));
+            statement.setString(2, title);
+            statement.setString(3, description);
+            statement.setString(4,version);
+            statement.setString(5, toString(distribution));
             statement.executeUpdate();
         } catch (BridgeDBException ex) {
             throw ex;
@@ -258,4 +282,5 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
             close(statement, null);
         }    
     }
+    
 }
