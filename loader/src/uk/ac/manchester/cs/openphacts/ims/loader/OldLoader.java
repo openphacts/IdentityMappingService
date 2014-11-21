@@ -20,10 +20,8 @@
 package uk.ac.manchester.cs.openphacts.ims.loader;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -44,17 +42,14 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.CalendarLiteralImpl;
 import org.openrdf.model.impl.URIImpl;
-import org.openrdf.rio.RDFHandlerException;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
-import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
-public class Loader 
+public class OldLoader 
 {
     protected final ImsMapper imsMapper;
             
@@ -166,7 +161,7 @@ public class Loader
     
     public static int load(String uri, String rdfFormatName) throws VoidValidatorException, BridgeDBException{
         URI context = new URIImpl(uri);
-        Loader loader = new Loader(context);
+        OldLoader loader = new OldLoader(context);
         loader.getPreviewHandler(uri, rdfFormatName);
         RdfParserIMS parser = loader.getParser(context);
         parser.parse(uri, rdfFormatName);
@@ -189,7 +184,7 @@ public class Loader
     
     public static int load(File file, URI context, String rdfFormatName) 
             throws VoidValidatorException, BridgeDBException{
-        Loader loader = new Loader(context);
+        OldLoader loader = new OldLoader(context);
         loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
         RdfParserIMS parser = loader.getParser(context);
         parser.parse(context.stringValue(), file, rdfFormatName);
@@ -197,11 +192,11 @@ public class Loader
     }
 
 
-    protected Loader() throws BridgeDBException {
+    protected OldLoader() throws BridgeDBException {
         this(null);
     }
     
-    protected Loader(URI context) throws BridgeDBException {
+    protected OldLoader(URI context) throws BridgeDBException {
         imsMapper = ImsMapper.getExisting();
         UriPattern.refreshUriPatterns();
         this.context = context;
@@ -488,7 +483,7 @@ public class Loader
     }
 
     static void recover() throws BridgeDBException {
-       Loader loader = new Loader(null);
+       OldLoader loader = new OldLoader(null);
        loader.imsMapper.recover();
     }
     

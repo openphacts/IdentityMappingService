@@ -87,7 +87,7 @@ public class LoaderTest {
         File file  = new File("test-data/cw-cs.ttl");
         Resource context = new URIImpl(file.toURI().toString());
         String formatName = null;
-        int result = Loader.load(file, formatName);
+        int result = LinksetLoader.load(file, formatName);
         MappingSetInfo mapping = uriListener.getMappingSetInfo(result);
         int numberOfLinks = mapping.getNumberOfLinks();
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));

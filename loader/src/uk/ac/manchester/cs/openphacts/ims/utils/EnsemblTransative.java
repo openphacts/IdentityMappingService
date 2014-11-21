@@ -43,7 +43,6 @@ import org.openrdf.rio.RDFParserRegistry;
 import org.openrdf.sail.memory.MemoryStore;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.Reporter;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 
 /**
  *

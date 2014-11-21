@@ -1,4 +1,4 @@
-@prefix : <www.example.com/voidtestA#> .
+@prefix : <http://www.example.com/voidtestA#> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .

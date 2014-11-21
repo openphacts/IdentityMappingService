@@ -98,9 +98,9 @@ public class RunLoader {
         if (file != null){
             Reporter.println("\tUsing File: " + file.getAbsolutePath());
             URI context = new URIImpl(uri);
-            Loader.load(file, context);
+            LinksetLoader.load(file, context);
         } else {
-            Loader.load((path + URLEncoder.encode(link, "UTF-8")), null);
+            LinksetLoader.load((path + URLEncoder.encode(link, "UTF-8")), null);
         }
     }
        
@@ -120,7 +120,7 @@ public class RunLoader {
     }
     
     private void recover() throws BridgeDBException {
-        Loader.recover();
+        LinksetLoader.recover();
     }
  
 

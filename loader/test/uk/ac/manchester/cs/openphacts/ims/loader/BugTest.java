@@ -7,6 +7,7 @@ package uk.ac.manchester.cs.openphacts.ims.loader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import org.bridgedb.DataSource;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.UriPatternType;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.OpenRDFException;
+import org.openrdf.model.Statement;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
 
@@ -61,11 +63,27 @@ public class BugTest extends TransativeTestBase{
     public void DoubleBugA() throws Exception {
         Reporter.println("DoubleBugA");
         RdfReader reader = RdfFactoryIMS.getReader();
+        List<Statement> statements = reader.getStatementList(null, null, null);
+        for (Statement statement:statements){
+            System.out.println(statement);
+        }
+        System.out.println();
+        System.out.println("test-data/void1A.ttl");
         File file = new File("test-data/void1A.ttl");
         reader.loadFile(file, file.toURI().toString());
+        statements = reader.getStatementList(null, null, null);
+        for (Statement statement:statements){
+            System.out.println(statement);
+        }
+        System.out.println();
+        System.out.println("test-data/void2A.ttl");
         file = new File("test-data/void2A.ttl");
         reader.loadFile(file, file.toURI().toString());
         //Validator.
+        statements = reader.getStatementList(null, null, null);
+        for (Statement statement:statements){
+            System.out.println(statement);
+        }
         loadFile("test-data/doubleA.ttl");
     }
 

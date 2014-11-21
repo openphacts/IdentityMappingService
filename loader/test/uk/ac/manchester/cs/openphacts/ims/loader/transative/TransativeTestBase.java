@@ -29,10 +29,10 @@ import org.bridgedb.utils.Reporter;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import uk.ac.manchester.cs.openphacts.ims.loader.Loader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfFactory;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
+import uk.ac.manchester.cs.openphacts.ims.loader.LinksetLoader;
 
 /**
  *
@@ -58,7 +58,7 @@ public class TransativeTestBase  {
     
     protected void loadFile(File file) throws BridgeDBException, VoidValidatorException{
         Reporter.println("parsing " + file.getAbsolutePath());
-        int mappingSetId = Loader.load(file);
+        int mappingSetId = LinksetLoader.load(file);
         MappingSetInfo mapping = uriListener.getMappingSetInfo(mappingSetId);
         int numberOfLinks = mapping.getNumberOfLinks();
         assertThat(numberOfLinks, greaterThanOrEqualTo(3));      

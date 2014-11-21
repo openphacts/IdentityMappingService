@@ -2,7 +2,7 @@
 @prefix DS_B: <http://www.example.com/DS_B/> .
 @prefix void: <http://rdfs.org/ns/void#> .
 
-<> void:inDataset <www.example.com/voidtestA#TestA_B> .
+<> void:inDataset <http://www.example.com/voidtestA#TestA_B> .
 
 DS_A:123 <http://www.bridgedb.org/test#testPredicate> DS_A:123a .
 DS_A:456 <http://www.bridgedb.org/test#testPredicate> DS_A:456a .
