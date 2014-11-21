@@ -24,6 +24,10 @@
                 <executions>
                 <execution>
                 <id>make-a-war</id>
+                <configuration>
+                    <warName>IMS</warName>
+                </configuration>
+
                 <phase>compile</phase>
                 <goals>
                     <goal>war</goal>
