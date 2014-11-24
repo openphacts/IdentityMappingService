@@ -20,6 +20,7 @@ import org.bridgedb.utils.ConfigReader;
 import org.bridgedb.utils.Reporter;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.Statement;
@@ -52,6 +53,7 @@ public class BugTest extends TransativeTestBase{
     }
     
     @Test
+    @Ignore //rather slow and old data anyway
     public void testBug1() throws Exception {
         Reporter.println("LoadBug1");
         //Validator.
