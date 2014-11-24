@@ -23,25 +23,22 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
-import org.bridgedb.rdf.constants.DCTermsConstants;
-import org.bridgedb.rdf.constants.DCatConstants;
 import org.bridgedb.rdf.constants.DulConstants;
-import org.bridgedb.rdf.constants.PavConstants;
-import org.bridgedb.rdf.constants.XMLSchemaConstants;
-import org.bridgedb.sql.justification.JustificationMaker;
-import org.bridgedb.sql.justification.OpsJustificationMaker;
-import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
+import org.bridgedb.utils.Reporter;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.StatementImpl;
 import org.openrdf.model.impl.URIImpl;
+import uk.ac.manchester.cs.datadesc.validator.constants.RdfConstants;
 import uk.ac.manchester.cs.datadesc.validator.constants.VoidConstants;
+import uk.ac.manchester.cs.datadesc.validator.metadata.MetaDataSpecification;
+import uk.ac.manchester.cs.datadesc.validator.metadata.ResourceMetaData;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler1;
@@ -53,6 +50,7 @@ public class LinksetLoader
     private final ImsMapper imsMapper;
     private final RdfReader reader;        
     private PreviewHandler1 finder;
+    private final MetaDataSpecification specifications;
     
     private final URI context;   
     private URI linksetId;
@@ -83,7 +81,8 @@ public class LinksetLoader
         loader.getPreviewHandler(uri, rdfFormatName);
         RdfParserIMS1 parser = loader.getParser();
         parser.parse(uri, rdfFormatName);
-        return parser.getMappingsetId();       
+        loader.copyMetaData();
+        return parser.getMappingsetId();   
     }
 
     public static int load(File file, URI context, String rdfFormatName) 
@@ -92,6 +91,7 @@ public class LinksetLoader
         loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
         RdfParserIMS1 parser = loader.getParser();
         parser.parse(context.stringValue(), file, rdfFormatName);
+        loader.copyMetaData();
         return parser.getMappingsetId();       
     }
 
@@ -100,6 +100,11 @@ public class LinksetLoader
         reader = RdfFactoryIMS.getReader();
         UriPattern.refreshUriPatterns();
         this.context = context;
+        try {
+           specifications = MetaDataSpecification.specificationByName("opsVoid");
+        } catch (VoidValidatorException ex) {
+            throw new BridgeDBException ("Unable to load  MetaDataSpecification opsVoid", ex);
+        }
     }
     
     protected final void getPreviewHandler(String uri, String rdfFormatName) throws BridgeDBException{
@@ -186,4 +191,51 @@ public class LinksetLoader
         imsMapper.closeInput();
     }
 
+    private void copyMetaData() throws BridgeDBException {
+        copySpecifications(linksetId, VoidConstants.LINKSET);
+        copyDataSet(VoidConstants.SUBJECTSTARGET);
+        copyDataSet(VoidConstants.OBJECTSTARGET);
+    }
+    
+    private void copySpecifications(URI id, URI type) throws BridgeDBException {
+        ResourceMetaData metaData = specifications.getResourceMetaData(type);
+        Set<URI> predicates = metaData.getPredicates();
+        for (URI predicate:predicates){
+            List<Statement> statments;
+            try {
+                statments = reader.getStatementList(id, predicate, ANY_OBJECT);
+            } catch (VoidValidatorException ex) {
+                throw new BridgeDBException ("Unable to read statements for " + id + " and " + predicate, ex);
+            }
+            for (Statement statement:statments){
+                StatementImpl newStatement = new StatementImpl(id, predicate, statement.getObject());
+                addStatement(newStatement);
+            }
+            StatementImpl newStatement = new StatementImpl(id, RdfConstants.TYPE_URI, type);
+            addStatement(newStatement);
+        }
+           
+    }
+    
+    private void addStatement(Statement statement) throws BridgeDBException{
+        try {
+            reader.add(statement, context);
+        } catch (VoidValidatorException ex) {
+            throw new BridgeDBException ("Error adding " + statement, ex);
+        }        
+    }
+    
+    private void copyDataSet(URI predicate) throws BridgeDBException {
+        try {
+            List<Statement> statementList = reader.getStatementList(linksetId, predicate, ANY_OBJECT);
+            if (statementList.isEmpty()){
+                Reporter.error("No " + predicate + " for " + linksetId);
+            } else {
+                URI datasetId  = getObjectURI(statementList);
+                copySpecifications(datasetId, VoidConstants.DATASET);
+            }
+        } catch (VoidValidatorException ex) {
+            throw new BridgeDBException ("Error getting " + VoidConstants.SUBJECTSTARGET + " for " + linksetId, ex);
+        }
+    }
 }
