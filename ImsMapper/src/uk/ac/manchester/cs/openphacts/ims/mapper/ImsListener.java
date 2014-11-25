@@ -19,7 +19,10 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.mapper;
 
+import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.uri.tools.UriListener;
+import org.bridgedb.utils.BridgeDBException;
+import org.openrdf.model.Resource;
 
 /**
  *
@@ -27,6 +30,11 @@ import org.bridgedb.uri.tools.UriListener;
  */
 public interface ImsListener extends UriListener {
     
-    
-    
+    public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String justification,
+        RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource, boolean symetric) 
+            throws BridgeDBException;
+
+     public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String forwardJustification, 
+            String backwardJustification,
+            RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource) throws BridgeDBException;
 }

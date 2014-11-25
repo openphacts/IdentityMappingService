@@ -19,10 +19,9 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.loader.handler;
 
-import org.bridgedb.uri.loader.LinkHandler;
 import org.bridgedb.uri.loader.LinksetHandler;
+import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
-import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
@@ -35,42 +34,57 @@ import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
  *
  * @author Christian
  */
-public class ImsHandler extends LinkHandler{
+public class ImsHandler extends LinksetHandler{
     
     private final RdfInterface rdfInterface;
-    private final Resource context;
     private final ImsListener imsListener;
-    
-    public ImsHandler(ImsListener imsListener, URI linkPredicate, boolean symetric, int mappingSet, Resource context) 
+    private final URI mappingResource; 
+   
+    public ImsHandler(ImsListener imsListener, URI linkPredicate, String justification,
+            URI mappingResource, URI mappingSource) 
             throws BridgeDBException{
-        super(imsListener, linkPredicate, symetric);
+        super(imsListener, linkPredicate, justification, mappingSource);
         this.imsListener = imsListener;
         this.rdfInterface = RdfFactoryIMS.getReader();
-        this.context = context;
-        this.mappingSet = mappingSet;
+        this.mappingResource = mappingResource;
     }
     
-
     @Override
     public void handleStatement(Statement st) throws RDFHandlerException {
         if (st.getPredicate().equals(linkPredicate)){
             super.handleStatement(st);
         } else {
             try {
-                rdfInterface.add(st, context);
+                rdfInterface.add(st, mappingSource);
             } catch (VoidValidatorException ex) {
                 throw new RDFHandlerException("unable to load statement " + st, ex);
             }
         }
     }
 
+    protected void registerMappingSet(RegexUriPattern sourcePattern, RegexUriPattern targetPattern ) 
+            throws BridgeDBException{
+        if (backwardJustification == null){
+            mappingSet =  imsListener.registerMappingSet(sourcePattern, linkPredicate.stringValue(), 
+                    justification, targetPattern, mappingResource, mappingSource, false);
+            this.setSymetric(false);
+        } else {
+            mappingSet = imsListener.registerMappingSet(sourcePattern, linkPredicate.stringValue(), 
+                    justification, backwardJustification, targetPattern, mappingSource);
+        }
+    }
+
+
     @Override
     public void endRDF() throws RDFHandlerException {
         super.endRDF();
         try {
             rdfInterface.commit();
+            imsListener.closeInput();
         } catch (VoidValidatorException ex) {
             throw new RDFHandlerException("Unable to commit", ex);
+        } catch (BridgeDBException ex) {
+            throw new RDFHandlerException("Unable to close", ex);
         }
     }
 }

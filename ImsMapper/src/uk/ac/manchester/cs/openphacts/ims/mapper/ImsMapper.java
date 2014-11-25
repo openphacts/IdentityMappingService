@@ -22,13 +22,15 @@ package uk.ac.manchester.cs.openphacts.ims.mapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.xml.datatype.XMLGregorianCalendar;
+import org.apache.log4j.Logger;
+import org.bridgedb.DataSource;
 import org.bridgedb.pairs.CodeMapper;
 import org.bridgedb.rdf.pairs.RdfBasedCodeMapper;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.sql.SqlFactory;
+import org.bridgedb.uri.tools.RegexUriPattern;
 import org.bridgedb.utils.BridgeDBException;
-import org.openrdf.model.URI;
+import org.openrdf.model.Resource;
 
 /**
  *
@@ -38,45 +40,12 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
     
     private static ImsMapper mapper = null;
 
-    private String addLinksetVoidQuery = null;
-    private String addDatasetVoidQuery = null;
-    private String addDistributionVoidQuery = null;
-    private String addLinksetURIQuery = null;
-    private String addLinksetDateQuery = null;
+    static final String MAPPING_RESOURCE_COLUMN_NAME = "resource";
 
-    //Table names
-    private static final String LINKSET_TABLE_NAME = "linkset";
-    private static final String DATASET_TABLE_NAME = "dataset";
-    private static final String DISTRIBUTION_TABLE_NAME = "distribution";
-    private static final String VOID_URIS_TABLE_NAME = "voidUris";
-    private static final String VOID_DATES_TABLE_NAME = "voidDates";
+    private String registerMappingQuery = null;
     
-    //Column Names
-    private static final String DATASET_URI_COLUMN_NAME = "URI";
-    private static final String DESCRIPTION_COLUMN_NAME = "description";
-    private static final String DISTRIBUTION_COLUMN_NAME = "distribution";
-    private static final String DISTRIBUTION_URI_COLUMN_NAME = "URI";
-    private static final String LINKSET_URI_COLUMN_NAME = "URI";
-    private static final String OBJECT_DATATYPE_COLUMN_NAME = "objectType";
-    private static final String OBJECT_COLUMN_NAME = "object";
-    private static final String OBJECT_SPECIES_COLUMN_NAME = "objectSpecies";
-    private static final String OBJECT_URI_COLUMN_NAME = "objectURI";
-    private static final String PREDICATE_COLUMN_NAME = "predicate";
-    private static final String SIZE_COLUMN_NAME = "size";
-    private static final String SUBJECT_COLUMN_NAME = "subject";
-    private static final String SUBJECT_DATATYPE_COLUMN_NAME = "subjectType";
-    private static final String SUBJECT_SPECIES_COLUMN_NAME = "subjectSpecies";
-    private static final String SUBJECT_URI_COLUMN_NAME = "subjectURI";
-    private static final String TITLE_COLUMN_NAME = "title";
-    private static final String VERSION_COLUMN_NAME = "VERSION";
-    //Size Variable
-            //This could be anything so needs to be long
-    private static final int ID_URI_LENGTH = 200;
-            //These are from controled vocabularies so can be shorter
-    private static final int URI_LENGTH = 70;
-    private static final int TITLE_LENGTH = 70;
-    private static final int VERSION_LENGTH = 25;
-
+    private static final Logger logger = Logger.getLogger(ImsMapper.class);
+    
     public static ImsMapper getExisting() throws BridgeDBException {
         if (mapper == null) {
             CodeMapper codeMapper = new RdfBasedCodeMapper();
@@ -102,185 +71,111 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
         super(dropTables, codeMapper);
     }
 
-    @Override
-    protected void dropSQLTables() throws BridgeDBException
-    {
-        super.dropSQLTables();
-        dropTable(LINKSET_TABLE_NAME);
-        dropTable(DATASET_TABLE_NAME);
-        dropTable(DISTRIBUTION_TABLE_NAME);
-        dropTable(VOID_URIS_TABLE_NAME);
-        dropTable(VOID_DATES_TABLE_NAME);
-    }
-
-    @Override
-    protected void createSQLTables() throws BridgeDBException {
-        super.createSQLTables();
+    protected void createMappingSetTable() throws BridgeDBException {
+        //"IF NOT EXISTS " is not supported
+        String query = "";
         Statement sh = null;
-        try {
+        try { 
             sh = createStatement();
-            sh.execute("CREATE TABLE " + LINKSET_TABLE_NAME
-                    + "( " + MAPPING_SET_ID_COLUMN_NAME + " INT, "
-                    + "  " + LINKSET_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") , "
-                    + "  " + DESCRIPTION_COLUMN_NAME + " TEXT, "
-                    + "  " + SUBJECT_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + SUBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") , "
-                    + "  " + OBJECT_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + OBJECT_DATATYPE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") , "
-                    + "  " + SUBJECT_SPECIES_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") , "
-                    + "  " + OBJECT_SPECIES_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") "
-                    + "  ) " + SqlFactory.engineSetting());
-            sh.execute("CREATE TABLE " + DATASET_TABLE_NAME
-                    + "  (  " + DATASET_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + TITLE_COLUMN_NAME + " VARCHAR(" + TITLE_LENGTH + ") , "
-                    + "  " + DESCRIPTION_COLUMN_NAME + " TEXT, "
-                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") , "
-                    + "  " + DISTRIBUTION_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") "
-                    + "  ) " + SqlFactory.engineSetting());
-            sh.execute("CREATE TABLE " + DISTRIBUTION_TABLE_NAME
-                    + "  (  " + DISTRIBUTION_URI_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + VERSION_COLUMN_NAME + " VARCHAR(" + VERSION_LENGTH + ") , "
-                    + "  " + SIZE_COLUMN_NAME + " INT "
-                    + "  ) " + SqlFactory.engineSetting());
-            sh.execute("CREATE TABLE " + VOID_URIS_TABLE_NAME
-                    + "  (  " + SUBJECT_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + PREDICATE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL, "
-                    + "  " + OBJECT_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL "
-                    + "  ) " + SqlFactory.engineSetting());
-            sh.execute("CREATE TABLE " + VOID_DATES_TABLE_NAME
-                    + "  (  " + SUBJECT_COLUMN_NAME + " VARCHAR(" + ID_URI_LENGTH + ") NOT NULL, "
-                    + "  " + PREDICATE_COLUMN_NAME + " VARCHAR(" + URI_LENGTH + ") NOT NULL, "
-                    + "  " + OBJECT_COLUMN_NAME + " DATETIME NOT NULL "
-                    + "  ) " + SqlFactory.engineSetting());
-
+            query = "CREATE TABLE " + MAPPING_SET_TABLE_NAME 
+                    + " (" + ID_COLUMN_NAME + " INT " + autoIncrement + " PRIMARY KEY, "
+                    + SOURCE_DATASOURCE_COLUMN_NAME + " VARCHAR(" + SYSCODE_LENGTH + ") NOT NULL, "
+                    + PREDICATE_COLUMN_NAME + " VARCHAR(" + PREDICATE_LENGTH + "), "
+                    + JUSTIFICATION_COLUMN_NAME + " VARCHAR(" + JUSTIFICATION_LENGTH + "), "
+                    + TARGET_DATASOURCE_COLUMN_NAME + " VARCHAR(" + SYSCODE_LENGTH + "), "
+                    + MAPPING_RESOURCE_COLUMN_NAME + " VARCHAR(" + MAPPING_URI_LENGTH + "), "
+                    + MAPPING_SOURCE_COLUMN_NAME + " VARCHAR(" + MAPPING_URI_LENGTH + "), "
+                    + SYMMETRIC_COLUMN_NAME + " INT, "
+                    + MAPPING_LINK_COUNT_COLUMN_NAME + " INT, "
+                    + MAPPING_SOURCE_COUNT_COLUMN_NAME + " INT, "
+                    + MAPPING_TARGET_COUNT_COLUMN_NAME + " INT"
+                    + " ) " + SqlFactory.engineSetting();
+            sh.execute(query);
         } catch (SQLException e) {
-            throw new BridgeDBException("Error creating the tables ", e);
+            throw new BridgeDBException("Error creating the MappingSet table using " + query, e);
         } finally {
             close(sh, null);
         }
     }
 
-    public void addLinksetVoid(int mappingSetId, URI linksetId, String linksetTitle, String linksetDescription, 
-            URI linksetSubjectsTarget, URI linksetSubjectsType, URI linksetObjectsTarget, URI linksetObjectsType, 
-            URI linksetSubjectSpecies, URI linksetObjectsSpecies) throws BridgeDBException{
-        PreparedStatement statement = null;
-        if (addLinksetVoidQuery == null){
-           addLinksetVoidQuery = "INSERT INTO " + LINKSET_TABLE_NAME
-                    + " ( " + MAPPING_SET_ID_COLUMN_NAME + " , " //1
-                    + LINKSET_URI_COLUMN_NAME + " , "  //2
-                    + TITLE_COLUMN_NAME + " , "  //3
-                    + DESCRIPTION_COLUMN_NAME + " , " //4
-                    + SUBJECT_URI_COLUMN_NAME + " , " //5
-                    + SUBJECT_DATATYPE_COLUMN_NAME + " , "  //6
-                    + OBJECT_URI_COLUMN_NAME + " , "  //7
-                    + OBJECT_DATATYPE_COLUMN_NAME + " , "  //8
-                    + SUBJECT_SPECIES_COLUMN_NAME + " , "  //9
-                    + OBJECT_SPECIES_COLUMN_NAME + " ) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ?) "; //10
+    //@Override
+    public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String justification,
+            RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource, boolean symetric) throws BridgeDBException {
+        checkUriPattern(sourceUriPattern);
+        checkUriPattern(targetUriPattern);
+        DataSource source = DataSource.getExistingBySystemCode(sourceUriPattern.getSysCode());
+        DataSource target = DataSource.getExistingBySystemCode(targetUriPattern.getSysCode());
+        int mappingSetId = registerMappingSet(source, target, predicate, justification, mappingResource, mappingSource, 0);
+        if (symetric) {
+            int symetricId = registerMappingSet(target, source, predicate, justification, mappingResource, mappingSource, mappingSetId);
+
+            setSymmetric(mappingSetId, symetricId);
         }
-        try {
-            statement = createPreparedStatement(addLinksetVoidQuery);   
-            statement.setInt(1, mappingSetId);
-            statement.setString(2, toString(linksetId));
-            statement.setString(3, linksetTitle);
-            statement.setString(4, linksetDescription);
-            statement.setString(5, toString(linksetSubjectsTarget));
-            statement.setString(6, toString(linksetSubjectsType));
-            statement.setString(7, toString(linksetObjectsTarget));
-            statement.setString(8, toString(linksetObjectsType));
-            statement.setString(9, toString(linksetSubjectSpecies));
-            statement.setString(10, toString(linksetObjectsSpecies));
-            statement.executeUpdate();
-        } catch (BridgeDBException ex) {
-            throw ex;
-        } catch (SQLException ex) {
-            throw new BridgeDBException ("Error updating using " + statement, ex);
-        } finally {
-            close(statement, null);
-        }
-    }
-    
-    public void addDatasetVoid(URI dataSetId, String title, String description, String version, URI distribution) throws BridgeDBException {
-        PreparedStatement statement = null;
-        if (addDatasetVoidQuery == null){
-           addDatasetVoidQuery = "INSERT INTO " + DATASET_TABLE_NAME
-                    + " ( " + DATASET_URI_COLUMN_NAME + " , " //1
-                    + TITLE_COLUMN_NAME + " , "  //2
-                    + DESCRIPTION_COLUMN_NAME + " , " //3
-                    + VERSION_COLUMN_NAME + " , " //4
-                    + DISTRIBUTION_COLUMN_NAME + " ) VALUES ( ? , ? , ? , ?, ?) "; //5
-        } 
-        try {
-            statement = createPreparedStatement(addDatasetVoidQuery);   
-            statement.setString(1, toString(dataSetId));
-            statement.setString(2, title);
-            statement.setString(3, description);
-            statement.setString(4,version);
-            statement.setString(5, toString(distribution));
-            statement.executeUpdate();
-        } catch (BridgeDBException ex) {
-            throw ex;
-        } catch (SQLException ex) {
-            throw new BridgeDBException ("Error updating using " + statement, ex);
-        } finally {
-            close(statement, null);
-        }
-    }
-    
-    private String toString(URI uri){
-        if (uri == null){
-            return null;
-        } else {
-            return uri.stringValue();
-        }
-    }
-    
-    public void loadStatement(URI linksetId, URI predicate, URI object) throws BridgeDBException {
-        if (addLinksetURIQuery == null){
-            addLinksetURIQuery = "INSERT INTO " + VOID_URIS_TABLE_NAME
-                    + "  (  " + SUBJECT_COLUMN_NAME + " , "
-                    + PREDICATE_COLUMN_NAME + " , "
-                    + OBJECT_COLUMN_NAME + ") VALUES ( ?, ?, ?)";
-        } 
-        PreparedStatement statement = null;
-        try {
-            statement = createPreparedStatement(addLinksetURIQuery);   
-            statement.setString(1, toString(linksetId));
-            statement.setString(2, toString(predicate));
-            statement.setString(3, toString(object));
-            statement.executeUpdate();
-        } catch (BridgeDBException ex) {
-            throw ex;
-        } catch (SQLException ex) {
-            throw new BridgeDBException ("Error updating using " + statement, ex);
-        } finally {
-            close(statement, null);
-        }    
+        subjectUriPatterns.put(mappingSetId, sourceUriPattern);
+        targetUriPatterns.put(mappingSetId, targetUriPattern);
+        return mappingSetId;
     }
 
-    public void loadStatement(URI linksetId, URI predicate, XMLGregorianCalendar xmlDate) throws BridgeDBException {
-        if (addLinksetDateQuery == null){
-            addLinksetDateQuery = "INSERT INTO " + VOID_DATES_TABLE_NAME
-                    + "  (  " + SUBJECT_COLUMN_NAME + " , "
-                    + PREDICATE_COLUMN_NAME + " , "
-                    + OBJECT_COLUMN_NAME + ") VALUES ( ?, ?, ?)";
-        } 
+    //@Override
+    public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String forwardJustification, String backwardJustification,
+            RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource) throws BridgeDBException {
+        if (forwardJustification.equals(backwardJustification)){
+            return registerMappingSet(sourceUriPattern, predicate, forwardJustification, targetUriPattern, mappingResource, mappingSource, true);
+        } else {
+            checkUriPattern(sourceUriPattern);
+            checkUriPattern(targetUriPattern);
+            DataSource source = DataSource.getExistingBySystemCode(sourceUriPattern.getSysCode());
+            DataSource target = DataSource.getExistingBySystemCode(targetUriPattern.getSysCode());
+            int mappingSetId = registerMappingSet(source, target, predicate, forwardJustification, mappingResource, mappingSource, 0);
+            int symetricId = registerMappingSet(target, source, predicate, backwardJustification, mappingResource, mappingSource, 0);
+            subjectUriPatterns.put(mappingSetId, sourceUriPattern);
+            targetUriPatterns.put(mappingSetId, targetUriPattern);
+            //Two linksets are NOT symmetric
+            return mappingSetId;
+        }
+    }
+
+    private int registerMappingSet(DataSource source, DataSource target, String predicate,
+            String justification, Resource mappingResource, Resource mappingSource, int symmetric) throws BridgeDBException {
         PreparedStatement statement = null;
         try {
-            statement = createPreparedStatement(addLinksetDateQuery);   
-            statement.setString(1, toString(linksetId));
-            statement.setString(2, toString(predicate));
-            java.util.Date date = xmlDate.toGregorianCalendar().getTime();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime()); 
-            statement.setDate(3, sqlDate);
+            if (registerMappingQuery == null){
+                StringBuilder query = new StringBuilder("INSERT INTO ");
+                query.append(MAPPING_SET_TABLE_NAME);
+                query.append(" (");
+                query.append(SOURCE_DATASOURCE_COLUMN_NAME); //1
+                query.append(", ");
+                query.append(PREDICATE_COLUMN_NAME); //2
+                query.append(", ");
+                query.append(JUSTIFICATION_COLUMN_NAME); //3
+                query.append(", ");
+                query.append(TARGET_DATASOURCE_COLUMN_NAME); //4
+                query.append(", ");
+                query.append(MAPPING_RESOURCE_COLUMN_NAME); //5
+                query.append(", ");
+                query.append(MAPPING_SOURCE_COLUMN_NAME); //6
+                query.append(", ");
+                query.append(SYMMETRIC_COLUMN_NAME); //7
+                query.append(") VALUES ( ?, ?, ?, ? , ?, ?, ?)");
+                registerMappingQuery = query.toString();
+            }
+            statement = createPreparedStatement(registerMappingQuery);
+            statement.setString(1, getDataSourceKey(source));
+            statement.setString(2, predicate);
+            statement.setString(3, justification);
+            statement.setString(4, getDataSourceKey(target));
+            statement.setString(5, mappingResource.stringValue());
+            statement.setString(6, mappingSource.stringValue());
+            statement.setInt(7, symmetric);
             statement.executeUpdate();
-        } catch (BridgeDBException ex) {
-            throw ex;
+            int autoinc = getAutoInc();
+            logger.info("Registered new Mapping " + autoinc + " from " + getDataSourceKey(source) + " to " + getDataSourceKey(target));
+            return autoinc;
         } catch (SQLException ex) {
-            throw new BridgeDBException ("Error updating using " + statement, ex);
+            throw new BridgeDBException ("Error registering mappingSet ", ex);
         } finally {
             close(statement, null);
-        }    
+        }
     }
-    
+
 }

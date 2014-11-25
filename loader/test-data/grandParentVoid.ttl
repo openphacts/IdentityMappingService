@@ -1,0 +1,26 @@
+@prefix : <http://www.example.com/grandParent#> .
+@prefix bdb: <http://vocabularies.bridgedb.org/ops#> .
+@prefix cito: <http://purl.org/spar/cito/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dctypes: <http://purl.org/dc/dcmitype/> .
+@prefix eco: <http://purl.obolibrary.org/obo/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix freq: <http://purl.org/cld/freq/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<> a void:DatasetDescription ;
+    dcterms:title "Dataset Description Title"^^xsd:string ;
+    dcterms:description """Grand Parent Dataset description description"""^^xsd:string;
+    pav:createdBy <https://github.com/Christian-B> ;
+    pav:createdOn "2014-11-24"^^xsd:date.
+    
+:chemspider a void:Dataset  ;
+	dcterms:title "Parent Chemspider"^^xsd:string ;
+        dcterms:publisher <http://www.rsc.org/>.

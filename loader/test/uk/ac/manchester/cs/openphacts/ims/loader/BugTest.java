@@ -69,16 +69,12 @@ public class BugTest extends TransativeTestBase{
         for (Statement statement:statements){
             System.out.println(statement);
         }
-        System.out.println();
-        System.out.println("test-data/void1A.ttl");
         File file = new File("test-data/void1A.ttl");
         reader.loadFile(file, file.toURI().toString());
         statements = reader.getStatementList(null, null, null);
         for (Statement statement:statements){
             System.out.println(statement);
         }
-        System.out.println();
-        System.out.println("test-data/void2A.ttl");
         file = new File("test-data/void2A.ttl");
         reader.loadFile(file, file.toURI().toString());
         //Validator.

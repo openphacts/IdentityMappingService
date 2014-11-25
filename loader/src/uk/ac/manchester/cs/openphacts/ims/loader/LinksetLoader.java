@@ -23,8 +23,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bridgedb.rdf.UriPattern;
 import org.bridgedb.rdf.constants.BridgeDBConstants;
 import org.bridgedb.rdf.constants.DulConstants;
@@ -41,15 +39,15 @@ import uk.ac.manchester.cs.datadesc.validator.metadata.MetaDataSpecification;
 import uk.ac.manchester.cs.datadesc.validator.metadata.ResourceMetaData;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler1;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler1;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
+import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
 
 public class LinksetLoader 
 {
     private final ImsMapper imsMapper;
     private final RdfReader reader;        
-    private PreviewHandler1 finder;
+    private PreviewHandler finder;
     private final MetaDataSpecification specifications;
     
     private final URI context;   
@@ -79,7 +77,7 @@ public class LinksetLoader
         URI context = new URIImpl(uri);
         LinksetLoader loader = new LinksetLoader(context);
         loader.getPreviewHandler(uri, rdfFormatName);
-        RdfParserIMS1 parser = loader.getParser();
+        RdfParserIMS parser = loader.getParser();
         parser.parse(uri, rdfFormatName);
         loader.copyMetaData();
         return parser.getMappingsetId();   
@@ -89,7 +87,7 @@ public class LinksetLoader
             throws VoidValidatorException, BridgeDBException{
         LinksetLoader loader = new LinksetLoader(context);
         loader.getPreviewHandler(context.stringValue(), file, rdfFormatName);
-        RdfParserIMS1 parser = loader.getParser();
+        RdfParserIMS parser = loader.getParser();
         parser.parse(context.stringValue(), file, rdfFormatName);
         loader.copyMetaData();
         return parser.getMappingsetId();       
@@ -108,18 +106,18 @@ public class LinksetLoader
     }
     
     protected final void getPreviewHandler(String uri, String rdfFormatName) throws BridgeDBException{
-        finder = new PreviewHandler1();
+        finder = new PreviewHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(uri, rdfFormatName);
     }
     
     private void getPreviewHandler(String baseURI, File file, String rdfFormatName) throws BridgeDBException{
-        finder = new PreviewHandler1();
+        finder = new PreviewHandler();
         RdfParserPlus parser = new RdfParserPlus(finder);
         parser.parse(baseURI, file, rdfFormatName);
     }
 
-    private RdfParserIMS1 getParser() throws VoidValidatorException, BridgeDBException{
+    private RdfParserIMS getParser() throws VoidValidatorException, BridgeDBException{
         URI linksetPredicate;
       
         String forwardJustification;
@@ -143,9 +141,8 @@ public class LinksetLoader
             statement =  finder.getJustificationStatement();
             forwardJustification = getObjectURI(statement).stringValue();
         }
-        
-        ImsHandler1 handler = new ImsHandler1(imsMapper, linksetPredicate, forwardJustification, context);
-        return new RdfParserIMS1(handler);
+        ImsHandler handler = new ImsHandler(imsMapper, linksetPredicate, forwardJustification, linksetId, context);
+        return new RdfParserIMS(handler);
     }
 
     private URI getSubjectURI(Statement statement) throws BridgeDBException{
@@ -201,14 +198,18 @@ public class LinksetLoader
         ResourceMetaData metaData = specifications.getResourceMetaData(type);
         Set<URI> predicates = metaData.getPredicates();
         for (URI predicate:predicates){
-            List<Statement> statments;
+            System.out.println("coping " + id + " -> " + predicate);
+            List<Statement> statements;
             try {
-                statments = reader.getStatementList(id, predicate, ANY_OBJECT);
+                statements = reader.getStatementList(id, predicate, ANY_OBJECT);
+                System.out.println("found " + statements.size());
             } catch (VoidValidatorException ex) {
                 throw new BridgeDBException ("Unable to read statements for " + id + " and " + predicate, ex);
             }
-            for (Statement statement:statments){
+            for (Statement statement:statements){
+                System.out.println(statement);
                 StatementImpl newStatement = new StatementImpl(id, predicate, statement.getObject());
+                System.out.println(newStatement);
                 addStatement(newStatement);
             }
             StatementImpl newStatement = new StatementImpl(id, RdfConstants.TYPE_URI, type);

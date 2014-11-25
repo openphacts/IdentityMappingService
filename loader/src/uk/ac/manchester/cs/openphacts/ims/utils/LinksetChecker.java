@@ -47,16 +47,14 @@ import org.openrdf.sail.memory.MemoryStore;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.Reporter;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.ims.loader.OldLoader;
 import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.ims.loader.UriFileMapper;
-import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 
 /**
  *
  * @author Christian
  */
-public class LinksetChecker extends OldLoader {
+public class LinksetChecker extends UtilBase {
     
    public static String DEFAULT_BASE_URI = "http://no/BaseURI/Set/";
    private URI linkPredicate;
