@@ -40,7 +40,6 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
     
     private static ImsMapper mapper = null;
 
-    static final String MAPPING_RESOURCE_COLUMN_NAME = "resource";
 
     private String registerMappingQuery = null;
     

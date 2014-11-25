@@ -62,6 +62,7 @@ public class ImsHandler extends LinksetHandler{
         }
     }
 
+    @Override
     protected void registerMappingSet(RegexUriPattern sourcePattern, RegexUriPattern targetPattern ) 
             throws BridgeDBException{
         if (backwardJustification == null){
