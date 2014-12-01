@@ -33,6 +33,8 @@ import org.apache.log4j.Logger;
 import org.bridgedb.sql.SQLUriMapper;
 import org.bridgedb.statistics.MappingSetInfo;
 import org.bridgedb.uri.api.UriMapper;
+import org.bridgedb.uri.tools.DirectStatementMaker;
+import org.bridgedb.uri.tools.StatementMaker;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.ws.uri.WSUriServer;
 import uk.ac.manchester.cs.datadesc.validator.Validator;
@@ -47,7 +49,8 @@ import uk.ac.manchester.cs.datadesc.validator.server.FrameInterface;
 import uk.ac.manchester.cs.datadesc.validator.server.ValidatorWSInterface;
 import uk.ac.manchester.cs.datadesc.validator.server.WsValidatorServer;
 import uk.ac.manchester.cs.datadesc.validator.ws.WsValidationConstants;
-import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
+import uk.ac.manchester.cs.openphacts.ims.mapper.ImsStatementMaker;
+import uk.ac.manchester.cs.openphacts.ims.rdf.RdfFactoryIMS;
 
 /**
  *
@@ -60,11 +63,11 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
     static final Logger logger = Logger.getLogger(WsImsServer.class);
     
     public WsImsServer()  throws BridgeDBException   {
-        this(SQLUriMapper.getExisting());
+        this(SQLUriMapper.getExisting(), new ImsStatementMaker());
     }
                
-    public WsImsServer(UriMapper uriMapper)  throws BridgeDBException   {
-        super(uriMapper);
+    public WsImsServer(UriMapper uriMapper, StatementMaker statementMaker)  throws BridgeDBException   {
+        super(uriMapper, statementMaker);
         wsValidatorServer = new WsValidatorServer();
         try {
             RdfInterface rdfInterface = (RdfInterface) RdfFactoryIMS.getReader();
