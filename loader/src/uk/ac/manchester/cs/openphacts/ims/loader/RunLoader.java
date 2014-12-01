@@ -30,6 +30,7 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.datadesc.validator.utils.UrlReader;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
+import uk.ac.manchester.cs.openphacts.ims.rdf.RdfFactoryIMS;
 
 /**
  *

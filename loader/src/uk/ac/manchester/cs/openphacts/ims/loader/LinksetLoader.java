@@ -42,6 +42,7 @@ import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.ImsHandler;
 import uk.ac.manchester.cs.openphacts.ims.loader.handler.PreviewHandler;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsMapper;
+import uk.ac.manchester.cs.openphacts.ims.rdf.RdfFactoryIMS;
 
 public class LinksetLoader 
 {

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.manchester.cs.openphacts.ims.loader;
+package uk.ac.manchester.cs.openphacts.ims.rdf;
 
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;

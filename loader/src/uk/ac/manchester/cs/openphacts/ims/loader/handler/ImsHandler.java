@@ -27,8 +27,8 @@ import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfInterface;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.ims.mapper.ImsListener;
+import uk.ac.manchester.cs.openphacts.ims.rdf.RdfFactoryIMS;
 
 /**
  *

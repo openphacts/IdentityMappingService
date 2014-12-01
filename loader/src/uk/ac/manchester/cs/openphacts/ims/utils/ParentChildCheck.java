@@ -52,8 +52,8 @@ import org.openrdf.sail.memory.MemoryStore;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.Reporter;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.VoidValidatorException;
-import uk.ac.manchester.cs.openphacts.ims.loader.RdfFactoryIMS;
 import uk.ac.manchester.cs.openphacts.ims.loader.UriFileMapper;
+import uk.ac.manchester.cs.openphacts.ims.rdf.RdfFactoryIMS;
 
 /**
  *

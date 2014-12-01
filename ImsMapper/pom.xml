@@ -17,6 +17,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>uk.ac.manchester.cs.datadesc.validator</groupId>
+            <artifactId>rdf-tools</artifactId>
+            <version>1.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.bridgedb</groupId>
             <artifactId>org.bridgedb.uri.sql</artifactId>
             <version>${project.version}</version>

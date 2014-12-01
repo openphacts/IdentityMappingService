@@ -26,6 +26,7 @@ import org.openrdf.OpenRDFException;
 import org.openrdf.model.Statement;
 import uk.ac.manchester.cs.datadesc.validator.rdftools.RdfReader;
 import uk.ac.manchester.cs.openphacts.ims.loader.transative.TransativeTestBase;
+import uk.ac.manchester.cs.openphacts.ims.rdf.RdfFactoryIMS;
 
 /**
  *
