@@ -133,7 +133,6 @@ public class LoaderTest {
     
     
     @Test
-    @Ignore
     public void testLoadtestData() throws Exception {
         File file = new File("test-data/load.xml");
         java.net.URI uri = file.toURI();
