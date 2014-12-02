@@ -50,7 +50,6 @@ public class BugTest extends TransativeTestBase{
         Lens testLens = LensTools.byId(Lens.TEST_LENS_NAME);
         testLens.addAllowedMiddleSource(dataSource);
         UriPattern uriPattern = UriPattern.register(pattern, name, UriPatternType.mainUrlPattern);
-        System.out.println(pattern);
     }
     
     @Test
@@ -67,22 +66,13 @@ public class BugTest extends TransativeTestBase{
         Reporter.println("DoubleBugA");
         RdfReader reader = RdfFactoryIMS.getReader();
         List<Statement> statements = reader.getStatementList(null, null, null);
-        for (Statement statement:statements){
-            System.out.println(statement);
-        }
         File file = new File("test-data/void1A.ttl");
         reader.loadFile(file, file.toURI().toString());
         statements = reader.getStatementList(null, null, null);
-        for (Statement statement:statements){
-            System.out.println(statement);
-        }
         file = new File("test-data/void2A.ttl");
         reader.loadFile(file, file.toURI().toString());
         //Validator.
         statements = reader.getStatementList(null, null, null);
-        for (Statement statement:statements){
-            System.out.println(statement);
-        }
         loadFile("test-data/doubleA.ttl");
     }
 
@@ -104,7 +94,6 @@ public class BugTest extends TransativeTestBase{
         Reporter.println("BugDrugbank");
         SQLUriMapper sqlUriMapper = SQLUriMapper.createNew();
         RegexUriPattern pattern = sqlUriMapper.toUriPattern("http://drugbank.ca/drugs/DB01269");
-        System.out.println(pattern);
         assertNotNull(pattern);
     }
     

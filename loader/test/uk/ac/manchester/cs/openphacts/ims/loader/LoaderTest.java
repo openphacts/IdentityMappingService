@@ -122,7 +122,6 @@ public class LoaderTest {
     }
 
     private boolean findPredicate(URI predicate, List<Statement> statements){
-        System.out.println(predicate);
         for (Statement statement:statements){
             if (predicate.equals(statement.getPredicate())){
                 return true;

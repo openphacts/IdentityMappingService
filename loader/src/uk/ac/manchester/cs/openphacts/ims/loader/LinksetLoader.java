@@ -199,25 +199,27 @@ public class LinksetLoader
         ResourceMetaData metaData = specifications.getResourceMetaData(type);
         Set<URI> predicates = metaData.getPredicates();
         for (URI predicate:predicates){
-            System.out.println("coping " + id + " -> " + predicate);
+            //ystem.out.println("coping " + id + " -> " + predicate);
             List<Statement> statements;
             try {
                 statements = reader.getStatementList(id, predicate, ANY_OBJECT);
-                System.out.println("found " + statements.size());
+                //ystem.out.println("found " + statements.size());
             } catch (VoidValidatorException ex) {
                 throw new BridgeDBException ("Unable to read statements for " + id + " and " + predicate, ex);
             }
             for (Statement statement:statements){
-                System.out.println(statement);
-                StatementImpl newStatement = new StatementImpl(id, predicate, statement.getObject());
-                System.out.println(newStatement);
-                addStatement(newStatement);
+                if (statement.getSubject().equals(id)){
+                    //ystem.out.println("Found " + statement);
+                } else {
+                    StatementImpl newStatement = new StatementImpl(id, predicate, statement.getObject());
+                    //ystem.out.println(newStatement);
+                    addStatement(newStatement);
+                }
             }
             StatementImpl newStatement = new StatementImpl(id, RdfConstants.TYPE_URI, type);
             addStatement(newStatement);
         }
-           
-    }
+     }
     
     private void addStatement(Statement statement) throws BridgeDBException{
         try {

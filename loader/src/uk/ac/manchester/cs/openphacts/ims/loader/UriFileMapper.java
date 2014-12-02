@@ -83,9 +83,7 @@ public class UriFileMapper {
     public static org.openrdf.model.URI getUri(File file) throws BridgeDBException{
         init();
         String path = file.getAbsolutePath();
-        System.out.println(path);
-        for (String value:pathToFile.values()){
-            System.out.println("\t" + value);
+       for (String value:pathToFile.values()){
             if (path.startsWith(value)){
                 String uriPrefix = getkey(value);
                 String uri = uriPrefix + path.substring(value.length());
@@ -117,7 +115,6 @@ public class UriFileMapper {
                 if (file.exists()){
                     return file;
                 } 
-                System.out.println ("\t missing: " + file.getAbsolutePath());
             }
         }
         return uriToTempFile(uri);
@@ -133,7 +130,6 @@ public class UriFileMapper {
         } else {
             pathToFile.put(uriPattern, path);
         }
-        System.out.println(pathToFile);
      }
 
     private static File uriToTempFile(String uri) {
