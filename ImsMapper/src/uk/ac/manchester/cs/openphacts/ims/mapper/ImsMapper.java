@@ -97,7 +97,7 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
         }
     }
 
-    //@Override
+    @Override
     public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String justification,
             RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource, boolean symetric) throws BridgeDBException {
         checkUriPattern(sourceUriPattern);
@@ -115,7 +115,7 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
         return mappingSetId;
     }
 
-    //@Override
+    @Override
     public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String forwardJustification, String backwardJustification,
             RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource) throws BridgeDBException {
         if (forwardJustification.equals(backwardJustification)){
@@ -177,4 +177,16 @@ public class ImsMapper extends SQLUriMapper implements ImsListener{
         }
     }
 
+    @Override
+    public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String forwardJustification, 
+            String backwardJustification, RegexUriPattern targetUriPattern, Resource mappingSource) 
+            throws  BridgeDBException{
+        throw new BridgeDBException ("Use method with mappingResource instead");
+    }
+
+    @Override
+     public int registerMappingSet(RegexUriPattern sourceUriPattern, String predicate, String justification,
+            RegexUriPattern targetUriPattern, Resource mappingSource, boolean symetric) throws BridgeDBException{
+        throw new BridgeDBException ("Use method with mappingResource instead");
+    }
 }

@@ -70,8 +70,10 @@ public class ImsHandler extends LinksetHandler{
                     justification, targetPattern, mappingResource, mappingSource, false);
             this.setSymetric(false);
         } else {
+            //RegexUriPattern sourceUriPattern, String predicate, 
+            //String forwardJustification,  String backwardJustification,  RegexUriPattern targetUriPattern, Resource mappingResource, Resource mappingSource
             mappingSet = imsListener.registerMappingSet(sourcePattern, linkPredicate.stringValue(), 
-                    justification, backwardJustification, targetPattern, mappingSource);
+                    justification, backwardJustification, targetPattern, mappingResource, mappingSource);
         }
     }
 
