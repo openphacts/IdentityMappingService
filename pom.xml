@@ -23,12 +23,11 @@
 	</properties>
 
 	<modules>
-            <module>imsMapper</module>
             <module>loader</module>
             <module>ws.server</module>
 	</modules>
 
-	<repositories>
+	<!--repositories>
 		<repository>
 			<releases />
 			<snapshots>
@@ -47,7 +46,7 @@
 			<name>myGrid Snapshot Repository</name>
 			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
 		</repository>
-	</repositories>
+	</repositories-->
 
 	<build>
 		<pluginManagement>
