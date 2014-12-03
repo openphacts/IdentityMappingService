@@ -19,49 +19,44 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.mapper;
 
+import java.io.File;
 import org.bridgedb.sql.TestSqlFactory;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
-import org.junit.After;
-import org.junit.AfterClass;
-import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
+import uk.ac.manchester.cs.openphacts.ims.loader.RunLoader;
 
 /**
+ * Runs the UriMapper interface tests over SQLUriMapper class
+ * 
+ * Creates the mapper, loads in the test data and then runs the tests.
  *
- * @author christian
+ * @author Christian
  */
-public class ImsMapperTest {
-    
-    private static ImsMapper mapper;
-    
-    public ImsMapperTest() {
-    }
+public class ImsMapperRdfTest extends org.bridgedb.uri.UriMapperRdfTest{
     
     @BeforeClass
-    public static void setUpClass() throws BridgeDBException {
-        TestSqlFactory.checkSQLAccess();
-        ConfigReader.useTest();
-        mapper = ImsMapper.createNew();
+    public static void setupStatementMaker() throws BridgeDBException{
+        statementMaker = new ImsStatementMaker();
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+    private static void loadTestData() throws BridgeDBException {
+        File file = new File("test-data/load.xml");
+        java.net.URI uri = file.toURI();
+        String[] loadArgs = new String[1];
+        loadArgs[0] = uri.toString();
+        RunLoader.main(loadArgs);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-     @Test
-     public void hello() {}
+
+    @BeforeClass
+    public static void setupIDMapper() throws BridgeDBException{
+        connectionOk = false;
+        TestSqlFactory.checkSQLAccess();
+        connectionOk = true;
+        ConfigReader.useTest();
+        loadTestData();
+        uriMapper = ImsMapper.getExisting();
+    }
+            
 }

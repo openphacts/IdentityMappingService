@@ -131,13 +131,4 @@ public class LoaderTest {
     }
     
     
-    @Test
-    public void testLoadtestData() throws Exception {
-        File file = new File("test-data/load.xml");
-        java.net.URI uri = file.toURI();
-        String[] loadArgs = new String[1];
-        loadArgs[0] = uri.toString();
-        RunLoader.main(loadArgs);
-    }
-
 }
