@@ -21,8 +21,10 @@ package uk.ac.manchester.cs.openphacts.ims.mapper;
 
 import java.io.File;
 import org.bridgedb.sql.TestSqlFactory;
+import org.bridgedb.sql.transative.DirectMapping;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.utils.ConfigReader;
+import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import uk.ac.manchester.cs.openphacts.ims.loader.RunLoader;
 
@@ -59,4 +61,11 @@ public class ImsMapperRdfTest extends org.bridgedb.uri.UriMapperRdfTest{
         uriMapper = ImsMapper.getExisting();
     }
             
+    protected void checkDirect(DirectMapping directMapping) {
+        if (!directMapping.hasMappingToSelf()){
+            assertNotNull(directMapping.getMappingSource());
+            assertNotNull(directMapping.getMappingResource());
+        }
+    }
+
 }

@@ -81,11 +81,13 @@ public class ImsStatementMaker extends DirectStatementMaker implements Statement
     }
     
     @Override
-    protected void addMappingVoid(Set<Statement> statements, DirectMapping directMapping, URI mappingSet) 
+    protected void addMappingVoid(Set<Statement> statements, Mapping mapping, URI mappingSet) 
             throws BridgeDBException {
-        URI resourceUri = toURI(directMapping.getMappingResource());
-        statements.add(new ContextStatementImpl(mappingSet, PavConstants.DERIVED_FROM, resourceUri, mappingSet));
-        addLinksetInfo(statements,  resourceUri, mappingSet);
+        if (mapping.getMappingResource() != null){
+            URI resourceUri = toURI(mapping.getMappingResource());
+            statements.add(new ContextStatementImpl(mappingSet, PavConstants.DERIVED_FROM, resourceUri, mappingSet));
+            addLinksetInfo(statements,  resourceUri, mappingSet);
+        }
     }
         
 }
