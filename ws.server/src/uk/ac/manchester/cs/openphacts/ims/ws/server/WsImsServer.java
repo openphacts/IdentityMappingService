@@ -19,10 +19,15 @@
 //
 package uk.ac.manchester.cs.openphacts.ims.ws.server;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -37,6 +42,7 @@ import org.bridgedb.uri.tools.DirectStatementMaker;
 import org.bridgedb.uri.tools.StatementMaker;
 import org.bridgedb.utils.BridgeDBException;
 import org.bridgedb.ws.uri.WSUriServer;
+import org.openrdf.rio.RDFFormat;
 import uk.ac.manchester.cs.datadesc.validator.Validator;
 import uk.ac.manchester.cs.datadesc.validator.ValidatorExampleConstants;
 import uk.ac.manchester.cs.datadesc.validator.ValidatorImpl;
@@ -131,47 +137,6 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
         sb.append("This site is run by <a href=\"https://wiki.openphacts.org/index.php/User:Christian\">Christian Brenninkmeijer</a>.");
         sb.append("\n<div></body></html>");
     }
-
-/*    @Override
-    public String getExampleResource() {
-        return ExampleConstants.EXAMPLE_RESOURCE;
-    }
-
-    @Override
-    public String getExampleURI() {
-        return ExampleConstants.EXAMPLE_CONTEXT;
-    }
-
-    @Override
-    public String getExampleSpecificationName() {
-        return ValidatorExampleConstants.SIMPLE_NAME;
-    }
-
-    @Override
-    public String getExampleQuery() {
-        return ExampleConstants.EXAMPLE_QUERY;
-    }
-
-    @Override
-    public String getExampleText() {
-        return "@prefix : <http://example.com/part1#> .\n"
-        + "@prefix ops: <http://openphacts.cs.man.ac.uk:9090/Void/testOntology.owl#> .\n"
-        + "@prefix void: <http://rdfs.org/ns/void#> .\n"
-        + "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n"
-        + "\n"
-        + ":person1 a ops:Parent;\n"
-        + "    ops:hasName \"John\";\n"
-        + "    ops:hasChild :person2.\n"
-        + "\n"
-        + ":person2 a ops:Person;\n"
-        + "    ops:hasName \"Peter\";\n"
-        + "    ops:hasPhoneNumber \"1234567\";\n"
-        + "    ops:hasBirthdate \"2003-01-17T16:02:27Z\"^^xsd:dateTime;\n"
-        + "    ops:hasStreet \"mainStreet\";\n"
-        + "    ops:hasHouseNumber \"23\";\n"
-        + "    ops:hasWebsite <http://bbc.co.uk>.\n";
-    }    
-*/    
     
     @Override
     @GET
@@ -282,35 +247,48 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
     }
 
     @Override
-    public String validate(String text, String uri, String rdfFormat, String specification, Boolean includeWarning) throws VoidValidatorException {
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Path(WsValidationConstants.VALIDATE)
+    public String validate(@QueryParam(WsValidationConstants.TEXT) String text, 
+            @QueryParam(WsValidationConstants.URI) String uri, 
+            @QueryParam(WsValidationConstants.RDF_FORMAT) String rdfFormat,
+            @QueryParam(WsValidationConstants.SPECIFICATION) String specification,
+            @QueryParam(WsValidationConstants.INCLUDE_WARNINGS) Boolean includeWarning) throws VoidValidatorException {
         return wsValidatorServer.validate(text, uri, rdfFormat, specification, includeWarning);
     }
-    
-    /*@Produces({MediaType.TEXT_PLAIN, MediaType.TEXT_HTML})
-    @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF)
-    public String getMappingRDF() throws BridgeDBException {
-        throw new BridgeDBException(WsUriConstants.ID + " parameter missing.");     
-    }
-    
-    @Produces({MediaType.TEXT_PLAIN})
-    @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF + "/{id}")
-    public String getMappingRDF(@PathParam(WsUriConstants.ID) String idString) throws BridgeDBException {
-        if (idString == null) throw new BridgeDBException(WsUriConstants.ID + " parameter missing.");
-        if (idString.isEmpty()) throw new BridgeDBException(WsUriConstants.ID + " parameter may not be null.");
-        int id = Integer.parseInt(idString);
-        Mapping mapping = uriMapper.getMapping(id);
-        return mapping.toString();
-    }
-    
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    @Path("/" + WsUriConstants.MAPPING + WsImsConstants.RDF + "/{id}")
-    public Response getMappingRdfHtml(@PathParam(WsUriConstants.ID) String idString) throws BridgeDBException {
-        String rdf = getMappingRDF(idString);
-        return Response.ok(rdf, MediaType.TEXT_HTML).build();
-    }
-    */
 
+    @Override
+    @POST
+	@Path(WsValidationConstants.VALIDATE + WsValidationConstants.TURTLE)
+    @Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public String validateTurtle(
+			@FormDataParam("file") InputStream uploadedInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail) throws VoidValidatorException {  
+                //ToDo work out while this paramters is always null
+		return wsValidatorServer.validate(uploadedInputStream, INFO, MIME_TYPE, noConentOnEmpty);
+	}  
+     
+    @Override
+    @POST
+	@Path(WsValidationConstants.VALIDATE + WsValidationConstants.TURTLE)
+    @Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response validateTurtleHtml(
+			@FormDataParam("file") InputStream uploadedInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail, //ToDo work out while this paramters is always null
+            @Context HttpServletRequest httpServletRequest) throws VoidValidatorException {  
+        return wsValidatorServer.validateTurtleHtml(uploadedInputStream, fileDetail, httpServletRequest);
+ 	}  
+ 
+    @GET
+	@Path(WsValidationConstants.VALIDATE + WsValidationConstants.TURTLE)
+    @Produces(MediaType.TEXT_HTML)
+	public Response validateTurtleHtml(@Context HttpServletRequest httpServletRequest) throws VoidValidatorException {  
+        return wsValidatorServer.validateTurtleHtml(httpServletRequest);
+ 	}  
+ 
 }
 
 
