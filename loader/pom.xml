@@ -44,12 +44,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>uk.ac.manchester.cs.openphacts.ims</groupId>
-            <artifactId>imsMapper</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.bridgedb</groupId>
             <artifactId>org.bridgedb.sql</artifactId>
             <version>${project.version}</version>
