@@ -58,7 +58,7 @@ public class ImsStatementMaker extends DirectStatementMaker implements Statement
         try {
             List<Statement> rdfStatements = rdfInterface.getStatementList(resourceUri);
             for (Statement st: rdfStatements){
-                statements.add(new ContextStatementImpl(st.getSubject(), st.getPredicate(), st.getPredicate(), context));
+                statements.add(new ContextStatementImpl(st.getSubject(), st.getPredicate(), st.getObject(), context));
                 if (st.getPredicate().equals(VoidConstants.SUBJECTSTARGET) 
                         || st.getPredicate().equals(VoidConstants.OBJECTSTARGET)){
                     addMappingSetInfo(statements,  st.getPredicate(), context);
@@ -73,7 +73,7 @@ public class ImsStatementMaker extends DirectStatementMaker implements Statement
         try {
             List<Statement> rdfStatements = rdfInterface.getStatementList(subject);
             for (Statement st: rdfStatements){
-                results.add(new ContextStatementImpl(st.getSubject(), st.getPredicate(), st.getPredicate(), context));
+                results.add(new ContextStatementImpl(st.getSubject(), st.getPredicate(), st.getObject(), context));
             }
         } catch (VoidValidatorException ex) {
             throw new BridgeDBException ("Error reading rdf for " + subject.stringValue());
