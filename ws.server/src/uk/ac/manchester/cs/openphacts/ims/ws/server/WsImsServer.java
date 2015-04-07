@@ -267,7 +267,7 @@ public class WsImsServer extends WSUriServer implements FrameInterface, Validato
 			@FormDataParam("file") InputStream uploadedInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail) throws VoidValidatorException {  
                 //ToDo work out while this paramters is always null
-		return wsValidatorServer.validate(uploadedInputStream, INFO, MIME_TYPE, noConentOnEmpty);
+		return wsValidatorServer.validate(uploadedInputStream, INFO, MIME_TYPE, noContentOnEmpty);
 	}  
      
     @Override
