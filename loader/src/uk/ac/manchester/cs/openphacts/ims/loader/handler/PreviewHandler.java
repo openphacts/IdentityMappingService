@@ -48,34 +48,34 @@ public class PreviewHandler extends RDFHandlerBase{
         if (predicate.equals(VoidConstants.IN_DATASET)){
             if (inVoidStatement != null){
                 throw new RDFHandlerException ("Found two statements with predicate " + VoidConstants.IN_DATASET + 
-                        st + " and " + getInVoidStatement());
+                        st + " and " + inVoidStatement);
             }
             if (linkPredicateStatement != null){
-                throw new RDFHandlerException ("Found a Stement with predicate " + VoidConstants.IN_DATASET + 
+                throw new RDFHandlerException ("Found a statement with predicate " + VoidConstants.IN_DATASET + 
                         st + " and one with " + VoidConstants.LINK_PREDICATE + " " + linkPredicateStatement);
             }
             if (justificationStatement != null){
-                throw new RDFHandlerException ("Found a Stement with predicate " + VoidConstants.IN_DATASET + 
+                throw new RDFHandlerException ("Found a statement with predicate " + VoidConstants.IN_DATASET + 
                         st + " and one with a justification" + justificationStatement);
             }
             inVoidStatement = st;
         } else if (predicate.equals(VoidConstants.LINK_PREDICATE)){
             if (linkPredicateStatement != null){
                 throw new RDFHandlerException ("Found two statements with predicate " + VoidConstants.LINK_PREDICATE + 
-                        st + " and " + getInVoidStatement());
+                        st + " and " + linkPredicateStatement);
             }
             if (inVoidStatement != null){
-                throw new RDFHandlerException ("Found a Stement with predicate " + VoidConstants.IN_DATASET + 
+                throw new RDFHandlerException ("Found a statement with predicate " + VoidConstants.IN_DATASET + 
                         inVoidStatement + " and one with " + VoidConstants.LINK_PREDICATE + " " + st);
             }
             linkPredicateStatement = st;
         } else if (predicate.equals(BridgeDBConstants.LINKSET_JUSTIFICATION) || predicate.equals(DulConstants.EXPRESSES)){
             if (justificationStatement != null){
-                throw new RDFHandlerException ("Found two statements with justofication " + 
-                        st + " and " + getInVoidStatement());
+                throw new RDFHandlerException ("Found two statements with justification " + 
+                        st + " and " + justificationStatement);
             }
             if (inVoidStatement != null){
-                throw new RDFHandlerException ("Found a Stement with predicate " + VoidConstants.IN_DATASET + 
+                throw new RDFHandlerException ("Found a statement with predicate " + VoidConstants.IN_DATASET + 
                         inVoidStatement + " and one with justification " + st);
             }
             justificationStatement = st;
