@@ -27,26 +27,6 @@
             <module>ws.server</module>
 	</modules>
 
-	<repositories>
-		<repository>
-			<releases />
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>mygrid-repository</id>
-			<name>myGrid Repository</name>
-			<url>http://www.mygrid.org.uk/maven/repository</url>
-		</repository>
-		<repository>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots />
-			<id>mygrid-snapshot-repository</id>
-			<name>myGrid Snapshot Repository</name>
-			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<pluginManagement>
@@ -62,7 +42,7 @@
 		</pluginManagement>
 		<directory>target</directory>
 		<outputDirectory>target/classes</outputDirectory>
-		<finalName>${artifactId}-${version}</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
 		<testOutputDirectory>target/test-classes</testOutputDirectory>
 		<sourceDirectory>src</sourceDirectory>
 		<scriptSourceDirectory>scripts</scriptSourceDirectory>
@@ -108,5 +88,32 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+  <scm>
+    <connection>scm:git:https://github.com/openphacts/IdentityMappingService.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/openphacts/IdentityMappingService.git</developerConnection>
+    <url>https://github.com/openphacts/IdentityMappingService/</url>
+    <tag>HEAD</tag>
+  </scm>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+	<repositories>
+    <repository>
+        <id>myGrid ops</id>
+        <name>myGrid Open PHACTS repository</name>
+        <url>http://repository.mygrid.org.uk/artifactory/ops</url>
+        <releases>
+          <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+    </repository>
+  </repositories>
 
 </project>
