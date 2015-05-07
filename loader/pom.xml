@@ -17,6 +17,7 @@
                 <version>1.4.4</version>
                 <configuration>
                     <mainClass>uk.ac.manchester.cs.openphacts.ims.loader.RunLoader</mainClass>
+                    <attachToBuild>true</attachToBuild>
                 </configuration>
                <executions>
                     <execution>
