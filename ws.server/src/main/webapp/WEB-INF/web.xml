@@ -5,6 +5,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+	<display-name>OPS-IMS</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>WEB-INF/beans.xml</param-value>
@@ -26,5 +27,4 @@
         <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    <display-name>OPS-IMS</display-name>
 </web-app>
