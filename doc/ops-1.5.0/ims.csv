@@ -1,0 +1,87 @@
+Dr,AERS,Drugbank,AERS
+Ch,Ca,HMDB,CAS
+Ch,Ck,HMDB,KEGG
+Ch,Cpc,HMDB,PubChem
+Ch,Wi,HMDB,Wikipedia
+ChemblTarget,Chembl16TargetComponent,Chembl Target Components,Chembl Target Component
+ConceptWiki,Ce,ConceptWiki,ChEBI
+ConceptWiki,Ch,ConceptWiki,HMDB
+ConceptWiki,ChEMBLCompound,ConceptWiki,Chembl Compound
+ConceptWiki,ChEMBLCompound,ConceptWiki,Chembl Compound
+ConceptWiki,Cs,ConceptWiki,Chemspider
+ConceptWiki,Dr,ConceptWiki,DrugBank
+ConceptWiki,Dr,ConceptWiki,DrugBank
+ConceptWiki,Dr,ConceptWiki,DrugBank
+ConceptWiki,drugbankTarget,ConceptWiki,DrugBank Target
+ConceptWiki,E,ConceptWiki,Enzyme Nomenclature
+ConceptWiki,MSH,ConceptWiki,Bioontology MESH
+ConceptWiki,MSH,ConceptWiki,Bioontology MESH
+ConceptWiki,MSH,ConceptWiki,Bioontology MESH
+ConceptWiki,MSH,ConceptWiki,Bioontology MESH
+ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
+ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
+ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
+ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
+ConceptWiki,Pd,ConceptWiki,Protein Data Bank
+ConceptWiki,Pd,ConceptWiki,Protein Data Bank
+ConceptWiki,pdb.ligand,ConceptWiki,Protein Data Bank Ligand
+ConceptWiki,S,ConceptWiki,Uniprot
+ConceptWiki,S,ConceptWiki,Uniprot
+ConceptWiki,S,ConceptWiki,Uniprot
+ConceptWiki,T,ConceptWiki,GeneOntology
+ConceptWiki,Wp,ConceptWiki,WikiPathways
+En,Bg,Ensembl,BioGrid
+En,E,Ensembl,Enzyme Nomenclature
+En,Em,Ensembl,Embl
+En,En,Ensembl,Ensembl
+En,En,Ensembl,Ensembl
+En,F,Ensembl,FlyBase
+En,G,Ensembl,GenBank
+En,Hac,Ensembl,HGNC Accession number
+En,I,Ensembl,InterPro
+En,Ip,Ensembl,IPI
+En,L,Ensembl,Entrez Gene
+En,lrg,Ensembl,Locus Reference Genomic
+En,lrg,Ensembl,Locus Reference Genomic
+En,M,Ensembl,MGI
+En,Mb,Ensembl,mirBase sequence
+En,merops,Ensembl,MEROPS
+En,orphanet,Ensembl,Orphanet
+En,Pd,Ensembl,Protein Data Bank
+En,Q,Ensembl,RefSeq
+En,R,Ensembl,RGD
+En,Rf,Ensembl,Rfam
+En,S,Ensembl,Uniprot
+En,uniparc,Ensembl,UniParc
+En,Z,Ensembl,ZFIN
+Hac,H,HGNC Accession number,HGNC
+NCIM,doid,Bioontology UMLS NCIM,Human Disease Ontology
+NCIM,MSH,Bioontology UMLS NCIM,Bioontology MESH
+OPS-CRS,Ce,OPS-CRS,ChEBI
+OPS-CRS,Ch,OPS-CRS,HMDB
+OPS-CRS,ChEMBLCompound,OPS-CRS,Chembl Compound
+OPS-CRS,Cs,OPS-CRS,Chemspider
+OPS-CRS,Dr,OPS-CRS,DrugBank
+OPS-CRS,MSH,OPS-CRS,Bioontology MESH
+OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
+OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
+OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
+OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
+OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
+OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
+S,drugbankv4.target,Uniprot,Drugbank Target v4
+S,Chembl16TargetComponent,Uniprot,Chembl Target Components
+S,D,Uniprot,SGD
+S,En,Uniprot,Ensembl
+S,F,Uniprot,FlyBase
+S,Ip,Uniprot,IPI
+S,L,Uniprot,Entrez Gene
+S,M,Uniprot,MGI
+S,Om,Uniprot,OMIM
+S,Pd,Uniprot,Protein Data Bank
+S,Q,Uniprot,RefSeq
+S,R,Uniprot,RGD
+S,U,Uniprot,UniGene
+S,W,Uniprot,WormBase
+S,Z,Uniprot,ZFIN
+Wp,pw,WikiPathways,Pathway Ontology
