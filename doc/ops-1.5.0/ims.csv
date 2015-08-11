@@ -1,87 +1,87 @@
-Dr,AERS,Drugbank,AERS
-Ch,Ca,HMDB,CAS
-Ch,Ck,HMDB,KEGG
-Ch,Cpc,HMDB,PubChem
-Ch,Wi,HMDB,Wikipedia
-ChemblTarget,Chembl16TargetComponent,Chembl Target Components,Chembl Target Component
-ConceptWiki,Ce,ConceptWiki,ChEBI
-ConceptWiki,Ch,ConceptWiki,HMDB
-ConceptWiki,ChEMBLCompound,ConceptWiki,Chembl Compound
-ConceptWiki,ChEMBLCompound,ConceptWiki,Chembl Compound
-ConceptWiki,Cs,ConceptWiki,Chemspider
-ConceptWiki,Dr,ConceptWiki,DrugBank
-ConceptWiki,Dr,ConceptWiki,DrugBank
-ConceptWiki,Dr,ConceptWiki,DrugBank
-ConceptWiki,drugbankTarget,ConceptWiki,DrugBank Target
-ConceptWiki,E,ConceptWiki,Enzyme Nomenclature
-ConceptWiki,MSH,ConceptWiki,Bioontology MESH
-ConceptWiki,MSH,ConceptWiki,Bioontology MESH
-ConceptWiki,MSH,ConceptWiki,Bioontology MESH
-ConceptWiki,MSH,ConceptWiki,Bioontology MESH
-ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
-ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
-ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
-ConceptWiki,NCIM,ConceptWiki,Bioontology UMLS NCIM
-ConceptWiki,Pd,ConceptWiki,Protein Data Bank
-ConceptWiki,Pd,ConceptWiki,Protein Data Bank
-ConceptWiki,pdb.ligand,ConceptWiki,Protein Data Bank Ligand
-ConceptWiki,S,ConceptWiki,Uniprot
-ConceptWiki,S,ConceptWiki,Uniprot
-ConceptWiki,S,ConceptWiki,Uniprot
-ConceptWiki,T,ConceptWiki,GeneOntology
-ConceptWiki,Wp,ConceptWiki,WikiPathways
-En,Bg,Ensembl,BioGrid
-En,E,Ensembl,Enzyme Nomenclature
-En,Em,Ensembl,Embl
-En,En,Ensembl,Ensembl
-En,En,Ensembl,Ensembl
-En,F,Ensembl,FlyBase
-En,G,Ensembl,GenBank
-En,Hac,Ensembl,HGNC Accession number
-En,I,Ensembl,InterPro
-En,Ip,Ensembl,IPI
-En,L,Ensembl,Entrez Gene
-En,lrg,Ensembl,Locus Reference Genomic
-En,lrg,Ensembl,Locus Reference Genomic
-En,M,Ensembl,MGI
-En,Mb,Ensembl,mirBase sequence
-En,merops,Ensembl,MEROPS
-En,orphanet,Ensembl,Orphanet
-En,Pd,Ensembl,Protein Data Bank
-En,Q,Ensembl,RefSeq
-En,R,Ensembl,RGD
-En,Rf,Ensembl,Rfam
-En,S,Ensembl,Uniprot
-En,uniparc,Ensembl,UniParc
-En,Z,Ensembl,ZFIN
-Hac,H,HGNC Accession number,HGNC
-NCIM,doid,Bioontology UMLS NCIM,Human Disease Ontology
-NCIM,MSH,Bioontology UMLS NCIM,Bioontology MESH
-OPS-CRS,Ce,OPS-CRS,ChEBI
-OPS-CRS,Ch,OPS-CRS,HMDB
-OPS-CRS,ChEMBLCompound,OPS-CRS,Chembl Compound
-OPS-CRS,Cs,OPS-CRS,Chemspider
-OPS-CRS,Dr,OPS-CRS,DrugBank
-OPS-CRS,MSH,OPS-CRS,Bioontology MESH
-OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
-OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
-OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
-OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
-OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
-OPS-CRS,OPS-CRS,OPS-CRS,OPS-CRS
-S,drugbankv4.target,Uniprot,Drugbank Target v4
-S,Chembl16TargetComponent,Uniprot,Chembl Target Components
-S,D,Uniprot,SGD
-S,En,Uniprot,Ensembl
-S,F,Uniprot,FlyBase
-S,Ip,Uniprot,IPI
-S,L,Uniprot,Entrez Gene
-S,M,Uniprot,MGI
-S,Om,Uniprot,OMIM
-S,Pd,Uniprot,Protein Data Bank
-S,Q,Uniprot,RefSeq
-S,R,Uniprot,RGD
-S,U,Uniprot,UniGene
-S,W,Uniprot,WormBase
-S,Z,Uniprot,ZFIN
-Wp,pw,WikiPathways,Pathway Ontology
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS,Drugbank,AERS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ca,HMDB,CAS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ck,HMDB,KEGG
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Cpc,HMDB,PubChem
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Wi,HMDB,Wikipedia
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ChemblTarget&targetCode=Chembl16TargetComponent,Chembl Target Components,Chembl Target Component
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ce,ConceptWiki,ChEBI
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ch,ConceptWiki,HMDB
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=ChEMBLCompound,ConceptWiki,Chembl Compound
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=ChEMBLCompound,ConceptWiki,Chembl Compound
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Cs,ConceptWiki,Chemspider
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Dr,ConceptWiki,DrugBank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Dr,ConceptWiki,DrugBank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Dr,ConceptWiki,DrugBank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=drugbankTarget,ConceptWiki,DrugBank Target
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=E,ConceptWiki,Enzyme Nomenclature
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH,ConceptWiki,Bioontology MESH
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH,ConceptWiki,Bioontology MESH
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH,ConceptWiki,Bioontology MESH
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH,ConceptWiki,Bioontology MESH
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM,ConceptWiki,Bioontology UMLS NCIM
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM,ConceptWiki,Bioontology UMLS NCIM
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM,ConceptWiki,Bioontology UMLS NCIM
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM,ConceptWiki,Bioontology UMLS NCIM
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Pd,ConceptWiki,Protein Data Bank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Pd,ConceptWiki,Protein Data Bank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=pdb.ligand,ConceptWiki,Protein Data Bank Ligand
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S,ConceptWiki,Uniprot
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S,ConceptWiki,Uniprot
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S,ConceptWiki,Uniprot
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=T,ConceptWiki,GeneOntology
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Wp,ConceptWiki,WikiPathways
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Bg,Ensembl,BioGrid
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=E,Ensembl,Enzyme Nomenclature
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Em,Ensembl,Embl
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=En,Ensembl,Ensembl
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=En,Ensembl,Ensembl
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=F,Ensembl,FlyBase
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=G,Ensembl,GenBank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac,Ensembl,HGNC Accession number
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=I,Ensembl,InterPro
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip,Ensembl,IPI
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=L,Ensembl,Entrez Gene
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=lrg,Ensembl,Locus Reference Genomic
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=lrg,Ensembl,Locus Reference Genomic
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=M,Ensembl,MGI
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb,Ensembl,mirBase sequence
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=merops,Ensembl,MEROPS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=orphanet,Ensembl,Orphanet
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd,Ensembl,Protein Data Bank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Q,Ensembl,RefSeq
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=R,Ensembl,RGD
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Rf,Ensembl,Rfam
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=S,Ensembl,Uniprot
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=uniparc,Ensembl,UniParc
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=En&targetCode=Z,Ensembl,ZFIN
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Hac&targetCode=H,HGNC Accession number,HGNC
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=doid,Bioontology UMLS NCIM,Human Disease Ontology
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=MSH,Bioontology UMLS NCIM,Bioontology MESH
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ce,OPS-CRS,ChEBI
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ch,OPS-CRS,HMDB
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=ChEMBLCompound,OPS-CRS,Chembl Compound
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Cs,OPS-CRS,Chemspider
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Dr,OPS-CRS,DrugBank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=MSH,OPS-CRS,Bioontology MESH
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS,OPS-CRS,OPS-CRS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS,OPS-CRS,OPS-CRS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS,OPS-CRS,OPS-CRS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS,OPS-CRS,OPS-CRS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS,OPS-CRS,OPS-CRS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS,OPS-CRS,OPS-CRS
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=drugbankv4.target,Uniprot,Drugbank Target v4
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=Chembl16TargetComponent,Uniprot,Chembl Target Components
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=D,Uniprot,SGD
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=En,Uniprot,Ensembl
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=F,Uniprot,FlyBase
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=Ip,Uniprot,IPI
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=L,Uniprot,Entrez Gene
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=M,Uniprot,MGI
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=Om,Uniprot,OMIM
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=Pd,Uniprot,Protein Data Bank
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=Q,Uniprot,RefSeq
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=R,Uniprot,RGD
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=U,Uniprot,UniGene
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=W,Uniprot,WormBase
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=S&targetCode=Z,Uniprot,ZFIN
+http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Wp&targetCode=pw,WikiPathways,Pathway Ontology
