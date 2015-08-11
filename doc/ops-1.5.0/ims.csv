@@ -1,3 +1,4 @@
+linkset,from,to
 http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS,Drugbank,AERS
 http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ca,HMDB,CAS
 http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ck,HMDB,KEGG
