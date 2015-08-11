@@ -35,7 +35,6 @@ Uniprot,UniGene,1.5.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=
 Uniprot,WormBase,1.5.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=W
 Uniprot,ZFIN,1.5.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Z
 WikiPathways,Pathway Ontology,1.5.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Wp&targetCode=pw
-FROM,TO,LINKSET
 Bioontology UMLS NCIM,Bioontology MESH,,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=MSH
 Chembl Target Components,Chembl Target Component,,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ChemblTarget&targetCode=Chembl16TargetComponent
 ConceptWiki,Bioontology MESH,,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH
