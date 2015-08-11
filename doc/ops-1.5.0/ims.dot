@@ -1,6 +1,8 @@
 graph ims{ 
 layout="neato"
 overlap="false"
+splines=true;
+
 sep="+1"
 node[width=2, height=1];
 ConceptWiki; Ensembl; Uniprot;

@@ -21,11 +21,11 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Uniprot -->
 <g id="edge28" class="edge"><title>ConceptWiki&#45;&#45;Uniprot</title>
-<path fill="none" stroke="black" d="M761.158,-474.578C765.232,-475.306 769.369,-475.982 773.51,-476.596"/>
+<path fill="none" stroke="black" d="M773.047,-462.875C774.17,-463.044 775.293,-463.213 776.416,-463.381"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Uniprot -->
 <g id="edge29" class="edge"><title>ConceptWiki&#45;&#45;Uniprot</title>
-<path fill="none" stroke="black" d="M775.881,-449.651C780.062,-450.27 784.237,-450.952 788.348,-451.688"/>
+<path fill="none" stroke="black" d="M773.047,-462.875C774.17,-463.044 775.293,-463.213 776.416,-463.381"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Uniprot -->
 <g id="edge30" class="edge"><title>ConceptWiki&#45;&#45;Uniprot</title>
@@ -38,7 +38,7 @@
 </g>
 <!-- ConceptWiki&#45;&#45;HMDB -->
 <g id="edge8" class="edge"><title>ConceptWiki&#45;&#45;HMDB</title>
-<path fill="none" stroke="black" d="M697.291,-416.411C686.991,-360.406 667.473,-254.267 659.09,-208.683"/>
+<path fill="none" stroke="black" d="M679.755,-418.481C663.917,-393.659 645.057,-358.461 638.949,-324.001 631.76,-283.437 641.522,-235.533 648.703,-208.463"/>
 </g>
 <!-- ChEBI -->
 <g id="node13" class="node"><title>ChEBI</title>
@@ -47,7 +47,7 @@
 </g>
 <!-- ConceptWiki&#45;&#45;ChEBI -->
 <g id="edge7" class="edge"><title>ConceptWiki&#45;&#45;ChEBI</title>
-<path fill="none" stroke="black" d="M669.472,-420.67C623.772,-378.46 544.678,-305.405 508.516,-272.005"/>
+<path fill="none" stroke="black" d="M670.089,-420.597C664.564,-415.417 658.894,-410.119 653.529,-405.133 601.398,-356.695 539.459,-300.031 508.742,-271.988"/>
 </g>
 <!-- Chembl_Compound -->
 <g id="node14" class="node"><title>Chembl_Compound</title>
@@ -56,11 +56,11 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Chembl_Compound -->
 <g id="edge9" class="edge"><title>ConceptWiki&#45;&#45;Chembl_Compound</title>
-<path fill="none" stroke="black" d="M633.964,-443.753C519.644,-433.929 293.722,-420.269 175.525,-415.989"/>
+<path fill="none" stroke="black" d="M634.958,-441.604C567.776,-431.629 462.651,-417.694 370.941,-412.8 304.559,-409.258 228.926,-410.609 174.37,-412.537"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Chembl_Compound -->
 <g id="edge10" class="edge"><title>ConceptWiki&#45;&#45;Chembl_Compound</title>
-<path fill="none" stroke="black" d="M631.632,-452.708C514.363,-448.584 284.198,-434.695 168.81,-424.76"/>
+<path fill="none" stroke="black" d="M634.958,-441.604C567.776,-431.629 462.651,-417.694 370.941,-412.8 304.559,-409.258 228.926,-410.609 174.37,-412.537"/>
 </g>
 <!-- Chemspider -->
 <g id="node15" class="node"><title>Chemspider</title>
@@ -78,11 +78,11 @@
 </g>
 <!-- ConceptWiki&#45;&#45;DrugBank -->
 <g id="edge12" class="edge"><title>ConceptWiki&#45;&#45;DrugBank</title>
-<path fill="none" stroke="black" d="M633.277,-459.456C597.075,-468.278 555.218,-481.366 528.961,-492.613"/>
+<path fill="none" stroke="black" d="M641.249,-470.503C608.239,-479.987 568.868,-491.3 540.639,-499.411"/>
 </g>
 <!-- ConceptWiki&#45;&#45;DrugBank -->
 <g id="edge13" class="edge"><title>ConceptWiki&#45;&#45;DrugBank</title>
-<path fill="none" stroke="black" d="M655.035,-479.039C621.862,-490.925 578.427,-503.075 546.504,-509.235"/>
+<path fill="none" stroke="black" d="M641.249,-470.503C608.239,-479.987 568.868,-491.3 540.639,-499.411"/>
 </g>
 <!-- ConceptWiki&#45;&#45;DrugBank -->
 <g id="edge14" class="edge"><title>ConceptWiki&#45;&#45;DrugBank</title>
@@ -95,7 +95,7 @@
 </g>
 <!-- ConceptWiki&#45;&#45;DrugBank_Target -->
 <g id="edge15" class="edge"><title>ConceptWiki&#45;&#45;DrugBank_Target</title>
-<path fill="none" stroke="black" d="M668.427,-484.016C620.176,-526.861 535.266,-602.259 494.691,-638.289"/>
+<path fill="none" stroke="black" d="M665.746,-483.297C632.617,-510.359 583.675,-551.145 542.704,-588.569 525.085,-604.662 505.873,-623.746 491.905,-637.92"/>
 </g>
 <!-- Enzyme_Nomenclature -->
 <g id="node18" class="node"><title>Enzyme_Nomenclature</title>
@@ -104,7 +104,7 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Enzyme_Nomenclature -->
 <g id="edge16" class="edge"><title>ConceptWiki&#45;&#45;Enzyme_Nomenclature</title>
-<path fill="none" stroke="black" d="M686.324,-487.525C647.496,-564.797 555.458,-747.965 523.968,-810.635"/>
+<path fill="none" stroke="black" d="M704.973,-488.728C704.621,-516.932 701.525,-556.587 689.073,-588.946 653.336,-681.82 573.015,-771.46 534.532,-810.993"/>
 </g>
 <!-- Bioontology_MESH -->
 <g id="node19" class="node"><title>Bioontology_MESH</title>
@@ -113,19 +113,19 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_MESH -->
 <g id="edge17" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_MESH</title>
-<path fill="none" stroke="black" d="M671.332,-420.215C664.899,-416.962 657.918,-413.876 650.758,-411.093"/>
+<path fill="none" stroke="black" d="M645.939,-430.881C638.211,-428.001 630.373,-425.079 622.885,-422.288"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_MESH -->
 <g id="edge18" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_MESH</title>
-<path fill="none" stroke="black" d="M632.542,-447.497C616.793,-441.572 601.686,-434.112 591.101,-426.565"/>
+<path fill="none" stroke="black" d="M645.939,-430.881C638.211,-428.001 630.373,-425.079 622.885,-422.288"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_MESH -->
 <g id="edge19" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_MESH</title>
-<path fill="none" stroke="black" d="M639.864,-435.818C629.858,-432.118 619.869,-428.187 610.886,-424.393"/>
+<path fill="none" stroke="black" d="M645.939,-430.881C638.211,-428.001 630.373,-425.079 622.885,-422.288"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_MESH -->
 <g id="edge20" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_MESH</title>
-<path fill="none" stroke="black" d="M653.441,-426.566C647.2,-424.131 640.784,-421.727 634.446,-419.448"/>
+<path fill="none" stroke="black" d="M645.939,-430.881C638.211,-428.001 630.373,-425.079 622.885,-422.288"/>
 </g>
 <!-- Bioontology_UMLS_NCIM -->
 <g id="node20" class="node"><title>Bioontology_UMLS_NCIM</title>
@@ -134,19 +134,19 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM -->
 <g id="edge21" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM</title>
-<path fill="none" stroke="black" d="M633.396,-459.835C538.675,-482.868 374.968,-538.444 310.331,-570.952"/>
+<path fill="none" stroke="black" d="M651.542,-477.462C618.356,-492.674 574.257,-511.786 534.03,-525.659 474.079,-546.334 404.189,-564.255 353.412,-576.201"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM -->
 <g id="edge22" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM</title>
-<path fill="none" stroke="black" d="M659.884,-481.268C591.336,-512.288 458.057,-557.416 369.765,-580.346"/>
+<path fill="none" stroke="black" d="M651.542,-477.462C618.356,-492.674 574.257,-511.786 534.03,-525.659 474.079,-546.334 404.189,-564.255 353.412,-576.201"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM -->
 <g id="edge23" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM</title>
-<path fill="none" stroke="black" d="M648.672,-475.822C571.389,-504.068 431.269,-550.514 348.75,-575.306"/>
+<path fill="none" stroke="black" d="M651.542,-477.462C618.356,-492.674 574.257,-511.786 534.03,-525.659 474.079,-546.334 404.189,-564.255 353.412,-576.201"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM -->
 <g id="edge24" class="edge"><title>ConceptWiki&#45;&#45;Bioontology_UMLS_NCIM</title>
-<path fill="none" stroke="black" d="M639.354,-468.613C553.026,-494.508 402.254,-544.603 327.578,-572.391"/>
+<path fill="none" stroke="black" d="M651.542,-477.462C618.356,-492.674 574.257,-511.786 534.03,-525.659 474.079,-546.334 404.189,-564.255 353.412,-576.201"/>
 </g>
 <!-- Protein_Data_Bank -->
 <g id="node21" class="node"><title>Protein_Data_Bank</title>
@@ -155,11 +155,11 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Protein_Data_Bank -->
 <g id="edge25" class="edge"><title>ConceptWiki&#45;&#45;Protein_Data_Bank</title>
-<path fill="none" stroke="black" d="M675.246,-485.723C657.408,-511.072 635.833,-545.208 624.084,-567.137"/>
+<path fill="none" stroke="black" d="M681.711,-486.879C665.309,-512.266 643.503,-546.016 629.578,-567.569"/>
 </g>
 <!-- ConceptWiki&#45;&#45;Protein_Data_Bank -->
 <g id="edge26" class="edge"><title>ConceptWiki&#45;&#45;Protein_Data_Bank</title>
-<path fill="none" stroke="black" d="M687.968,-487.955C673.26,-513.257 651.63,-546.394 635.807,-567.666"/>
+<path fill="none" stroke="black" d="M681.711,-486.879C665.309,-512.266 643.503,-546.016 629.578,-567.569"/>
 </g>
 <!-- Protein_Data_Bank_Ligand -->
 <g id="node22" class="node"><title>Protein_Data_Bank_Ligand</title>
@@ -168,7 +168,7 @@
 </g>
 <!-- ConceptWiki&#45;&#45;Protein_Data_Bank_Ligand -->
 <g id="edge27" class="edge"><title>ConceptWiki&#45;&#45;Protein_Data_Bank_Ligand</title>
-<path fill="none" stroke="black" d="M669.968,-484.303C592.607,-556.769 404.954,-732.549 340.014,-793.38"/>
+<path fill="none" stroke="black" d="M651.841,-477.387C586.555,-510.79 474.599,-575.628 403.399,-658.53 367.037,-700.868 339.224,-761.048 325.981,-792.862"/>
 </g>
 <!-- GeneOntology -->
 <g id="node23" class="node"><title>GeneOntology</title>
@@ -203,7 +203,7 @@
 </g>
 <!-- Ensembl&#45;&#45;Uniprot -->
 <g id="edge54" class="edge"><title>Ensembl&#45;&#45;Uniprot</title>
-<path fill="none" stroke="black" d="M851.995,-685.257C854.073,-638.308 853.463,-556.689 850.685,-509.755"/>
+<path fill="none" stroke="black" d="M843.029,-685.263C840.347,-659.908 837.374,-625.153 837.202,-594.447 837.043,-565.989 839.373,-533.844 841.601,-509.888"/>
 </g>
 <!-- Ensembl&#45;&#45;Enzyme_Nomenclature -->
 <g id="edge34" class="edge"><title>Ensembl&#45;&#45;Enzyme_Nomenclature</title>
@@ -211,7 +211,7 @@
 </g>
 <!-- Ensembl&#45;&#45;Protein_Data_Bank -->
 <g id="edge50" class="edge"><title>Ensembl&#45;&#45;Protein_Data_Bank</title>
-<path fill="none" stroke="black" d="M799.941,-694.148C755.108,-668.475 688.957,-630.597 649.372,-607.93"/>
+<path fill="none" stroke="black" d="M791.177,-698.562C767.662,-688.309 740.37,-675.424 716.793,-661.702 689.703,-645.937 660.929,-624.629 641.07,-609.115"/>
 </g>
 <!-- BioGrid -->
 <g id="node25" class="node"><title>BioGrid</title>
@@ -283,7 +283,7 @@
 </g>
 <!-- Ensembl&#45;&#45;Entrez_Gene -->
 <g id="edge43" class="edge"><title>Ensembl&#45;&#45;Entrez_Gene</title>
-<path fill="none" stroke="black" d="M904.033,-699C973.342,-671.755 1088.72,-626.401 1148.14,-603.044"/>
+<path fill="none" stroke="black" d="M899.081,-696.216C925.997,-683.542 959.594,-668.289 990.228,-656.016 1042.84,-634.937 1104.84,-614.101 1144.77,-601.187"/>
 </g>
 <!-- Locus_Reference_Genomic -->
 <g id="node33" class="node"><title>Locus_Reference_Genomic</title>
@@ -292,11 +292,11 @@
 </g>
 <!-- Ensembl&#45;&#45;Locus_Reference_Genomic -->
 <g id="edge44" class="edge"><title>Ensembl&#45;&#45;Locus_Reference_Genomic</title>
-<path fill="none" stroke="black" d="M834.943,-756.869C815.843,-827.043 781.896,-981.366 773.442,-1038.15"/>
+<path fill="none" stroke="black" d="M828.461,-756.25C814.314,-784.251 795.865,-824.988 786.616,-862.942 771.455,-925.157 770.755,-1001.44 771.48,-1038.05"/>
 </g>
 <!-- Ensembl&#45;&#45;Locus_Reference_Genomic -->
 <g id="edge45" class="edge"><title>Ensembl&#45;&#45;Locus_Reference_Genomic</title>
-<path fill="none" stroke="black" d="M843.729,-757.478C831.665,-827.798 797.411,-980.946 780.731,-1037.82"/>
+<path fill="none" stroke="black" d="M828.461,-756.25C814.314,-784.251 795.865,-824.988 786.616,-862.942 771.455,-925.157 770.755,-1001.44 771.48,-1038.05"/>
 </g>
 <!-- MGI -->
 <g id="node34" class="node"><title>MGI</title>
@@ -368,7 +368,7 @@
 </g>
 <!-- Ensembl&#45;&#45;UniParc -->
 <g id="edge55" class="edge"><title>Ensembl&#45;&#45;UniParc</title>
-<path fill="none" stroke="black" d="M790.7,-743.753C645.276,-801.441 262.406,-953.32 151.946,-997.137"/>
+<path fill="none" stroke="black" d="M796.142,-746.683C741.756,-773.261 652.961,-815.508 574.431,-847.615 418.981,-911.171 228.158,-974.617 153.647,-998.848"/>
 </g>
 <!-- ZFIN -->
 <g id="node42" class="node"><title>ZFIN</title>
@@ -381,7 +381,7 @@
 </g>
 <!-- Uniprot&#45;&#45;Ensembl -->
 <g id="edge75" class="edge"><title>Uniprot&#45;&#45;Ensembl</title>
-<path fill="none" stroke="black" d="M840.826,-509.786C838.749,-556.734 839.359,-638.353 842.137,-685.287"/>
+<path fill="none" stroke="black" d="M841.601,-509.888C839.373,-533.844 837.043,-565.989 837.202,-594.447 837.374,-625.153 840.347,-659.908 843.029,-685.263"/>
 </g>
 <!-- Chembl_Target_Components -->
 <g id="node11" class="node"><title>Chembl_Target_Components</title>
@@ -390,11 +390,11 @@
 </g>
 <!-- Uniprot&#45;&#45;Chembl_Target_Components -->
 <g id="edge73" class="edge"><title>Uniprot&#45;&#45;Chembl_Target_Components</title>
-<path fill="none" stroke="black" d="M886.173,-444.023C952.191,-395.781 1081.01,-301.65 1138.21,-259.853"/>
+<path fill="none" stroke="black" d="M873.032,-440.238C891.344,-419.148 916.649,-392.165 942.22,-371.785 1001.36,-324.647 1078.89,-282.501 1125.65,-258.893"/>
 </g>
 <!-- Uniprot&#45;&#45;Protein_Data_Bank -->
 <g id="edge81" class="edge"><title>Uniprot&#45;&#45;Protein_Data_Bank</title>
-<path fill="none" stroke="black" d="M794.53,-499.278C751.726,-520.718 691.559,-550.855 653.144,-570.097"/>
+<path fill="none" stroke="black" d="M789.452,-496.628C767.455,-506.021 742.153,-517.344 719.722,-528.687 695.003,-541.185 667.943,-556.911 647.646,-569.137"/>
 </g>
 <!-- Uniprot&#45;&#45;FlyBase -->
 <g id="edge76" class="edge"><title>Uniprot&#45;&#45;FlyBase</title>
@@ -406,7 +406,7 @@
 </g>
 <!-- Uniprot&#45;&#45;Entrez_Gene -->
 <g id="edge78" class="edge"><title>Uniprot&#45;&#45;Entrez_Gene</title>
-<path fill="none" stroke="black" d="M905.591,-493.941C974.721,-517.156 1086.31,-554.63 1145.76,-574.594"/>
+<path fill="none" stroke="black" d="M912.036,-487.67C937.168,-493.121 965.978,-499.607 992.027,-506.05 1002.61,-508.668 1005.42,-508.882 1015.69,-512.547 1064.45,-529.949 1118.82,-555.124 1152.73,-571.559"/>
 </g>
 <!-- Uniprot&#45;&#45;MGI -->
 <g id="edge79" class="edge"><title>Uniprot&#45;&#45;MGI</title>
@@ -422,7 +422,7 @@
 </g>
 <!-- Uniprot&#45;&#45;ZFIN -->
 <g id="edge86" class="edge"><title>Uniprot&#45;&#45;ZFIN</title>
-<path fill="none" stroke="black" d="M821.197,-507.905C781.897,-563.163 705.647,-670.371 674.698,-713.887"/>
+<path fill="none" stroke="black" d="M814.569,-506.4C784.211,-539.657 737.956,-593.669 706.193,-646.195 692.847,-668.264 679.471,-694.705 670.805,-712.545"/>
 </g>
 <!-- Drugbank_Target_v4 -->
 <g id="node46" class="node"><title>Drugbank_Target_v4</title>
@@ -431,7 +431,7 @@
 </g>
 <!-- Uniprot&#45;&#45;Drugbank_Target_v4 -->
 <g id="edge72" class="edge"><title>Uniprot&#45;&#45;Drugbank_Target_v4</title>
-<path fill="none" stroke="black" d="M913.563,-461.869C1014.36,-444.269 1202.1,-411.489 1301.9,-394.062"/>
+<path fill="none" stroke="black" d="M908.127,-455.771C967.113,-439.519 1058.18,-416.178 1138.66,-402.947 1189.01,-394.668 1246.16,-389.557 1290.86,-386.512"/>
 </g>
 <!-- SGD -->
 <g id="node47" class="node"><title>SGD</title>
