@@ -1,3 +1,4 @@
+FROM,TO,ADDED,LINKSET
 Bioontology UMLS NCIM,Human Disease Ontology,1.5.1,http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=doid
 ConceptWiki,Uniprot,1.5.1,http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
 ConceptWiki,Uniprot,1.5.1,http://openphacts.cs.man.ac.uk:9095/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
