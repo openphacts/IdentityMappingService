@@ -18,26 +18,26 @@ ConceptWiki,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCo
 ConceptWiki,WikiPathways,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Wp
 Drugbank,AERS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS
 Ensembl,BioGrid,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Bg
-Ensembl,Embl,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Em
+Ensembl,Embl,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Em
 Ensembl,Ensembl,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=En
-Ensembl,Entrez Gene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=L
+Ensembl,Entrez Gene,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=L
 Ensembl,Enzyme Nomenclature,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=E
 Ensembl,FlyBase,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=F
-Ensembl,GenBank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
-Ensembl,HGNC Accession number,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
+Ensembl,GenBank,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
+Ensembl,HGNC Accession number,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
 Ensembl,InterPro,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=I
 Ensembl,IPI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip
 Ensembl,Locus Reference Genomic,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=lrg
 Ensembl,MEROPS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=merops
 Ensembl,MGI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=M
-Ensembl,mirBase sequence,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb
+Ensembl,mirBase sequence,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb
 Ensembl,Orphanet,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=orphanet
-Ensembl,Protein Data Bank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd
-Ensembl,RefSeq,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Q
-Ensembl,Rfam,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Rf
+Ensembl,Protein Data Bank,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd
+Ensembl,RefSeq,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Q
+Ensembl,Rfam,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Rf
 Ensembl,RGD,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=R
 Ensembl,UniParc,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=uniparc
-Ensembl,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=S
+Ensembl,Uniprot,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=S
 Ensembl,ZFIN,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Z
 HGNC Accession number,HGNC,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Hac&targetCode=H
 HMDB,CAS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ca
@@ -51,19 +51,19 @@ OPS-CRS,Chemspider,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCod
 OPS-CRS,DrugBank,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Dr
 OPS-CRS,HMDB,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ch
 OPS-CRS,OPS-CRS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS
-Uniprot,Chembl Target Components,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Chembl16TargetComponent
+Uniprot,Chembl Target Components,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Chembl16TargetComponent
 Uniprot,Drugbank Target v4,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=drugbankv4.target
-Uniprot,Ensembl,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=En
-Uniprot,Entrez Gene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=L
-Uniprot,FlyBase,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=F
+Uniprot,Ensembl,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=En
+Uniprot,Entrez Gene,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=L
+Uniprot,FlyBase,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=F
 Uniprot,IPI,Removed,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Ip
-Uniprot,MGI,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=M
-Uniprot,OMIM,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Om
-Uniprot,Protein Data Bank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Pd
-Uniprot,RefSeq,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Q
-Uniprot,RGD,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=R
-Uniprot,SGD,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=D
-Uniprot,UniGene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=U
-Uniprot,WormBase,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=W
-Uniprot,ZFIN,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Z
+Uniprot,MGI,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=M
+Uniprot,OMIM,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Om
+Uniprot,Protein Data Bank,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Pd
+Uniprot,RefSeq,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Q
+Uniprot,RGD,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=R
+Uniprot,SGD,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=D
+Uniprot,UniGene,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=U
+Uniprot,WormBase,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=W
+Uniprot,ZFIN,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Z
 WikiPathways,Pathway Ontology,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Wp&targetCode=pw
