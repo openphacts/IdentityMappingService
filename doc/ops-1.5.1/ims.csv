@@ -1,20 +1,20 @@
 FROM,TO,STATUS,LINKSET
 Bioontology UMLS NCIM,Bioontology MESH,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=MSH
 Bioontology UMLS NCIM,Human Disease Ontology,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=doid
-Chembl Target Components,Chembl Target Component,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ChemblTarget&targetCode=Chembl16TargetComponent
+Chembl Target,Chembl Target Component,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ChemblTarget&targetCode=Chembl16TargetComponent
 ConceptWiki,Bioontology MESH,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH
 ConceptWiki,Bioontology UMLS NCIM,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM
 ConceptWiki,ChEBI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ce
 ConceptWiki,Chembl Compound,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=ChEMBLCompound
 ConceptWiki,Chemspider,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Cs
-ConceptWiki,DrugBank Target,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=drugbankTarget
+ConceptWiki,DrugBank Target,removed (replaced by Uniprot to DrugBank),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=drugbankTarget
 ConceptWiki,DrugBank,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Dr
 ConceptWiki,Enzyme Nomenclature,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=E
 ConceptWiki,GeneOntology,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=T
 ConceptWiki,HMDB,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ch
 ConceptWiki,Protein Data Bank Ligand,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=pdb.ligand
 ConceptWiki,Protein Data Bank,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Pd
-ConceptWiki,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
+ConceptWiki,Uniprot,Done (TODO Gene),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
 ConceptWiki,WikiPathways,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Wp
 Drugbank,AERS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS
 Ensembl,BioGrid,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Bg
