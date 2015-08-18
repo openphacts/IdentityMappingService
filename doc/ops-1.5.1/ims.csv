@@ -12,8 +12,8 @@ ConceptWiki,DrugBank,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceC
 ConceptWiki,Enzyme Nomenclature,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=E
 ConceptWiki,GeneOntology,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=T
 ConceptWiki,HMDB,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ch
-ConceptWiki,Protein Data Bank Ligand,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=pdb.ligand
-ConceptWiki,Protein Data Bank,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Pd
+ConceptWiki,Protein Data Bank Ligand,remove? contains only four compounds,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=pdb.ligand
+ConceptWiki,Protein Data Bank,remove? contains one molecule to target mapping,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Pd
 ConceptWiki,Uniprot,Done (TODO Gene),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
 ConceptWiki,WikiPathways,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Wp
 Drugbank,AERS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS
@@ -26,7 +26,7 @@ Ensembl,FlyBase,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=E
 Ensembl,GenBank,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
 Ensembl,HGNC Accession number,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
 Ensembl,InterPro,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=I
-Ensembl,IPI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip
+Ensembl,IPI,Remove (IPI is no longer maintained),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip
 Ensembl,Locus Reference Genomic,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=lrg
 Ensembl,MEROPS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=merops
 Ensembl,MGI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=M
