@@ -6,7 +6,7 @@ ConceptWiki,Bioontology MESH,review for 2.1,http://ops2.few.vu.nl/QueryExpander/
 ConceptWiki,Bioontology UMLS NCIM,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM
 ConceptWiki,ChEBI,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ce
 ConceptWiki,Chembl Compound,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=ChEMBLCompound
-ConceptWiki,Chemspider,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Cs
+ConceptWiki,Chemspider,TODO 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Cs
 ConceptWiki,DrugBank Target,removed (replaced by Uniprot to DrugBank),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=drugbankTarget
 ConceptWiki,DrugBank,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Dr
 ConceptWiki,Enzyme Nomenclature,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=E
