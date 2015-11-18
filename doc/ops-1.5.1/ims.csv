@@ -18,29 +18,29 @@ ConceptWiki,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCo
 ConceptWiki,WikiPathways,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Wp
 Drugbank,AERS,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS
 Ensembl,BioGrid,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Bg
-Ensembl,CCDS,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Cc
-Ensembl,EMBL,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Em
+Ensembl,CCDS,New,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Cc
+Ensembl,EMBL,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Em
 Ensembl,Ensembl,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=En
-Ensembl,Entrez Gene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=L
+Ensembl,Entrez Gene,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=L
 Ensembl,Enzyme Nomenclature,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=E
 Ensembl,FlyBase,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=F
-Ensembl,GenBank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
-Ensembl,HGNC Accession number,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
+Ensembl,GenBank,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
+Ensembl,HGNC Accession number,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
 Ensembl,InterPro,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=I
 Ensembl,IPI,Removed (IPI is no longer maintained),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip
 Ensembl,Locus Reference Genomic,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=lrg
 Ensembl,MEROPS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=merops
 Ensembl,MGI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=M
-Ensembl,mirBase sequence,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb
+Ensembl,mirBase sequence,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb
 Ensembl,Orphanet,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=orphanet
-Ensembl,Protein Data Bank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd
-Ensembl,RefSeq,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Q
-Ensembl,Rfam,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Rf
+Ensembl,Protein Data Bank,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd
+Ensembl,RefSeq,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Q
+Ensembl,Rfam,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Rf
 Ensembl,RGD,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=R
 Ensembl,UniParc,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=uniparc
-Ensembl,UniGene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=U
-Ensembl,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=S
-Ensembl,Wikigenes,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Wg
+Ensembl,UniGene,New,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=U
+Ensembl,Uniprot,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=S
+Ensembl,Wikigenes,New,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Wg
 Ensembl,ZFIN,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Z
 HGNC Accession number,HGNC,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Hac&targetCode=H
 HMDB,CAS,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ca
