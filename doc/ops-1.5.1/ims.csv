@@ -56,7 +56,7 @@ OPS-CRS,DrugBank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=
 OPS-CRS,HMDB,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ch
 OPS-CRS,OPS-CRS,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS
 Uniprot,Chembl Target Components,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Chembl16TargetComponent
-Uniprot,Drugbank Target v4,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=drugbankv4.target
+Uniprot,Drugbank Target v4,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=drugbankv4.target
 Uniprot,Ensembl,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=En
 Uniprot,Entrez Gene,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=L
 Uniprot,FlyBase,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=F
