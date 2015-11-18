@@ -1,12 +1,12 @@
 FROM,TO,STATUS,LINKSET
 Bioontology UMLS NCIM,Bioontology MESH,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=MSH
 Bioontology UMLS NCIM,Human Disease Ontology,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=NCIM&targetCode=doid
-Chembl Target,Chembl Target Component,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ChemblTarget&targetCode=Chembl16TargetComponent
+Chembl Target,Chembl Target Component,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ChemblTarget&targetCode=Chembl16TargetComponent
 ConceptWiki,Bioontology MESH,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=MSH
 ConceptWiki,Bioontology UMLS NCIM,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=NCIM
 ConceptWiki,ChEBI,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ce
-ConceptWiki,Chembl Compound,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=ChEMBLCompound
-ConceptWiki,Chemspider,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Cs
+ConceptWiki,Chembl Compound,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=ChEMBLCompound
+ConceptWiki,Chemspider,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Cs
 ConceptWiki,DrugBank Target,removed (replaced by Uniprot to DrugBank),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=drugbankTarget
 ConceptWiki,DrugBank,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Dr
 ConceptWiki,Enzyme Nomenclature,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=E
@@ -14,42 +14,46 @@ ConceptWiki,GeneOntology,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mapp
 ConceptWiki,HMDB,review for 2.1,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Ch
 ConceptWiki,Protein Data Bank Ligand,review for 2.1 remove? contains only four compounds,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=pdb.ligand
 ConceptWiki,Protein Data Bank,review for 2.1 remove? contains one molecule to target mapping,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Pd
-ConceptWiki,Uniprot,Done (TODO 2.0 Gene),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
+ConceptWiki,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=S
 ConceptWiki,WikiPathways,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=ConceptWiki&targetCode=Wp
-Drugbank,AERS,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS
+Drugbank,AERS,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Dr&targetCode=AERS
 Ensembl,BioGrid,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Bg
-Ensembl,Embl,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Em
+Ensembl,CCDS,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Cc
+Ensembl,EMBL,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Em
 Ensembl,Ensembl,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=En
-Ensembl,Entrez Gene,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=L
+Ensembl,Entrez Gene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=L
 Ensembl,Enzyme Nomenclature,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=E
 Ensembl,FlyBase,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=F
-Ensembl,GenBank,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
-Ensembl,HGNC Accession number,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
+Ensembl,GenBank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=G
+Ensembl,HGNC Accession number,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Hac
 Ensembl,InterPro,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=I
-Ensembl,IPI,Remove (IPI is no longer maintained),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip
+Ensembl,IPI,Removed (IPI is no longer maintained),http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Ip
 Ensembl,Locus Reference Genomic,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=lrg
 Ensembl,MEROPS,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=merops
 Ensembl,MGI,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=M
-Ensembl,mirBase sequence,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb
+Ensembl,mirBase sequence,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Mb
 Ensembl,Orphanet,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=orphanet
-Ensembl,Protein Data Bank,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd
-Ensembl,RefSeq,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Q
+Ensembl,Protein Data Bank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Pd
+Ensembl,RefSeq,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Q
 Ensembl,Rfam,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Rf
 Ensembl,RGD,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=R
 Ensembl,UniParc,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=uniparc
-Ensembl,Uniprot,In progress,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=S
+Ensembl,UniGene,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=U
+Ensembl,Uniprot,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=S
+Ensembl,Wikigenes,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Wg
 Ensembl,ZFIN,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=En&targetCode=Z
 HGNC Accession number,HGNC,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Hac&targetCode=H
-HMDB,CAS,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ca
-HMDB,KEGG 2.0,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ck
-HMDB,PubChem 2.0,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Cpc
-HMDB,Wikipedia 2.0,TODO,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Wi
-OPS-CRS,Bioontology MESH,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=MSH
-OPS-CRS,ChEBI,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ce
-OPS-CRS,Chembl Compound,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=ChEMBLCompound
-OPS-CRS,Chemspider,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Cs
-OPS-CRS,DrugBank,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Dr
-OPS-CRS,HMDB,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ch
+HMDB,CAS,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ca
+HMDB,Chemspider,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Cs
+HMDB,KEGG,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Ck
+HMDB,PubChem,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Cpc
+HMDB,Wikipedia,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=Ch&targetCode=Wi
+OPS-CRS,Bioontology MESH,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=MSH
+OPS-CRS,ChEBI,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ce
+OPS-CRS,Chembl Compound,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=ChEMBLCompound
+OPS-CRS,Chemspider,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Cs
+OPS-CRS,DrugBank,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Dr
+OPS-CRS,HMDB,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=Ch
 OPS-CRS,OPS-CRS,TODO 2.0,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=OPS-CRS&targetCode=OPS-CRS
 Uniprot,Chembl Target Components,Updated,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=Chembl16TargetComponent
 Uniprot,Drugbank Target v4,Done,http://ops2.few.vu.nl/QueryExpander/mappingSet?sourceCode=S&targetCode=drugbankv4.target
