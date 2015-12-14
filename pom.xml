@@ -8,7 +8,7 @@
     <version>2.0.3-SNAPSHOT</version>
     
 	<properties>
-        <bridgedb.version>2.1.0-SNAPSHOT</bridgedb.version>
+        <bridgedb.version>2.1.2.openphacts</bridgedb.version>
         <validator.version>1.1.0</validator.version>
         <cxf.version>2.4.3</cxf.version>
         <hamcrest.version>1.2</hamcrest.version>
