@@ -116,4 +116,18 @@
     </repository>
   </repositories>
 
+
+      <distributionManagement>
+          <repository>
+              <id>myGrid ops</id>
+              <name>myGrid Open PHACTS repository</name>
+              <url>http://repository.mygrid.org.uk/artifactory/ops</url>
+          </repository>
+          <snapshotRepository>
+              <id>myGrid ops</id>
+              <name>myGrid Open PHACTS repository</name>
+              <url>http://repository.mygrid.org.uk/artifactory/ops</url>
+          </snapshotRepository>
+      </distributionManagement>
+
 </project>
