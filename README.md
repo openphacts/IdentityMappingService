@@ -14,6 +14,8 @@ Note: The Transitive section of config.txt is required by the IMS
 The IMS WebService includes all methods from both the BridgeDb WS (including URI calls) and the Validator WS.
 
 ===
+
+[![Join the chat at https://gitter.im/openphacts/IdentityMappingService](https://badges.gitter.im/openphacts/IdentityMappingService.svg)](https://gitter.im/openphacts/IdentityMappingService?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Configuration:
 
 This project depends on configurations as described in BOTH:
