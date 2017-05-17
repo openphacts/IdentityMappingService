@@ -8,8 +8,8 @@
     <version>2.0.5-SNAPSHOT</version>
     
 	<properties>
-        <bridgedb.version>2.2.0-ops-SNAPSHOT</bridgedb.version>
-        <validator.version>1.2.0-ops-SNAPSHOT</validator.version>
+        <bridgedb.version>2.1.3.openphacts</bridgedb.version>
+        <validator.version>1.1.0</validator.version>
         <cxf.version>2.4.3</cxf.version>
         <hamcrest.version>1.2</hamcrest.version>
         <jersey.version>1.10</jersey.version>
@@ -19,7 +19,7 @@
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
         <owlapi-api.version>3.4</owlapi-api.version>
         <slf4j.version>1.6.4</slf4j.version>
-        <log4j.version>1.2.16</log4j.version>
+        <log4j.version>1.2.16</log4j.version>    
 	</properties>
 
 	<modules>
