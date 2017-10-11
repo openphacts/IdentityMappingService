@@ -240,7 +240,7 @@ public class RunLoader {
         } catch (Exception e) {
              throw new BridgeDBException("Error loading ", e);
         }
-        System.out.println("Load " + runLoader.originalCount + " linksets plus their transdatives");
+        System.out.println("Load " + runLoader.originalCount + " linksets plus their transatives");
     }
 
     //public static void main(String argv[]) throws BridgeDBException, VoidValidatorException, UnsupportedEncodingException {   
